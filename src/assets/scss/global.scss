@@ -1,0 +1,15 @@
+@import url('./variables.scss');
+
+* {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--color_text);
+  font-size: 20px;
+}
+
+html,
+body {
+  background: var(--color_window);
+}
