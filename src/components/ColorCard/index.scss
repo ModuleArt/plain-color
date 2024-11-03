@@ -3,6 +3,12 @@
   overflow: hidden;
   position: relative;
 
+  &--inverted {
+    * {
+      color: var(--color_window);
+    }
+  }
+
   @keyframes keyframes_color-card_copied-overlay {
     0% {
       opacity: 0;

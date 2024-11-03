@@ -6,7 +6,6 @@ import './index.scss'
 export const Stack: FC<PropsWithChildren<IStackProps>> = ({
   children,
   dir = 'horizontal',
-  itemsGrow = false,
   className,
   style,
   justify = 'start',
@@ -20,7 +19,6 @@ export const Stack: FC<PropsWithChildren<IStackProps>> = ({
         [`stack--${dir}`],
         [`stack--justify-${justify}`],
         {
-          'stack--items-grow': itemsGrow,
           'stack--grow': grow,
           [`stack--align-${align}`]: align,
         },

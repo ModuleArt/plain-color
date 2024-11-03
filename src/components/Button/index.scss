@@ -24,6 +24,10 @@
     }
   }
 
+  &--grow {
+    flex: 1;
+  }
+
   &--size-inline {
     & > * {
       margin-right: 0.25rem;
@@ -35,6 +39,7 @@
   }
 
   &--size-regular {
+    min-width: var(--size_basicHeight);
     min-height: var(--size_basicHeight);
 
     & > * {

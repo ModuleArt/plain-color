@@ -12,10 +12,18 @@
     'Segoe UI Emoji', 'Segoe UI Symbol';
   font-weight: 400;
   box-sizing: border-box;
+  user-select: none;
 }
 
 html,
 body {
   background: var(--color_bg);
   overscroll-behavior: none;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }

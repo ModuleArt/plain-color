@@ -1,3 +1,8 @@
 .window-content {
   padding: 0.75rem;
+  flex: 1;
+
+  & > * {
+    height: 100%;
+  }
 }

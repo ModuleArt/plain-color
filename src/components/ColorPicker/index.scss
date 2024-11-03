@@ -1,0 +1,17 @@
+.color-picker {
+  &.react-colorful {
+    width: auto;
+  }
+
+  .react-colorful__saturation {
+    border-radius: 0.375rem 0.375rem 0 0;
+  }
+
+  .react-colorful__last-control {
+    border-radius: 0 0 0.375rem 0.375rem;
+  }
+
+  &--grow {
+    flex: 1;
+  }
+}

@@ -2,7 +2,6 @@ import { CSSProperties } from 'react'
 
 export interface IStackProps {
   dir?: 'horizontal' | 'vertical'
-  itemsGrow?: boolean
   className?: string
   style?: CSSProperties
   justify?: 'start' | 'end' | 'center'

@@ -1,5 +1,6 @@
 import hexRgb from 'hex-rgb'
 import rgbHex from 'rgb-hex'
+import { colorIsDark } from 'color-is-dark'
 
 export type TColorRgb =
   | `rgb(${string},${string},${string})`
@@ -25,4 +26,9 @@ export const rgbToHex = (rgb: TColorRgb) => {
   const hexa = rgbHex(rgb.red, rgb.green, rgb.blue, rgb.alpha)
 
   return hexa.length === 8 && hexa.endsWith('ff') ? hexa.slice(0, 6) : hexa
+}
+
+export const isDark = (hex: string) => {
+  const obj = hexToRgbObj(hex)
+  return colorIsDark([obj.red, obj.green, obj.blue])
 }

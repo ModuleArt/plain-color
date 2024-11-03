@@ -12,10 +12,14 @@ export const Button: FC<IButtonProps> = ({
   label,
   variant = 'fill',
   size = 'regular',
+  grow = false,
 }) => {
   return (
     <button
-      className={cn('button', [`button--variant-${variant}`], [`button--size-${size}`], { 'button--tinted': tinted })}
+      className={cn('button', [`button--variant-${variant}`], [`button--size-${size}`], {
+        'button--tinted': tinted,
+        'button--grow': grow,
+      })}
       onClick={() => onClick && onClick()}
     >
       {icon && <div className="button__icon">{<Icon icon={icon} />}</div>}

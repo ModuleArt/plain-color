@@ -17,7 +17,8 @@
         "height": 480,
         "titleBarStyle": "Overlay",
         "hiddenTitle": true,
-        "acceptFirstMouse": true
+        "acceptFirstMouse": true,
+        "alwaysOnTop": true
       }
     ],
     "security": {

@@ -3,12 +3,13 @@ import { IColorCardProps } from './props'
 import { Stack } from '@/components/Stack'
 import './index.scss'
 import { Button } from '@/components/Button'
-import { Copy, Trash, FloppyDisk } from '@phosphor-icons/react'
+import { Copy, Trash, FloppyDisk, PencilSimple } from '@phosphor-icons/react'
 import { Text } from '@/components/Text'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
-import { hexToRgbStr } from '@/utils/color'
+import { hexToRgbStr, isDark } from '@/utils/color'
+import cn from 'classnames'
 
-export const ColorCard: FC<IColorCardProps> = ({ color, onSave, onDelete }) => {
+export const ColorCard: FC<IColorCardProps> = ({ color, onSave, onDelete, onEdit }) => {
   const [copied, setCopied] = useState('')
 
   const copyHex = () => {
@@ -28,7 +29,11 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onSave, onDelete }) => {
   }
 
   return (
-    <Stack dir="vertical" className="color-card" style={{ background: `#${color.hex}` }}>
+    <Stack
+      dir="vertical"
+      className={cn('color-card', { 'color-card--inverted': !isDark(color.hex) })}
+      style={{ background: `#${color.hex}` }}
+    >
       {copied && (
         <Stack
           justify="center"
@@ -46,8 +51,9 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onSave, onDelete }) => {
           <Text text={color.hex} tinted transform="uppercase" />
         </Stack>
         <Stack>
-          <Button icon={FloppyDisk} variant="clear" size="inline" onClick={() => onSave && onSave()} />
-          <Button icon={Trash} variant="clear" size="inline" onClick={() => onDelete && onDelete()} />
+          {onEdit && <Button icon={PencilSimple} variant="clear" size="inline" onClick={() => onEdit()} />}
+          {onSave && <Button icon={FloppyDisk} variant="clear" size="inline" onClick={() => onSave()} />}
+          {onDelete && <Button icon={Trash} variant="clear" size="inline" onClick={() => onDelete()} />}
         </Stack>
       </Stack>
       <Stack>

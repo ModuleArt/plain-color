@@ -7,4 +7,5 @@ export interface IButtonProps {
   tinted?: boolean
   label?: string
   size?: 'inline' | 'regular'
+  grow?: boolean
 }

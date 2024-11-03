@@ -48,12 +48,6 @@
     }
   }
 
-  &--items-grow {
-    & > * {
-      flex: 1;
-    }
-  }
-
   &--grow {
     flex: 1;
   }

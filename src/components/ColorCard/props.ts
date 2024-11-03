@@ -4,4 +4,5 @@ export interface IColorCardProps {
   color: IColor
   onSave?: () => void
   onDelete?: () => void
+  onEdit?: () => void
 }
