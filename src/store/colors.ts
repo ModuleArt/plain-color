@@ -12,7 +12,7 @@ export const useColorsStore = create<IColorsState>()(
   persist(
     (set) => ({
       colors: [],
-      addColor: (color) => set((state) => ({ colors: [...state.colors, color] })),
+      addColor: (color) => set((state) => ({ colors: [color, ...state.colors] })),
       removeColor: (colorId) => set((state) => ({ colors: state.colors.filter((color) => color.id !== colorId) })),
     }),
     {

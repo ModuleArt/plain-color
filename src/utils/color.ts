@@ -12,7 +12,7 @@ export const hexToRgbObj = (hex: string) => {
 
 export const hexToRgbStr = (hex: string) => {
   const obj = hexToRgbObj(hex)
-  return obj.alpha
+  return obj.alpha !== 1
     ? `rgba(${obj.red},${obj.green},${obj.blue},${obj.alpha})`
     : `rgb(${obj.red},${obj.green},${obj.blue})`
 }

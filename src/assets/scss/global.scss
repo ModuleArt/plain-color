@@ -17,4 +17,5 @@
 html,
 body {
   background: var(--color_bg);
+  overscroll-behavior: none;
 }
