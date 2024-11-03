@@ -15,7 +15,7 @@ export const ColorPage: FC = () => {
     colorsStore.colors.find((color) => color.id === params.id) || {
       id: crypto.randomUUID(),
       label: 'New Color',
-      hex: 'ec6a5e',
+      hex: 'ff1500',
     }
   )
 
@@ -37,8 +37,8 @@ export const ColorPage: FC = () => {
       <ColorCard color={color} />
       <ColorPicker hexValue={color.hex} onChange={(hex) => setColor({ ...color, hex })} grow />
       <Stack>
-        <Button label="Cancel" variant="fill" onClick={onCancel} grow />
-        <Button label={params.id ? 'Save' : 'Add'} variant="fill" onClick={onSave} grow />
+        <Button label="Cancel" onClick={onCancel} grow />
+        <Button label={params.id ? 'Save' : 'Add'} onClick={onSave} grow />
       </Stack>
     </Stack>
   )

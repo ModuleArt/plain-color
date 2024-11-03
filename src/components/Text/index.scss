@@ -3,7 +3,15 @@
     opacity: var(--opacity_tinted);
   }
 
+  &--grow {
+    flex: 1;
+  }
+
   &--transform-uppercase {
     text-transform: uppercase;
+  }
+
+  &--transform-lowercase {
+    text-transform: lowercase;
   }
 }

@@ -9,6 +9,7 @@ import namer from 'color-namer'
 import { invoke } from '@tauri-apps/api/core'
 import { listen } from '@tauri-apps/api/event'
 import { useNavigate } from 'react-router-dom'
+import { createMagnifyingGlassWindow } from '@/utils/picker'
 
 export const HomePage: FC = () => {
   const colorsStore = useColorsStore()
@@ -24,7 +25,11 @@ export const HomePage: FC = () => {
   }, [])
 
   const pickColor = () => {
-    invoke('pick_color')
+    console.log('pickColor')
+
+    // invoke('pick_color')
+
+    createMagnifyingGlassWindow()
   }
 
   const addColor = () => {
@@ -34,8 +39,8 @@ export const HomePage: FC = () => {
   return (
     <Stack dir="vertical">
       <Stack>
-        <Button icon={Eyedropper} variant="outline" tinted onClick={pickColor} grow />
-        <Button icon={Plus} variant="outline" tinted onClick={addColor} grow />
+        <Button icon={Eyedropper} onClick={pickColor} grow />
+        <Button icon={Plus} onClick={addColor} grow />
       </Stack>
       {colorsStore.colors.map((color) => (
         <ColorCard

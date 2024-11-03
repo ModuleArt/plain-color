@@ -13,7 +13,7 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onSave, onDelete, onEdit
   const [copied, setCopied] = useState('')
 
   const copyHex = () => {
-    const text = `#${color.hex}`
+    const text = `#${color.hex.toUpperCase()}`
     writeText(text)
 
     setCopied(text)
@@ -46,10 +46,7 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onSave, onDelete, onEdit
         </Stack>
       )}
       <Stack>
-        <Stack grow>
-          <Text text={color.label} />
-          <Text text={color.hex} tinted transform="uppercase" />
-        </Stack>
+        <Text text={color.label} grow />
         <Stack>
           {onEdit && <Button icon={PencilSimple} variant="clear" size="inline" onClick={() => onEdit()} />}
           {onSave && <Button icon={FloppyDisk} variant="clear" size="inline" onClick={() => onSave()} />}
@@ -57,8 +54,11 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onSave, onDelete, onEdit
         </Stack>
       </Stack>
       <Stack>
-        <Button label="HEX" size="inline" variant="clear" icon={Copy} tinted onClick={copyHex} />
-        <Button label="RGB" size="inline" variant="clear" icon={Copy} tinted onClick={copyRgb} />
+        <Stack grow>
+          <Button label="HEX" size="inline" variant="clear" icon={Copy} tinted onClick={copyHex} />
+          <Button label="RGB" size="inline" variant="clear" icon={Copy} tinted onClick={copyRgb} />
+        </Stack>
+        <Text text={color.hex} tinted transform="uppercase" />
       </Stack>
     </Stack>
   )
