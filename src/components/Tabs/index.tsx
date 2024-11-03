@@ -1,14 +1,19 @@
 import { FC } from 'react'
 import './index.scss'
 import { ITabsProps } from './props'
+import cn from 'classnames'
+import { Icon } from '@/components/Icon'
 
-export const Tabs: FC<ITabsProps> = ({ tabs }) => {
+export const Tabs: FC<ITabsProps> = ({ tabs, activeTabId, onTabChange }) => {
   return (
     <div className="tabs">
       {tabs.map((tab) => (
-        <button key={tab.id} className="tabs__tab">
-          {tab.icon && <div className="tabs__tab-icon">{<tab.icon width="1rem" height="1rem" />}</div>}
-          {tab.label && <div className="tabs__tab-label">{tab.label}</div>}
+        <button
+          key={tab.id}
+          className={cn('tabs__tab', { 'tabs__tab--active': tab.id === activeTabId })}
+          onClick={() => onTabChange && onTabChange(tab.id)}
+        >
+          {tab.icon && <div className="tabs__tab-icon">{<Icon icon={tab.icon} />}</div>}
         </button>
       ))}
     </div>

@@ -1,0 +1,9 @@
+.text {
+  &--tinted {
+    opacity: var(--opacity_tinted);
+  }
+
+  &--transform-uppercase {
+    text-transform: uppercase;
+  }
+}

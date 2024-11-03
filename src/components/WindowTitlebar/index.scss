@@ -1,5 +1,6 @@
 .window-titlebar {
-  height: 30px;
+  height: var(--size_basicHeight);
+  padding-left: var(--size_titlebarIndentLeft);
   background: var(--color_window);
   user-select: none;
   display: flex;

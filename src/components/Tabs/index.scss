@@ -1,6 +1,19 @@
 .tabs {
+  height: 100%;
+  display: flex;
+
+  &__tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--size_basicHeight);
+
+    &--active {
+      background: var(--color_bg);
+    }
+  }
+
   &__tab-icon {
-    width: 1rem;
-    height: 1rem;
+  
   }
 }

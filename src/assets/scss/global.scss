@@ -6,10 +6,15 @@
   background: none;
   border: none;
   color: var(--color_text);
-  font-size: 20px;
+  font-size: 16px;
+  vertical-align: top;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-weight: 400;
+  box-sizing: border-box;
 }
 
 html,
 body {
-  background: var(--color_window);
+  background: var(--color_bg);
 }

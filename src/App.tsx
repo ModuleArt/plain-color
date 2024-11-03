@@ -1,35 +1,60 @@
 import { FC, useEffect, useState } from 'react'
-import { WindowTitlebar } from './components/WindowTitlebar'
+import { House, Palette, Eyedropper, Plus } from '@phosphor-icons/react'
+import namer from 'color-namer'
 import { invoke } from '@tauri-apps/api/core'
 import { listen } from '@tauri-apps/api/event'
-import { Tabs } from './components/Tabs'
-import { House } from '@phosphor-icons/react'
+import { WindowTitlebar } from '@/components/WindowTitlebar'
+import { Tabs } from '@/components/Tabs'
+import { WindowContent } from '@/components/WindowContent'
+import { Stack } from '@/components/Stack'
+import { Button } from '@/components/Button'
+import { useColorsStore } from '@/store/colors'
+import { ColorCard } from '@/components/ColorCard'
+import { rgbToHex } from './utils/color'
 
-const tabs = [{ id: 'home', icon: House }]
+const tabs = [
+  { id: 'home', icon: House },
+  { id: 'palette', icon: Palette },
+]
 
 const App: FC = () => {
-  const [color, setColor] = useState('')
+  const [activeTab, setActiveTab] = useState(tabs[0].id)
+  const colorsStore = useColorsStore()
 
   useEffect(() => {
-    listen<any>('color_picked', (event) => {
-      setColor(JSON.stringify(event))
+    listen<[number, number, number]>('color_picked', (event) => {
+      const hex = rgbToHex({ red: event.payload[0], green: event.payload[1], blue: event.payload[2], alpha: 1 })
+      const label = namer(hex).ntc[0].name
+
+      colorsStore.addColor({ id: crypto.randomUUID(), label, hex })
     })
   }, [])
 
   const pickColor = () => {
-    invoke<any>('pick_color')
+    invoke('pick_color')
+  }
+
+  const addColor = () => {
+    colorsStore.addColor({ id: crypto.randomUUID(), label: 'Red', hex: 'ec6a5e' })
   }
 
   return (
-    <main className="app">
+    <>
       <WindowTitlebar>
-        <Tabs tabs={tabs} />
+        <Tabs tabs={tabs} activeTabId={activeTab} onTabChange={setActiveTab} />
       </WindowTitlebar>
-      <div>
-        <button onClick={pickColor}>Pick color</button>
-      </div>
-      {color}
-    </main>
+      <WindowContent>
+        <Stack dir="vertical">
+          <Stack itemsGrow>
+            <Button icon={Eyedropper} variant="outline" tinted onClick={pickColor} />
+            <Button icon={Plus} variant="outline" tinted onClick={addColor} />
+          </Stack>
+          {colorsStore.colors.map((color) => (
+            <ColorCard color={color} onDelete={() => colorsStore.removeColor(color.id)} />
+          ))}
+        </Stack>
+      </WindowContent>
+    </>
   )
 }
 

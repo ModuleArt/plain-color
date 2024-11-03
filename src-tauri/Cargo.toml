@@ -27,6 +27,7 @@ screenshots = "0.5.2"
 device_query = { version = "1.1.2", optional = true }
 mouce = { version = "0.2.41", optional = true }
 termcolor = "1.2.0"
+tauri-plugin-clipboard-manager = "2.0.1"
 
 [features]
 default = ["device_query"]

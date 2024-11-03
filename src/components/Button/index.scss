@@ -1,0 +1,48 @@
+.button {
+  border-radius: 0.375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    opacity: var(--opacity_tinted);
+  }
+
+  &--variant-fill {
+    background: var(--color_element);
+  }
+
+  &--variant-outline {
+    border: var(--size_borderWidth) solid var(--color_text);
+  }
+
+  &--tinted {
+    opacity: var(--opacity_tinted);
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &--size-inline {
+    & > * {
+      margin-right: 0.25rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &--size-regular {
+    min-height: var(--size_basicHeight);
+
+    & > * {
+      margin-right: 0.5rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
