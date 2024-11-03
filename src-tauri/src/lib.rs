@@ -1,7 +1,9 @@
+use base64::{engine::general_purpose, Engine as _};
 #[cfg(feature = "device_query")]
 use device_query::{DeviceQuery, DeviceState, MouseState};
-use image::ImageFormat;
+use image::{DynamicImage, ImageFormat, ImageOutputFormat};
 use screenshots::Screen;
+use std::io::Cursor;
 use tauri::{
     menu::{Menu, MenuItem},
     tray::TrayIconBuilder,
@@ -71,6 +73,26 @@ fn get_pixel_colour((x, y): (i32, i32)) -> (u8, u8, u8) {
     (pixel[0], pixel[1], pixel[2])
 }
 
+fn get_screen_area((x, y): (i32, i32), w: u32, h: u32) -> DynamicImage {
+    let screen = Screen::from_point(x, y).unwrap();
+
+    let (x, y) = (x - screen.display_info.x, y - screen.display_info.y);
+
+    let screenshot = screen.capture_area(x, y, w, h).unwrap();
+
+    let img = image::load_from_memory_with_format(screenshot.buffer(), ImageFormat::Png).unwrap();
+
+    return img;
+}
+
+fn image_to_base64(img: &DynamicImage) -> String {
+    let mut image_data: Vec<u8> = Vec::new();
+    img.write_to(&mut Cursor::new(&mut image_data), ImageOutputFormat::Png)
+        .unwrap();
+    let res_base64 = general_purpose::STANDARD.encode(image_data);
+    format!("data:image/png;base64,{}", res_base64)
+}
+
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
 #[tauri::command]
@@ -85,12 +107,26 @@ fn pick_color(app: AppHandle) {
     app.emit("color_picked", res).unwrap();
 }
 
+#[tauri::command]
+fn fetch_preview(app: AppHandle) {
+    let Some(coordinates) = request_pixel_position() else {
+        println!("Ending program");
+        return;
+    };
+
+    let img = get_screen_area(coordinates, 100, 100);
+
+    let res = image_to_base64(&img);
+
+    app.emit("preview_fetched", res).unwrap();
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_clipboard_manager::init())
         .plugin(tauri_plugin_shell::init())
-        .invoke_handler(tauri::generate_handler![pick_color])
+        .invoke_handler(tauri::generate_handler![pick_color, fetch_preview])
         .setup(|app| {
             let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
             let menu = Menu::with_items(app, &[&quit_i])?;

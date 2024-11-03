@@ -11,6 +11,23 @@
     border-radius: 0 0 0.375rem 0.375rem;
   }
 
+  .react-colorful__pointer {
+    border: var(--size_borderWidth) solid var(--color_text);
+    border-radius: 0.375rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 0 0.1rem 0.1rem rgba(0, 0, 0, 0.25);
+  }
+
+  .react-colorful__interactive:focus .react-colorful__pointer {
+    transform: translate(-50%, -50%);
+  }
+
+  .react-colorful__pointer-fill {
+    border-radius: 0;
+  }
+
   &--grow {
     flex: 1;
   }

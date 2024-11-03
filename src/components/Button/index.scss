@@ -8,6 +8,10 @@
     opacity: var(--opacity_tinted);
   }
 
+  &:active {
+    opacity: calc(var(--opacity_tinted) / 2);
+  }
+
   &--variant-fill {
     background: var(--color_element);
   }
@@ -20,7 +24,11 @@
     opacity: var(--opacity_tinted);
 
     &:hover {
-      opacity: 1;
+      opacity: calc(var(--opacity_tinted) / 2);
+    }
+
+    &:active {
+      opacity: calc(var(--opacity_tinted) / 4);
     }
   }
 
