@@ -136,7 +136,7 @@ fn fetch_preview(app: AppHandle) {
     let res = image_to_base64(&img);
 
     app.emit_to(
-        EventTarget::labeled("picker"),
+        EventTarget::labeled("main"),
         "preview_fetched",
         (res, data.1),
     )

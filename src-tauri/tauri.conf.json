@@ -23,26 +23,6 @@
         "acceptFirstMouse": true,
         "alwaysOnTop": true,
         "url": "index.html"
-      },
-      {
-        "label": "picker",
-        "title": "PlainColor Magnifying Glass",
-        "width": 200,
-        "minWidth": 200,
-        "maxWidth": 200,
-        "height": 200,
-        "minHeight": 200,
-        "maxHeight": 200,
-        "minimizable": false,
-        "maximizable": false,
-        "closable": false,
-        "alwaysOnTop": true,
-        "acceptFirstMouse": true,
-        "hiddenTitle": true,
-        "titleBarStyle": "Overlay",
-        "visible": false,
-        "url": "picker.html",
-        "decorations": false
       }
     ],
     "security": {
