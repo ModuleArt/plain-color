@@ -1,6 +1,8 @@
 import { FC } from 'react'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
-import App from '@/App'
+
+// layouts
+import { AppLayout } from '@/layouts/AppLayout'
 
 // pages
 import { HomePage } from '@/pages/HomePage'
@@ -9,7 +11,7 @@ import { ColorPage } from '@/pages/ColorPage'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
+    <Route path="/" element={<AppLayout />}>
       <Route index element={<HomePage />} />
       <Route path="palettes" element={<PalettesPage />} />
       <Route path="color" element={<ColorPage />} />

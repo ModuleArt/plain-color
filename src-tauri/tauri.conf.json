@@ -41,7 +41,8 @@
         "hiddenTitle": true,
         "titleBarStyle": "Overlay",
         "visible": false,
-        "url": "picker.html"
+        "url": "picker.html",
+        "decorations": false
       }
     ],
     "security": {

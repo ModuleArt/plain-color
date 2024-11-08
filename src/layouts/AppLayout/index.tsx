@@ -4,24 +4,23 @@ import { WindowTitlebar } from '@/components/WindowTitlebar'
 import { Tabs } from '@/components/Tabs'
 import { WindowContent } from '@/components/WindowContent'
 import { Outlet, useNavigate } from 'react-router-dom'
-import { rgbToHex } from '@/utils/color'
-import namer from 'color-namer'
-import { useColorsStore } from './store/colors'
-import { listen, emit } from '@tauri-apps/api/event'
-import { usePickerStore } from './store/picker'
+import { usePickerStore } from '@/store/picker'
 import { invoke } from '@tauri-apps/api/core'
 import { Window } from '@tauri-apps/api/window'
+import { listen } from '@tauri-apps/api/event'
+import namer from 'color-namer'
+import { useColorsStore } from '@/store/colors'
 
 const tabs = [
   { id: 'home', icon: House },
   { id: 'palettes', icon: Palette },
 ]
 
-const App: FC = () => {
+export const AppLayout: FC = () => {
   const [activeTab, setActiveTab] = useState(tabs[0].id)
   const navigate = useNavigate()
-  const colorsStore = useColorsStore()
   const pickerStore = usePickerStore()
+  const colorsStore = useColorsStore()
   const [pickingInterval, setPickingInterval] = useState<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
@@ -36,19 +35,6 @@ const App: FC = () => {
   }, [activeTab])
 
   useEffect(() => {
-    listen<[number, number, number]>('color_picked', (event) => {
-      const hex = rgbToHex({ red: event.payload[0], green: event.payload[1], blue: event.payload[2], alpha: 1 })
-      const label = namer(hex).ntc[0].name
-
-      colorsStore.addColor({ id: crypto.randomUUID(), label, hex })
-    })
-
-    listen<string>('preview_fetched', (event) => {
-      emit('image_received', event.payload)
-    })
-  }, [])
-
-  useEffect(() => {
     if (pickerStore.isPicking) {
       if (!pickingInterval) {
         Window.getByLabel('picker').then((pickerWindow) => {
@@ -57,7 +43,7 @@ const App: FC = () => {
 
             const interval = setInterval(() => {
               invoke('fetch_preview')
-            }, 1000)
+            }, 50)
             setPickingInterval(interval)
           }
         })
@@ -74,6 +60,20 @@ const App: FC = () => {
     }
   }, [pickerStore.isPicking])
 
+  useEffect(() => {
+    listen<string>('color_picked', (event) => {
+      const label = namer(event.payload).ntc[0].name
+
+      switch (pickerStore.pickerTarget) {
+        case 'HOME':
+          colorsStore.addColor({ id: crypto.randomUUID(), label, hex: event.payload })
+          break
+      }
+
+      pickerStore.closePicker()
+    })
+  }, [])
+
   return (
     <>
       <WindowTitlebar>
@@ -85,5 +85,3 @@ const App: FC = () => {
     </>
   )
 }
-
-export default App

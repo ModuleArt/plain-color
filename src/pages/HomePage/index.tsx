@@ -13,7 +13,7 @@ export const HomePage: FC = () => {
   const navigate = useNavigate()
 
   const pickColor = () => {
-    pickerStore.openPicker()
+    pickerStore.openPicker('HOME')
   }
 
   const addColor = () => {
@@ -26,16 +26,14 @@ export const HomePage: FC = () => {
         <Button icon={Eyedropper} onClick={pickColor} grow />
         <Button icon={Plus} onClick={addColor} grow />
       </Stack>
-      <Stack dir="vertical">
-        {colorsStore.colors.map((color) => (
-          <ColorCard
-            key={color.id}
-            color={color}
-            onDelete={() => colorsStore.removeColor(color.id)}
-            onEdit={() => navigate(`/color/${color.id}`)}
-          />
-        ))}
-      </Stack>
+      {colorsStore.colors.map((color) => (
+        <ColorCard
+          key={color.id}
+          color={color}
+          onDelete={() => colorsStore.removeColor(color.id)}
+          onEdit={() => navigate(`/color/${color.id}`)}
+        />
+      ))}
     </Stack>
   )
 }

@@ -1,0 +1,7 @@
+.picker-layout {
+  &__image {
+    position: fixed;
+    inset: 0;
+    object-fit: cover;
+  }
+}
