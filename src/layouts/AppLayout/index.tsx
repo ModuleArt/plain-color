@@ -52,6 +52,8 @@ export const AppLayout: FC = () => {
       if (pickingInterval) {
         Window.getByLabel('picker').then((pickerWindow) => {
           if (pickerWindow) {
+            pickerWindow.hide()
+
             clearInterval(pickingInterval)
             setPickingInterval(null)
           }
@@ -70,6 +72,10 @@ export const AppLayout: FC = () => {
           break
       }
 
+      pickerStore.closePicker()
+    })
+
+    listen<string>('color_canceled', () => {
       pickerStore.closePicker()
     })
   }, [])

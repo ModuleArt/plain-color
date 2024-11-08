@@ -27,23 +27,23 @@
       {
         "label": "picker",
         "title": "PlainColor Magnifying Glass",
-        "width": 200,
-        "minWidth": 200,
-        "maxWidth": 200,
-        "height": 200,
-        "minHeight": 200,
-        "maxHeight": 200,
+        "width": 100,
+        "minWidth": 100,
+        "maxWidth": 100,
+        "height": 100,
+        "minHeight": 100,
+        "maxHeight": 100,
         "minimizable": false,
         "maximizable": false,
         "closable": false,
-        "alwaysOnTop": true,
         "acceptFirstMouse": true,
         "hiddenTitle": true,
         "titleBarStyle": "Overlay",
         "visible": false,
         "url": "picker.html",
         "decorations": false,
-        "contentProtected": true
+        "contentProtected": true,
+        "visibleOnAllWorkspaces": true
       }
     ],
     "security": {
