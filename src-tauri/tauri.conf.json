@@ -42,7 +42,8 @@
         "titleBarStyle": "Overlay",
         "visible": false,
         "url": "picker.html",
-        "decorations": false
+        "decorations": false,
+        "contentProtected": true
       }
     ],
     "security": {

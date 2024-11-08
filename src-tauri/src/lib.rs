@@ -9,7 +9,7 @@ use std::io::Cursor;
 use tauri::{
     menu::{Menu, MenuItem},
     tray::TrayIconBuilder,
-    AppHandle, Emitter, EventTarget,
+    AppHandle, Emitter, EventTarget, Manager, PhysicalPosition, Window,
 };
 
 // #[cfg(feature = "device_query")]
@@ -89,15 +89,10 @@ fn get_screen_area(
     pixel_at_y: u32,
 ) -> (DynamicImage, [u8; 4]) {
     let screen = Screen::from_point(x, y).unwrap();
-
     let (x, y) = (x - screen.display_info.x, y - screen.display_info.y);
-
     let screenshot = screen.capture_area(x, y, w, h).unwrap();
-
     let img = image::load_from_memory_with_format(screenshot.buffer(), ImageFormat::Png).unwrap();
-
     let pixels = img.as_rgba8().unwrap().get_pixel(pixel_at_x, pixel_at_y).0;
-
     return (img, pixels);
 }
 
@@ -123,22 +118,37 @@ fn image_to_base64(img: &DynamicImage) -> String {
 //     app.emit("color_picked", res).unwrap();
 // }
 
+fn convert_position_to_i32(position: PhysicalPosition<f64>) -> (i32, i32) {
+    let x = position.x.round() as i32;
+    let y = position.y.round() as i32;
+    (x, y)
+}
+
 #[tauri::command]
 fn fetch_preview(app: AppHandle) {
     let Some(coordinates) = request_mouse_position() else {
         println!("Ending program");
         return;
     };
+    // let coordinates = app.cursor_position().unwrap();
+    let xy = convert_position_to_i32(coordinates);
 
-    let data = get_screen_area(coordinates.0 - 25, coordinates.1 - 25, 50, 50, 25, 25);
+    let data = get_screen_area(xy.0 - 12, xy.1 - 12, 24, 24, 12, 12);
     let img = data.0;
 
     let res = image_to_base64(&img);
 
+    let win_pos: PhysicalPosition<i32> = PhysicalPosition::new(coordinates.0, coordinates.1);
+    app.get_webview_window("picker")
+        .unwrap()
+        .set_position(win_pos);
+
+    // tauri::Window::
+    // tauri::Window::set_position(&self, position)
     app.emit_to(
         EventTarget::labeled("picker"),
         "preview_fetched",
-        (res, data.1),
+        (res, data.1, coordinates),
     )
     .unwrap()
 }
