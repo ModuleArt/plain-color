@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react'
-import { listen, emitTo } from '@tauri-apps/api/event'
+import { listen, emitTo, UnlistenFn } from '@tauri-apps/api/event'
 import './index.scss'
 import { isDark, rgbToHex } from '@/utils/color'
 import { Text } from '@/components/Text'
@@ -11,20 +11,30 @@ export const PickerLayout: FC = () => {
   const [color, setColor] = useState('000000')
 
   useEffect(() => {
-    listen<[string, [number, number, number, number]]>('preview_fetched', (event) => {
-      setImage(event.payload[0])
+    const listeners: Promise<UnlistenFn>[] = []
 
-      console.log(event.payload[0]);
+    listeners.push(
+      listen<[string, [number, number, number, number]?]>('preview_fetched', (event) => {
+        if (event.payload.length) {
+          setImage(event.payload[0])
 
-      const color = rgbToHex({ red: event.payload[1][0], green: event.payload[1][1], blue: event.payload[1][2] })
-      setColor(color)
-    })
+          if (event.payload[1]) {
+            const color = rgbToHex({ red: event.payload[1][0], green: event.payload[1][1], blue: event.payload[1][2] })
+            setColor(color)
+          }
+        }
+      })
+    )
 
     document.addEventListener('keypress', (e) => {
       if (e.key === 'Escape') {
         cancel()
       }
     })
+
+    return () => {
+      listeners.map((unlisten) => unlisten.then((f) => f()))
+    }
   }, [])
 
   const pickColor = () => {

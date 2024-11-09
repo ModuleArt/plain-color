@@ -1,5 +1,6 @@
 use base64::{engine::general_purpose, Engine as _};
-use image::{DynamicImage, ImageFormat, ImageOutputFormat};
+use image::{DynamicImage, GenericImageView, ImageFormat};
+use mouse_position::mouse_position::Mouse;
 use screenshots::Screen;
 use std::io::Cursor;
 use tauri::{
@@ -8,75 +9,81 @@ use tauri::{
     AppHandle, Emitter, EventTarget, LogicalPosition, Manager,
 };
 
-fn get_screen_area(
-    x: i32,
-    y: i32,
-    w: i32,
-    h: i32,
-    pixel_at_x: i32,
-    pixel_at_y: i32,
-) -> (DynamicImage, [u8; 4]) {
-    let screen = Screen::from_point(x, y).unwrap();
-    let (x, y) = (x - screen.display_info.x, y - screen.display_info.y);
-    let screenshot = screen.capture_area(x, y, w as u32, h as u32).unwrap();
-    let img = image::load_from_memory_with_format(screenshot.buffer(), ImageFormat::Png).unwrap();
-    let pixel = img.as_rgba8().unwrap().get_pixel(pixel_at_x as u32, pixel_at_y as u32).0;
-    return (img, pixel);
+fn get_screen_area(x: i32, y: i32, w: u32, h: u32) -> DynamicImage {
+    // Get the screen object for the specified coordinates
+    let screen = Screen::from_point(x, y).expect("Failed to get screen");
+
+    let target_w = (w as f32) / screen.display_info.scale_factor;
+    let target_h = (h as f32) / screen.display_info.scale_factor;
+
+    // Round to the nearest integer and then cast to u32
+    let rounded_w = target_w.round() as u32;
+    let rounded_h = target_h.round() as u32;
+
+    // Capture the specified area on the screen
+    let area = screen
+        .capture_area(x, y, rounded_w, rounded_h)
+        .expect("Failed to capture area");
+
+    DynamicImage::ImageRgba8(area)
 }
 
 fn image_to_base64(img: &DynamicImage) -> String {
     let mut image_data: Vec<u8> = Vec::new();
-    img.write_to(&mut Cursor::new(&mut image_data), ImageOutputFormat::Png)
+    img.write_to(&mut Cursor::new(&mut image_data), ImageFormat::Png)
         .unwrap();
     let res_base64 = general_purpose::STANDARD.encode(image_data);
     format!("data:image/png;base64,{}", res_base64)
 }
 
-fn f64_to_i32(num: f64) -> i32 {
-    return num.round() as i32;
-}
+fn get_center_pixel_color(img: DynamicImage) -> Option<(u8, u8, u8)> {
+    // Get the dimensions of the image
+    let (width, height) = img.dimensions();
 
-fn convert_position_to_i32(position: LogicalPosition<f64>) -> (i32, i32) {
-    let x = f64_to_i32(position.x);
-    let y = f64_to_i32(position.y);
-    (x, y)
+    // Find the center pixel coordinates
+    let center_x = width / 2;
+    let center_y = height / 2;
+
+    // Get the pixel at the center
+    let pixel = img.get_pixel(center_x - 1, center_y - 1);
+
+    // Convert the pixel to RGB and return its color values
+    let image::Rgba([r, g, b, _]) = pixel;
+    Some((r, g, b))
 }
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
 #[tauri::command]
-fn fetch_preview(app: AppHandle) {
-    // get cursor position
-    let p_pos = app.cursor_position().unwrap();
-    let win = app.get_webview_window("picker").unwrap();
-    let scale_factor = win.scale_factor().unwrap();
-    let l_pos = p_pos.to_logical(scale_factor);
-    let l_coords = convert_position_to_i32(l_pos);
+fn fetch_preview(app: AppHandle, size: u32) {
+    let position = Mouse::get_mouse_position();
+    match position {
+        Mouse::Position { x, y } => {
+            // move window to cursor
+            let win = app.get_webview_window("picker").unwrap();
+            win.set_position(LogicalPosition::new(x - 50, y - 50))
+                .unwrap();
 
-    // move window to cursor
-    let l_coords_shifted = (l_coords.0 - 50, l_coords.1 - 50);
-    win.set_position(LogicalPosition::new(l_coords_shifted.0, l_coords_shifted.1))
-        .unwrap();
+            // capture image
+            let offset = (size / 2) as i32;
+            let img = get_screen_area(x - offset, y - offset, size, size);
 
-    // capture image
-    let scale_factor_int = f64_to_i32(scale_factor);
-    let data = get_screen_area(
-        l_coords.0,
-        l_coords.1,
-        16 / scale_factor_int,
-        16 / scale_factor_int,
-        8 / scale_factor_int,
-        8 / scale_factor_int,
-    );
-    let img = data.0;
-    let res = image_to_base64(&img);
+            // transform image to base64
+            let img_base64 = image_to_base64(&img);
 
-    app.emit_to(
-        EventTarget::labeled("picker"),
-        "preview_fetched",
-        (res, data.1),
-    )
-    .unwrap()
+            // capture color
+            let color = get_center_pixel_color(img);
+
+            // emit image and color
+            app.emit_to(
+                EventTarget::labeled("picker"),
+                "preview_fetched",
+                (img_base64, color),
+            )
+            .unwrap();
+        }
+        Mouse::Error => println!("Error getting mouse position"),
+    }
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]

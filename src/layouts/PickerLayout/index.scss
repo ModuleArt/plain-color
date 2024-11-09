@@ -1,12 +1,12 @@
 .picker-layout {
-  $pixel: calc(100% / 15);
+  $pixel: calc(100% / 9);
 
   &__image {
     position: fixed;
     left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
+    width: calc(100% + $pixel);
+    height: calc(100% + $pixel);
     object-fit: cover;
     image-rendering: pixelated;
   }

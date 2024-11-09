@@ -3,10 +3,11 @@ import './index.scss'
 import { ITabsProps } from './props'
 import cn from 'classnames'
 import { Icon } from '@/components/Icon'
+import { Stack } from '@/components/Stack'
 
 export const Tabs: FC<ITabsProps> = ({ tabs, activeTabId, onTabChange }) => {
   return (
-    <div className="tabs">
+    <Stack className="tabs" gap="none">
       {tabs.map((tab) => (
         <button
           key={tab.id}
@@ -16,6 +17,6 @@ export const Tabs: FC<ITabsProps> = ({ tabs, activeTabId, onTabChange }) => {
           {tab.icon && <div className="tabs__tab-icon">{<Icon icon={tab.icon} />}</div>}
         </button>
       ))}
-    </div>
+    </Stack>
   )
 }

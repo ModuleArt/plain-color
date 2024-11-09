@@ -7,5 +7,5 @@ export interface IStackProps {
   justify?: 'start' | 'end' | 'center'
   align?: 'start' | 'end' | 'center'
   grow?: boolean
-  gap?: 'small' | 'medium' | 'large'
+  gap?: 'none' | 'small' | 'medium' | 'large'
 }

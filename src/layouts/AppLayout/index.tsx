@@ -7,7 +7,7 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import { usePickerStore } from '@/store/picker'
 import { invoke } from '@tauri-apps/api/core'
 import { Window } from '@tauri-apps/api/window'
-import { listen } from '@tauri-apps/api/event'
+import { listen, UnlistenFn } from '@tauri-apps/api/event'
 import namer from 'color-namer'
 import { useColorsStore } from '@/store/colors'
 
@@ -42,7 +42,7 @@ export const AppLayout: FC = () => {
             pickerWindow.show()
 
             const interval = setInterval(() => {
-              invoke('fetch_preview')
+              invoke('fetch_preview', { size: 10 }) // should be even
             }, 50)
             setPickingInterval(interval)
           }
@@ -63,21 +63,31 @@ export const AppLayout: FC = () => {
   }, [pickerStore.isPicking])
 
   useEffect(() => {
-    listen<string>('color_picked', (event) => {
-      const label = namer(event.payload).ntc[0].name
+    const listeners: Promise<UnlistenFn>[] = []
 
-      switch (pickerStore.pickerTarget) {
-        case 'HOME':
-          colorsStore.addColor({ id: crypto.randomUUID(), label, hex: event.payload })
-          break
-      }
+    listeners.push(
+      listen<string>('color_picked', (event) => {
+        const label = namer(event.payload).ntc[0].name
 
-      pickerStore.closePicker()
-    })
+        switch (pickerStore.pickerTarget) {
+          case 'HOME':
+            colorsStore.addColor({ id: crypto.randomUUID(), label, hex: event.payload })
+            break
+        }
 
-    listen<string>('color_canceled', () => {
-      pickerStore.closePicker()
-    })
+        pickerStore.closePicker()
+      })
+    )
+
+    listeners.push(
+      listen<string>('color_canceled', () => {
+        pickerStore.closePicker()
+      })
+    )
+
+    return () => {
+      listeners.map((unlisten) => unlisten.then((f) => f()))
+    }
   }, [])
 
   return (

@@ -7,6 +7,7 @@ interface IColorsState {
   addColor: (color: IColor) => void
   removeColor: (colorId: string) => void
   updateColor: (colorId: string, payload: Omit<IColor, 'id'>) => void
+  clearAllColors: () => void
 }
 
 export const useColorsStore = create<IColorsState>()(
@@ -19,6 +20,7 @@ export const useColorsStore = create<IColorsState>()(
         set((state) => ({
           colors: state.colors.map((color) => (color.id === colorId ? { ...color, ...payload } : color)),
         })),
+      clearAllColors: () => set(() => ({ colors: [] })),
     }),
     {
       name: 'PlainColor_colors',
