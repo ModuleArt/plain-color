@@ -8,4 +8,5 @@ export interface IButtonProps extends IPlainlibComponentProps {
   tinted?: boolean
   label?: string
   size?: 'inline' | 'regular'
+  padding?: 'none' | 'small' | 'medium' | 'large'
 }

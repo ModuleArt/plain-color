@@ -6,7 +6,6 @@ Stylish color picker for macOS and Windows
 
 ##### Must have
 
-- Custom app icon
 - Hide cursor when picking
 - Crash when cursor is close to screen sides
 - Preview cannot be dragged on top of the macOS menubar
@@ -22,12 +21,11 @@ Stylish color picker for macOS and Windows
 
 - Tray icon
 - Picker shortcut `Command + Shift + M`
-- Instant picker shortcut `Ctrl + Shift + M`?
+- Instant picker shortcut `Ctrl + Shift + M` (?)
 
 ##### Settings
 
 - Settings window
-- About window
 
 ##### Lense improvements
 

@@ -33,7 +33,7 @@ export const ColorPage: FC = () => {
   }
 
   return (
-    <Stack dir="vertical" gap="medium" grow>
+    <Stack dir="vertical" gap="medium" grow padding="medium">
       <ColorCard color={color} onColorChange={setColor} />
       <ColorPicker hexValue={color.hex} onChange={(hex) => setColor({ ...color, hex })} grow />
       <Stack>

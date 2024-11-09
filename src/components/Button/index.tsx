@@ -13,6 +13,7 @@ export const Button: FC<IButtonProps> = ({
   label,
   variant = 'fill',
   size = 'regular',
+  padding = 'none',
   ...props
 }) => {
   return (
@@ -21,6 +22,7 @@ export const Button: FC<IButtonProps> = ({
         'button',
         [`button--variant-${variant}`],
         [`button--size-${size}`],
+        [`button--padding-${padding}`],
         {
           'button--tinted': tinted,
         },

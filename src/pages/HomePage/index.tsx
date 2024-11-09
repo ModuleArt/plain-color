@@ -6,6 +6,7 @@ import {
   Eyedropper,
   Plus,
   Trash,
+  QuestionMark,
   // Palette
 } from '@phosphor-icons/react'
 import { useColorsStore } from '@/store/colors'
@@ -17,6 +18,10 @@ export const HomePage: FC = () => {
   const colorsStore = useColorsStore()
   const pickerStore = usePickerStore()
   const navigate = useNavigate()
+
+  const goToAbout = () => {
+    navigate('/about')
+  }
 
   // const goToPalettes = () => {
   //   navigate('/palettes')
@@ -39,12 +44,13 @@ export const HomePage: FC = () => {
   }
 
   return (
-    <Stack dir="vertical" gap="medium" grow>
+    <Stack dir="vertical" gap="medium" grow padding="medium">
       <Stack>
         <Button icon={Eyedropper} onClick={pickColor} grow />
         <Button icon={Plus} onClick={addColor} grow />
         <Button icon={Trash} onClick={clearAllColors} grow />
         {/* <Button icon={Palette} onClick={goToPalettes} grow /> */}
+        <Button icon={QuestionMark} onClick={goToAbout} grow />
       </Stack>
       <Stack dir="vertical" gap="medium">
         {colorsStore.colors.map((color) => (

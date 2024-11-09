@@ -7,4 +7,5 @@ export interface IStackProps extends IPlainlibComponentProps {
   justify?: 'start' | 'end' | 'center' | 'between'
   align?: 'start' | 'end' | 'center'
   gap?: 'none' | 'small' | 'medium' | 'large'
+  padding?: 'none' | 'small' | 'medium' | 'large'
 }

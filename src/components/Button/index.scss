@@ -16,6 +16,18 @@
     background: var(--color_element);
   }
 
+  &--padding-small {
+    padding: 0 0.5rem;
+  }
+
+  &--padding-medium {
+    padding: 0 0.75rem;
+  }
+
+  &--padding-large {
+    padding: 0 1rem;
+  }
+
   &--variant-outline {
     border: var(--size_borderWidth) solid var(--color_text);
   }

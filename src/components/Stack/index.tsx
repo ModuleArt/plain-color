@@ -11,6 +11,7 @@ export const Stack: FC<PropsWithChildren<IStackProps>> = ({
   justify = 'start',
   align,
   gap = 'small',
+  padding = 'none',
   ...props
 }) => {
   return (
@@ -20,6 +21,7 @@ export const Stack: FC<PropsWithChildren<IStackProps>> = ({
         [`stack--${dir}`],
         [`stack--justify-${justify}`],
         [`stack--gap-${gap}`],
+        [`stack--padding-${padding}`],
         {
           [`stack--align-${align}`]: align,
         },
