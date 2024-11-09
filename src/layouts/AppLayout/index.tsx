@@ -1,43 +1,24 @@
 import { FC, useEffect, useState } from 'react'
-import {
-  House,
-  // Palette
-} from '@phosphor-icons/react'
 import { WindowTitlebar } from '@/components/WindowTitlebar'
-import { Tabs } from '@/components/Tabs'
 import { WindowContent } from '@/components/WindowContent'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { usePickerStore } from '@/store/picker'
 import { invoke } from '@tauri-apps/api/core'
 import { Window } from '@tauri-apps/api/window'
 import { listen, UnlistenFn } from '@tauri-apps/api/event'
 import namer from 'color-namer'
 import { useColorsStore } from '@/store/colors'
-import { Stack } from '@/components/Stack'
 import { Logo } from '@/components/Logo'
-
-const tabs = [
-  { id: 'home', icon: House },
-  // { id: 'palettes', icon: Palette },
-]
+import { getPlatform } from '@/utils/tauri.util'
+import { Header } from '@/components/Header'
+import { Stack } from '@/components/Stack'
+import { exit } from '@tauri-apps/plugin-process'
 
 export const AppLayout: FC = () => {
-  const [activeTab, setActiveTab] = useState(tabs[0].id)
-  const navigate = useNavigate()
   const pickerStore = usePickerStore()
   const colorsStore = useColorsStore()
   const [pickingInterval, setPickingInterval] = useState<NodeJS.Timeout | null>(null)
-
-  useEffect(() => {
-    switch (activeTab) {
-      case 'home':
-        navigate('/', { replace: true })
-        break
-      case 'palettes':
-        navigate('/palettes', { replace: true })
-        break
-    }
-  }, [activeTab])
+  const platform = getPlatform()
 
   useEffect(() => {
     if (pickerStore.isPicking) {
@@ -70,6 +51,14 @@ export const AppLayout: FC = () => {
   useEffect(() => {
     const listeners: Promise<UnlistenFn>[] = []
 
+    Window.getByLabel('main').then((mainWindow) => {
+      if (mainWindow) {
+        mainWindow.onCloseRequested(() => {
+          exit()
+        })
+      }
+    })
+
     listeners.push(
       listen<string>('color_picked', (event) => {
         const label = namer(event.payload).ntc[0].name
@@ -97,11 +86,16 @@ export const AppLayout: FC = () => {
 
   return (
     <>
-      <WindowTitlebar>
-        <Stack grow justify="between" pointerEvents="disable">
-          <Tabs tabs={tabs} activeTabId={activeTab} onTabChange={setActiveTab} pointerEvents="enable" />
-          <Logo />
-        </Stack>
+      <WindowTitlebar color={platform === 'macos' ? 'bg' : 'window'} windowControls={platform !== 'macos'}>
+        {platform === 'macos' ? (
+          <Header pointerEvents="disable" grow>
+            <Logo />
+          </Header>
+        ) : (
+          <Stack pointerEvents="disable" grow>
+            <Logo />
+          </Stack>
+        )}
       </WindowTitlebar>
       <WindowContent>
         <Outlet />

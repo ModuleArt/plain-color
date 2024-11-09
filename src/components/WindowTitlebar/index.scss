@@ -1,10 +1,13 @@
 .window-titlebar {
-  height: var(--size_basicHeight);
-  background: var(--color_window);
   user-select: none;
   display: flex;
+  align-items: center;
 
-  &--macos {
-    padding-left: var(--size_titlebarIndentLeft);
+  &--color-window {
+    background: var(--color_window);
+  }
+
+  &--color-bg {
+    background: var(--color_bg);
   }
 }

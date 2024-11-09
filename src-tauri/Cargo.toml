@@ -28,3 +28,6 @@ tauri-plugin-clipboard-manager = "2.0.1"
 base64 = "0.22.1"
 mouse_position = "0.1.4"
 screenshots = "0.8.10"
+tauri-plugin-os = "2"
+tauri-plugin-process = "2.0.0"
+

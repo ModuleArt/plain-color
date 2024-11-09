@@ -10,6 +10,7 @@ Stylish color picker for macOS and Windows
 - Hide cursor when picking
 - Crash when cursor is close to screen sides
 - Preview cannot be dragged on top of the macOS menubar
+- ColorCard: Checkboard background for alpha colors
 
 ##### Palette
 
@@ -25,7 +26,8 @@ Stylish color picker for macOS and Windows
 
 ##### Settings
 
-- Settings/about tab
+- Settings window
+- About window
 
 ##### Lense improvements
 
@@ -36,3 +38,7 @@ Stylish color picker for macOS and Windows
 ##### Optimizations
 
 - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
+
+##### Fun stuff
+
+- Add picker sound (Water drop sound)

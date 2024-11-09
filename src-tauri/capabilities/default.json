@@ -11,12 +11,16 @@
     "core:window:allow-show",
     "core:window:allow-hide",
     "core:window:allow-close",
+    "core:window:allow-minimize",
     "core:window:allow-create",
     "core:window:allow-set-position",
     "clipboard-manager:default",
     "clipboard-manager:allow-write-text",
     "core:event:default",
     "core:event:allow-listen",
-    "core:event:allow-emit-to"
+    "core:event:allow-emit-to",
+    "os:default",
+    "process:default",
+    "process:allow-exit"
   ]
 }
