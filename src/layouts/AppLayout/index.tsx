@@ -1,5 +1,8 @@
 import { FC, useEffect, useState } from 'react'
-import { House, Palette } from '@phosphor-icons/react'
+import {
+  House,
+  // Palette
+} from '@phosphor-icons/react'
 import { WindowTitlebar } from '@/components/WindowTitlebar'
 import { Tabs } from '@/components/Tabs'
 import { WindowContent } from '@/components/WindowContent'

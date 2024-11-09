@@ -31,6 +31,7 @@ Stylish color picker for macOS and Windows
 
 - Control zoom level with `+` and `-` keys
 - Hard to target specific pixel with touchpad, ColorSlurp is much more responsive
+- Try to use tauri `cursor_position` function to retrieve mouse coordinates
 
 ##### Optimizations
 
