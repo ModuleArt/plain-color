@@ -1,6 +1,13 @@
 # PlainColor
 
-Stylish color picker for macOS and Windows
+Stylish cross-platform color picker app
+
+<img src='/screenshots/1.png' height="512px" />
+
+### Download
+
+- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.0/PlainColor_1.0.0_aarch64.dmg">macOS: dmg</a>
+- Windows: Coming soon...
 
 ### Todo
 
