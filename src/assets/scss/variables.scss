@@ -5,7 +5,7 @@
   --color_element: #2c2c2c;
 
   --size_basicHeight: 36px;
-  --size_titlebarIndentLeft: 80px;
+  --size_titlebarIndentLeft: calc(var(--size_basicHeight) * 2);
   --size_borderWidth: 0.4px;
 
   --opacity_tinted: 0.6;

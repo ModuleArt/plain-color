@@ -14,6 +14,10 @@
     justify-content: center;
   }
 
+  &--justify-between {
+    justify-content: space-between;
+  }
+
   &--align-start {
     align-items: flex-start;
   }
@@ -90,9 +94,5 @@
         }
       }
     }
-  }
-
-  &--grow {
-    flex: 1;
   }
 }

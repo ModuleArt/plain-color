@@ -1,11 +1,10 @@
+import { IPlainlibComponentProps } from '@/lib/types'
 import { CSSProperties } from 'react'
 
-export interface IStackProps {
+export interface IStackProps extends IPlainlibComponentProps {
   dir?: 'horizontal' | 'vertical'
-  className?: string
   style?: CSSProperties
-  justify?: 'start' | 'end' | 'center'
+  justify?: 'start' | 'end' | 'center' | 'between'
   align?: 'start' | 'end' | 'center'
-  grow?: boolean
   gap?: 'none' | 'small' | 'medium' | 'large'
 }

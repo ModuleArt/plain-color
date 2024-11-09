@@ -6,6 +6,7 @@ import { Eyedropper, Plus, Trash } from '@phosphor-icons/react'
 import { useColorsStore } from '@/store/colors'
 import { useNavigate } from 'react-router-dom'
 import { usePickerStore } from '@/store/picker'
+import { IColor } from '@/types/color'
 
 export const HomePage: FC = () => {
   const colorsStore = useColorsStore()
@@ -24,6 +25,10 @@ export const HomePage: FC = () => {
     navigate('/color')
   }
 
+  const onColorChange = (color: IColor) => {
+    colorsStore.updateColor(color.id, color)
+  }
+
   return (
     <Stack dir="vertical" gap="medium">
       <Stack>
@@ -37,6 +42,7 @@ export const HomePage: FC = () => {
           color={color}
           onDelete={() => colorsStore.removeColor(color.id)}
           onEdit={() => navigate(`/color/${color.id}`)}
+          onColorChange={onColorChange}
         />
       ))}
     </Stack>

@@ -2,16 +2,16 @@ import cn from 'classnames'
 import { FC, PropsWithChildren } from 'react'
 import { IStackProps } from './props'
 import './index.scss'
+import { commonComponentClasses } from '@/lib'
 
 export const Stack: FC<PropsWithChildren<IStackProps>> = ({
   children,
   dir = 'horizontal',
-  className,
   style,
   justify = 'start',
   align,
-  grow = false,
   gap = 'small',
+  ...props
 }) => {
   return (
     <div
@@ -21,10 +21,9 @@ export const Stack: FC<PropsWithChildren<IStackProps>> = ({
         [`stack--justify-${justify}`],
         [`stack--gap-${gap}`],
         {
-          'stack--grow': grow,
           [`stack--align-${align}`]: align,
         },
-        className
+        commonComponentClasses(props)
       )}
       style={style}
     >

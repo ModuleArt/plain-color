@@ -4,9 +4,13 @@ use mouse_position::mouse_position::Mouse;
 use screenshots::Screen;
 use std::io::Cursor;
 use tauri::{
-    menu::{Menu, MenuItem},
-    tray::TrayIconBuilder,
-    AppHandle, Emitter, EventTarget, LogicalPosition, Manager,
+    // menu::{Menu, MenuItem},
+    // tray::TrayIconBuilder,
+    AppHandle,
+    Emitter,
+    EventTarget,
+    LogicalPosition,
+    Manager,
 };
 
 fn get_screen_area(x: i32, y: i32, w: u32, h: u32) -> DynamicImage {
@@ -61,7 +65,7 @@ fn fetch_preview(app: AppHandle, size: u32) {
         Mouse::Position { x, y } => {
             // move window to cursor
             let win = app.get_webview_window("picker").unwrap();
-            win.set_position(LogicalPosition::new(x - 50, y - 50))
+            win.set_position(LogicalPosition::new(x - 64, y - 64))
                 .unwrap();
 
             // capture image
@@ -92,25 +96,24 @@ pub fn run() {
         .plugin(tauri_plugin_clipboard_manager::init())
         .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![fetch_preview])
-        .setup(|app| {
-            let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
-            let menu = Menu::with_items(app, &[&quit_i])?;
-
-            TrayIconBuilder::new()
-                .icon(app.default_window_icon().unwrap().clone())
-                .menu(&menu)
-                .menu_on_left_click(true)
-                .on_menu_event(|app, event| match event.id.as_ref() {
-                    "quit" => {
-                        app.exit(0);
-                    }
-                    _ => {
-                        println!("menu item {:?} not handled", event.id);
-                    }
-                })
-                .build(app)?;
-            Ok(())
-        })
+        // .setup(|app| {
+        //     let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
+        //     let menu = Menu::with_items(app, &[&quit_i])?;
+        //     TrayIconBuilder::new()
+        //         .icon(app.default_window_icon().unwrap().clone())
+        //         .menu(&menu)
+        //         .menu_on_left_click(true)
+        //         .on_menu_event(|app, event| match event.id.as_ref() {
+        //             "quit" => {
+        //                 app.exit(0);
+        //             }
+        //             _ => {
+        //                 println!("menu item {:?} not handled", event.id);
+        //             }
+        //         })
+        //         .build(app)?;
+        //     Ok(())
+        // })
         .run(tauri::generate_context!())
         .expect("error while running tauri application")
 }

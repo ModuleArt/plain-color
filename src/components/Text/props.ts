@@ -1,7 +1,9 @@
-export interface ITextProps {
+import { IPlainlibComponentProps } from '@/lib/types'
+
+export interface ITextProps extends IPlainlibComponentProps {
   tinted?: boolean
   text: string
   transform?: 'none' | 'uppercase' | 'lowercase'
-  className?: string
-  grow?: boolean
+  editable?: boolean
+  onTextChange?: (text: string) => void
 }

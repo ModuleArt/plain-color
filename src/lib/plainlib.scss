@@ -1,0 +1,13 @@
+.plainlib--pointer-events {
+  &-enable {
+    pointer-events: all;
+  }
+
+  &-disable {
+    pointer-events: none;
+  }
+}
+
+.plainlib--grow {
+  flex: 1;
+}

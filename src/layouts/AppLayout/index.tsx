@@ -10,10 +10,12 @@ import { Window } from '@tauri-apps/api/window'
 import { listen, UnlistenFn } from '@tauri-apps/api/event'
 import namer from 'color-namer'
 import { useColorsStore } from '@/store/colors'
+import { Stack } from '@/components/Stack'
+import { Logo } from '@/components/Logo'
 
 const tabs = [
   { id: 'home', icon: House },
-  { id: 'palettes', icon: Palette },
+  // { id: 'palettes', icon: Palette },
 ]
 
 export const AppLayout: FC = () => {
@@ -42,7 +44,7 @@ export const AppLayout: FC = () => {
             pickerWindow.show()
 
             const interval = setInterval(() => {
-              invoke('fetch_preview', { size: 10 }) // should be even
+              invoke('fetch_preview', { size: 12 }) // should be even
             }, 50)
             setPickingInterval(interval)
           }
@@ -93,7 +95,10 @@ export const AppLayout: FC = () => {
   return (
     <>
       <WindowTitlebar>
-        <Tabs tabs={tabs} activeTabId={activeTab} onTabChange={setActiveTab} />
+        <Stack grow justify="between" pointerEvents="disable">
+          <Tabs tabs={tabs} activeTabId={activeTab} onTabChange={setActiveTab} pointerEvents="enable" />
+          <Logo />
+        </Stack>
       </WindowTitlebar>
       <WindowContent>
         <Outlet />

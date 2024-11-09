@@ -4,10 +4,11 @@ import { ITabsProps } from './props'
 import cn from 'classnames'
 import { Icon } from '@/components/Icon'
 import { Stack } from '@/components/Stack'
+import { commonComponentClasses } from '@/lib'
 
-export const Tabs: FC<ITabsProps> = ({ tabs, activeTabId, onTabChange }) => {
+export const Tabs: FC<ITabsProps> = ({ tabs, activeTabId, onTabChange, ...props }) => {
   return (
-    <Stack className="tabs" gap="none">
+    <Stack className={cn('tabs', commonComponentClasses(props))} gap="none">
       {tabs.map((tab) => (
         <button
           key={tab.id}

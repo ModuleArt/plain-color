@@ -4,6 +4,7 @@ import { IButtonProps } from './props'
 import { Icon } from '@/components/Icon'
 import cn from 'classnames'
 import { Text } from '@/components/Text'
+import { commonComponentClasses } from '@/lib'
 
 export const Button: FC<IButtonProps> = ({
   icon,
@@ -12,14 +13,19 @@ export const Button: FC<IButtonProps> = ({
   label,
   variant = 'fill',
   size = 'regular',
-  grow = false,
+  ...props
 }) => {
   return (
     <button
-      className={cn('button', [`button--variant-${variant}`], [`button--size-${size}`], {
-        'button--tinted': tinted,
-        'button--grow': grow,
-      })}
+      className={cn(
+        'button',
+        [`button--variant-${variant}`],
+        [`button--size-${size}`],
+        {
+          'button--tinted': tinted,
+        },
+        commonComponentClasses(props)
+      )}
       onClick={() => onClick && onClick()}
     >
       {icon && <div className="button__icon">{<Icon icon={icon} />}</div>}
