@@ -4,10 +4,18 @@
 <h1 align="center">PlainColor</h1>
 <p align="center">
   Lightweight stylish cross-platform color picker app
+  <br><br>
+  <a href="https://github.com/ModuleArt/plain-color/releases">
+    <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/moduleart/plain-color?include_prereleases">
+    <img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/ModuleArt/plain-color/total">
+    <a href="https://moduleart.github.io">
+      <img alt="Module Art website" src="https://img.shields.io/badge/www-moduleart-%2300BCD4">
+    </a>
+  </a>
 </p>
 <p align="center">
-  <img src='/screenshots/1.png' width="280px" />
-  <img src='/screenshots/2.png' width="280px" />
+  <img src='/screenshots/1.png' width="320px" />
+  <img src='/screenshots/2.png' width="320px" />
 </p>
 
 ### Download
