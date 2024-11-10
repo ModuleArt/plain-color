@@ -14,8 +14,8 @@
   </a>
 </p>
 <p align="center">
-  <img src='/screenshots/1.png' width="320px" />
-  <img src='/screenshots/2.png' width="320px" />
+  <img src='/screenshots/1.png' width="360px" />
+  <img src='/screenshots/2.png' width="360px" />
 </p>
 
 ### Download
@@ -24,13 +24,21 @@
 - Windows: Coming soon...
 - Linux: Coming soon...
 
+### Features
+
+- 🔍 Zoomed preview
+- 🎨 Custom palettes - Coming soon...
+- 🔲 Contrast checker - Coming soon...
+
 ### Todo
 
-##### Must have
+##### Important
 
 - Hide cursor when picking
 - Crash when cursor is close to screen sides
-- Preview cannot be dragged on top of the macOS menubar
+- Lense cannot be dragged on top of the macOS menubar
+- Lense cannot be dragged on top of fullscreen windows
+- Lense is lagging when picking on another screen and virtual desktop
 - ColorCard: Checkboard background for alpha colors
 
 ##### Palette
@@ -62,3 +70,5 @@
 ##### Fun stuff
 
 - Add picker sound (Water drop sound)
+- Prepend one color (Use background color)
+- Prepend default palette (Apple colors)
