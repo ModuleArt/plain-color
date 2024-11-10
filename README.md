@@ -1,13 +1,20 @@
-# PlainColor
-
-Stylish cross-platform color picker app
-
-<img src='/screenshots/1.png' height="512px" />
+<p align="center">
+  <img src='/src-tauri/icons/128x128.png' height="96px" />
+</p>
+<h1 align="center">PlainColor</h1>
+<p align="center">
+  Lightweight stylish cross-platform color picker app
+</p>
+<p align="center">
+  <img src='/screenshots/1.png' width="280px" />
+  <img src='/screenshots/2.png' width="280px" />
+</p>
 
 ### Download
 
 - <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.0/PlainColor_1.0.0_aarch64.dmg">macOS: dmg</a>
 - Windows: Coming soon...
+- Linux: Coming soon...
 
 ### Todo
 
