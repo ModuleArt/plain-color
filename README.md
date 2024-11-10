@@ -14,8 +14,8 @@
   </a>
 </p>
 <p align="center">
-  <img src='/screenshots/1.png' width="360px" />
-  <img src='/screenshots/2.png' width="360px" />
+  <img src='/screenshots/1.png' width="49%" />
+  <img src='/screenshots/2.png' width="49%" />
 </p>
 
 ### Download
