@@ -3,6 +3,25 @@
 version = 3
 
 [[package]]
+name = "PlainColor"
+version = "1.0.1"
+dependencies = [
+ "base64 0.22.1",
+ "image 0.24.9",
+ "mouse_position",
+ "screenshots",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-clipboard-manager",
+ "tauri-plugin-os",
+ "tauri-plugin-process",
+ "tauri-plugin-shell",
+ "termcolor",
+]
+
+[[package]]
 name = "addr2line"
 version = "0.24.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2796,25 +2815,6 @@ name = "pkg-config"
 version = "0.3.31"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "953ec861398dccce10c670dfeaf3ec4911ca479e9c02154b3a215178c5f566f2"
-
-[[package]]
-name = "plain-color"
-version = "1.0.0"
-dependencies = [
- "base64 0.22.1",
- "image 0.24.9",
- "mouse_position",
- "screenshots",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
- "tauri-plugin-clipboard-manager",
- "tauri-plugin-os",
- "tauri-plugin-process",
- "tauri-plugin-shell",
- "termcolor",
-]
 
 [[package]]
 name = "plist"

@@ -5,6 +5,7 @@ import { isDark, rgbToHex } from '@/utils/color.util'
 import { Text } from '@/components/Text'
 import cn from 'classnames'
 import { Stack } from '@/components/Stack'
+import { Image } from '@/components/Image'
 
 export const PickerLayout: FC = () => {
   const [image, setImage] = useState('')
@@ -46,9 +47,14 @@ export const PickerLayout: FC = () => {
   }
 
   return (
-    <div className="picker-layout">
-      <img src={image} className="picker-layout__image" onClick={pickColor} />
-      <Stack className="picker-layout__color" style={{ background: `#${color}` }} justify="center">
+    <div className="picker-layout" onClick={pickColor}>
+      <Image src={image} className="picker-layout__image" pointerEvents="disable" />
+      <Stack
+        className="picker-layout__color"
+        style={{ background: `#${color}` }}
+        justify="center"
+        pointerEvents="disable"
+      >
         <Text
           text={color}
           tinted

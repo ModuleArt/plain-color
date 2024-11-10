@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import './index.scss'
+import { Image } from '@/components/Image'
 
 export const Logo: FC = () => {
-  return <img className="logo" src="/assets/imgs/logo.svg" />
+  return <Image className="logo" src="/assets/imgs/logo.svg" />
 }

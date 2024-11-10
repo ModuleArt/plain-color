@@ -20,7 +20,7 @@
 
 ### Download
 
-- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.0/PlainColor_1.0.0_aarch64.dmg">macOS: dmg</a>
+- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.1/PlainColor_1.0.1_aarch64.dmg">macOS: dmg</a>
 - Windows: Coming soon...
 - Linux: Coming soon...
 
@@ -34,7 +34,6 @@
 
 ##### Important
 
-- Hide cursor when picking
 - Crash when cursor is close to screen sides
 - Lense cannot be dragged on top of the macOS menubar
 - Lense cannot be dragged on top of fullscreen windows

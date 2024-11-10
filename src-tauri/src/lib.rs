@@ -4,7 +4,7 @@ use mouse_position::mouse_position::Mouse;
 use screenshots::Screen;
 use std::io::Cursor;
 use tauri::{
-    // menu::{Menu, MenuItem},
+    menu::{Menu, PredefinedMenuItem, Submenu},
     // tray::TrayIconBuilder,
     AppHandle,
     Emitter,
@@ -93,6 +93,25 @@ fn fetch_preview(app: AppHandle, size: u32) {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .menu(|handle| {
+            Menu::with_items(
+                handle,
+                &[
+                    &Submenu::with_items(
+                        handle,
+                        "File",
+                        true,
+                        &[&PredefinedMenuItem::quit(handle, None)?],
+                    )?,
+                    &Submenu::with_items(
+                        handle,
+                        "Window",
+                        true,
+                        &[&PredefinedMenuItem::minimize(handle, None)?],
+                    )?,
+                ],
+            )
+        })
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_clipboard_manager::init())

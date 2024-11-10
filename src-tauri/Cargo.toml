@@ -1,6 +1,6 @@
 [package]
-name = "plain-color"
-version = "1.0.0"
+name = "PlainColor"
+version = "1.0.1"
 description = "A Tauri App"
 authors = ["Eugene Volynko <volynko.ua@gmail.com>"]
 edition = "2021"
@@ -18,7 +18,7 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 tauri-build = { version = "2", features = [] }
 
 [dependencies]
-tauri = { version = "2", features = ["tray-icon", "devtools"] }
+tauri = { version = "2", features = ["tray-icon"] }
 tauri-plugin-shell = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
