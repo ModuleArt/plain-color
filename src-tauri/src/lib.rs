@@ -1,8 +1,10 @@
 use base64::{engine::general_purpose, Engine as _};
+use cocoa::appkit::NSWindow;
 use image::{DynamicImage, GenericImageView, ImageFormat};
 use mouse_position::mouse_position::Mouse;
+use once_cell::sync::Lazy;
 use screenshots::Screen;
-use std::io::Cursor;
+use std::{io::Cursor, sync::Mutex};
 use tauri::{
     menu::{Menu, PredefinedMenuItem, Submenu},
     // tray::TrayIconBuilder,
@@ -13,9 +15,40 @@ use tauri::{
     Manager,
 };
 
+static GLOBAL_LAST_SCREEN: Lazy<Mutex<Option<Screen>>> = Lazy::new(|| Mutex::new(None));
+
+fn get_screen(x: i32, y: i32) -> Screen {
+    match Screen::from_point(x, y) {
+        Ok(screen) => {
+            // Сохраняем новый успешный экран в глобальной переменной
+            let mut global_screen = GLOBAL_LAST_SCREEN
+                .lock()
+                .expect("Failed to lock GLOBAL_SCREEN");
+            *global_screen = Some(screen.clone());
+            println!("Successfully got screen: {:?}", screen);
+            screen
+        }
+        Err(e) => {
+            // При ошибке возвращаем последний сохранённый экран или аварийно завершаем выполнение
+            let global_screen = GLOBAL_LAST_SCREEN
+                .lock()
+                .expect("Failed to lock GLOBAL_SCREEN");
+            if let Some(last_screen) = &*global_screen {
+                println!(
+                    "Failed to get screen: {:?}. Returning last successful screen.",
+                    e
+                );
+                last_screen.clone()
+            } else {
+                panic!("No screen available and failed to get a new one: {:?}", e);
+            }
+        }
+    }
+}
+
 fn get_screen_area(x: i32, y: i32, w: u32, h: u32) -> DynamicImage {
     // Get the screen object for the specified coordinates
-    let screen = Screen::from_point(x, y).expect("Failed to get screen");
+    let screen = get_screen(x, y);
 
     let target_w = (w as f32) / screen.display_info.scale_factor;
     let target_h = (h as f32) / screen.display_info.scale_factor;
@@ -114,27 +147,45 @@ pub fn run() {
         })
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_os::init())
-        .plugin(tauri_plugin_clipboard_manager::init())
         .plugin(tauri_plugin_shell::init())
+        .plugin(tauri_plugin_clipboard_manager::init())
         .invoke_handler(tauri::generate_handler![fetch_preview])
-        // .setup(|app| {
-        //     let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
-        //     let menu = Menu::with_items(app, &[&quit_i])?;
-        //     TrayIconBuilder::new()
-        //         .icon(app.default_window_icon().unwrap().clone())
-        //         .menu(&menu)
-        //         .menu_on_left_click(true)
-        //         .on_menu_event(|app, event| match event.id.as_ref() {
-        //             "quit" => {
-        //                 app.exit(0);
-        //             }
-        //             _ => {
-        //                 println!("menu item {:?} not handled", event.id);
-        //             }
-        //         })
-        //         .build(app)?;
-        //     Ok(())
-        // })
+        .setup(|app| {
+            #[cfg(target_os = "macos")]
+            app.set_activation_policy(tauri::ActivationPolicy::Accessory);
+
+            let picker_window = app.get_webview_window("picker").unwrap();
+
+            #[cfg(target_os = "macos")]
+            {
+                use cocoa::appkit::{NSMainMenuWindowLevel, NSWindowCollectionBehavior};
+                use cocoa::base::id;
+                let ns_win = picker_window.ns_window().unwrap() as id;
+                unsafe {
+                    ns_win.setLevel_(((NSMainMenuWindowLevel + 1) as u64).try_into().unwrap());
+                    ns_win.setCollectionBehavior_(
+                        NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces,
+                    );
+                }
+            }
+
+            //     let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
+            //     let menu = Menu::with_items(app, &[&quit_i])?;
+            //     TrayIconBuilder::new()
+            //         .icon(app.default_window_icon().unwrap().clone())
+            //         .menu(&menu)
+            //         .menu_on_left_click(true)
+            //         .on_menu_event(|app, event| match event.id.as_ref() {
+            //             "quit" => {
+            //                 app.exit(0);
+            //             }
+            //             _ => {
+            //                 println!("menu item {:?} not handled", event.id);
+            //             }
+            //         })
+            //         .build(app)?;
+            Ok(())
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application")
 }
