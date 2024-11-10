@@ -32,13 +32,12 @@
 
 ### Todo
 
-##### Important
+##### Critical
 
 - Crash when cursor is close to screen sides
 - Lense cannot be dragged on top of the macOS menubar
 - Lense cannot be dragged on top of fullscreen windows
 - Lense is lagging when picking on another screen and virtual desktop
-- ColorCard: Checkboard background for alpha colors
 
 ##### Palette
 
@@ -51,10 +50,8 @@
 - Tray icon
 - Picker shortcut `Command + Shift + M`
 - Instant picker shortcut `Ctrl + Shift + M` (?)
-
-##### Settings
-
-- Settings window
+- Lense: Press `C` to copy color instantly (what to copy? - need a setting for this)
+- Add Settings window
 
 ##### Lense improvements
 
@@ -71,3 +68,5 @@
 - Add picker sound (Water drop sound)
 - Prepend one color (Use background color)
 - Prepend default palette (Apple colors)
+- <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
+- ColorCard: Checkboard background for alpha colors
