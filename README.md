@@ -24,7 +24,7 @@
 
 ### Download
 
-- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.1/PlainColor_1.0.1_aarch64.dmg">macOS: dmg</a>
+- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.2/PlainColor_1.0.2_aarch64.dmg">macOS: dmg</a>
 - Windows: Coming soon...
 - Linux: Coming soon...
 
@@ -41,6 +41,7 @@
 - Lense cannot be dragged on top of fullscreen windows
 - Lense is lagging when picking on another screen and virtual desktop
   - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
+- PlainColor process is active after app closed
 
 ##### Palette
 

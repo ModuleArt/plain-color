@@ -1,5 +1,5 @@
 use base64::{engine::general_purpose, Engine as _};
-use cocoa::appkit::NSWindow;
+use cocoa::appkit::NSPanel;
 use image::{DynamicImage, GenericImageView, ImageFormat};
 use mouse_position::mouse_position::Mouse;
 use once_cell::sync::Lazy;
@@ -16,28 +16,23 @@ use tauri::{
 };
 
 static GLOBAL_LAST_SCREEN: Lazy<Mutex<Option<Screen>>> = Lazy::new(|| Mutex::new(None));
+static GLOBAL_PICKER_WINDOW: Lazy<Mutex<Option<tauri::WebviewWindow>>> =
+    Lazy::new(|| Mutex::new(None));
 
 fn get_screen(x: i32, y: i32) -> Screen {
     match Screen::from_point(x, y) {
         Ok(screen) => {
-            // Сохраняем новый успешный экран в глобальной переменной
-            let mut global_screen = GLOBAL_LAST_SCREEN
+            let mut global_last_screen = GLOBAL_LAST_SCREEN
                 .lock()
                 .expect("Failed to lock GLOBAL_SCREEN");
-            *global_screen = Some(screen.clone());
-            println!("Successfully got screen: {:?}", screen);
+            *global_last_screen = Some(screen.clone());
             screen
         }
         Err(e) => {
-            // При ошибке возвращаем последний сохранённый экран или аварийно завершаем выполнение
-            let global_screen = GLOBAL_LAST_SCREEN
+            let global_last_screen = GLOBAL_LAST_SCREEN
                 .lock()
                 .expect("Failed to lock GLOBAL_SCREEN");
-            if let Some(last_screen) = &*global_screen {
-                println!(
-                    "Failed to get screen: {:?}. Returning last successful screen.",
-                    e
-                );
+            if let Some(last_screen) = &*global_last_screen {
                 last_screen.clone()
             } else {
                 panic!("No screen available and failed to get a new one: {:?}", e);
@@ -154,18 +149,72 @@ pub fn run() {
             #[cfg(target_os = "macos")]
             app.set_activation_policy(tauri::ActivationPolicy::Accessory);
 
-            let picker_window = app.get_webview_window("picker").unwrap();
+            let picker_window: tauri::WebviewWindow = app.get_webview_window("picker").unwrap();
+            let mut global_picker_screen = GLOBAL_PICKER_WINDOW
+                .lock()
+                .expect("Failed to lock GLOBAL_PICKER_WINDOW");
+            *global_picker_screen = Some(picker_window.clone());
 
+            // configure macOS window behavior
             #[cfg(target_os = "macos")]
             {
-                use cocoa::appkit::{NSMainMenuWindowLevel, NSWindowCollectionBehavior};
-                use cocoa::base::id;
+                use appkit_nsworkspace_bindings::{
+                    INSNotificationCenter, INSWorkspace, NSWorkspace,
+                    NSWorkspaceActiveSpaceDidChangeNotification,
+                };
+                use cocoa::{
+                    appkit::{NSMainMenuWindowLevel, NSWindow, NSWindowCollectionBehavior},
+                    base::{id, nil},
+                };
+                use objc::declare::ClassDecl;
+                use objc::runtime::{Object, Sel};
+                use objc::{class, msg_send, sel, sel_impl};
+
                 let ns_win = picker_window.ns_window().unwrap() as id;
+
                 unsafe {
                     ns_win.setLevel_(((NSMainMenuWindowLevel + 1) as u64).try_into().unwrap());
                     ns_win.setCollectionBehavior_(
-                        NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces,
+                        NSWindowCollectionBehavior::NSWindowCollectionBehaviorMoveToActiveSpace
+                        | NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary,
                     );
+
+                    // extern "C" fn notify_space_changed(
+                    //     _self: &Object,
+                    //     _cmd: Sel,
+                    //     _notification: *mut Object,
+                    // ) {
+                    //     println!("Received application launch notification");
+
+                    //     let global_picker_window = GLOBAL_PICKER_WINDOW
+                    //         .lock()
+                    //         .expect("Failed to lock GLOBAL_PICKER_WINDOW");
+                    //     if let Some(picker_window) = &*global_picker_window {
+                    //         let ns_win = picker_window.ns_window().unwrap() as id;
+
+                    //         unsafe {
+                    //             ns_win.orderFrontRegardless();
+                    //         }
+                    //     }
+                    // }
+
+                    // let mut class_decl = ClassDecl::new("RustObserver", class!(NSObject)).unwrap();
+                    // class_decl.add_method(
+                    //     sel!(notify_space_changed:),
+                    //     notify_space_changed as extern "C" fn(&Object, Sel, *mut Object),
+                    // );
+                    // let observer_class = class_decl.register();
+                    // let observer: *mut Object = msg_send![observer_class, new];
+                    // let name = NSWorkspaceActiveSpaceDidChangeNotification;
+
+                    // NSWorkspace::sharedWorkspace()
+                    //     .notificationCenter()
+                    //     .addObserver_selector_name_object_(
+                    //         observer,
+                    //         sel!(notify_space_changed:),
+                    //         name,
+                    //         nil,
+                    //     );
                 }
             }
 
