@@ -14,8 +14,7 @@
   </a>
 </p>
 <p align="center">
-  <img src='/screenshots/1.png' width="49%" />
-  <img src='/screenshots/2.png' width="49%" />
+  <img src='https://moduleart.github.io/assets/images/projects/plain-color/1.webp' width="100%" />
 </p>
 
 ### Download
