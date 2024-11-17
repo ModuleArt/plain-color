@@ -163,8 +163,9 @@ pub fn run() {
                     NSWorkspaceActiveSpaceDidChangeNotification,
                 };
                 use cocoa::{
-                    appkit::{NSMainMenuWindowLevel, NSWindow, NSWindowCollectionBehavior},
+                    appkit::{NSMainMenuWindowLevel, NSWindow, NSWindowCollectionBehavior,NSWindowStyleMask},
                     base::{id, nil},
+                    foundation::NSPoint
                 };
                 use objc::declare::ClassDecl;
                 use objc::runtime::{Object, Sel};
@@ -173,48 +174,71 @@ pub fn run() {
                 let ns_win = picker_window.ns_window().unwrap() as id;
 
                 unsafe {
+                    // ns_win.makeKeyAndOrderFront_(nil);
                     ns_win.setLevel_(((NSMainMenuWindowLevel + 1) as u64).try_into().unwrap());
-                    ns_win.setCollectionBehavior_(
-                        NSWindowCollectionBehavior::NSWindowCollectionBehaviorMoveToActiveSpace
-                        | NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary,
-                    );
-
-                    // extern "C" fn notify_space_changed(
-                    //     _self: &Object,
-                    //     _cmd: Sel,
-                    //     _notification: *mut Object,
-                    // ) {
-                    //     println!("Received application launch notification");
-
-                    //     let global_picker_window = GLOBAL_PICKER_WINDOW
-                    //         .lock()
-                    //         .expect("Failed to lock GLOBAL_PICKER_WINDOW");
-                    //     if let Some(picker_window) = &*global_picker_window {
-                    //         let ns_win = picker_window.ns_window().unwrap() as id;
-
-                    //         unsafe {
-                    //             ns_win.orderFrontRegardless();
-                    //         }
-                    //     }
-                    // }
-
-                    // let mut class_decl = ClassDecl::new("RustObserver", class!(NSObject)).unwrap();
-                    // class_decl.add_method(
-                    //     sel!(notify_space_changed:),
-                    //     notify_space_changed as extern "C" fn(&Object, Sel, *mut Object),
+                    // ns_win.setCanHide_(false);
+                    // ns_win.setCollectionBehavior_(
+                    //     NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces 
+                    //     | NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary,
                     // );
-                    // let observer_class = class_decl.register();
-                    // let observer: *mut Object = msg_send![observer_class, new];
-                    // let name = NSWorkspaceActiveSpaceDidChangeNotification;
 
-                    // NSWorkspace::sharedWorkspace()
-                    //     .notificationCenter()
-                    //     .addObserver_selector_name_object_(
-                    //         observer,
-                    //         sel!(notify_space_changed:),
-                    //         name,
-                    //         nil,
-                    //     );
+                    extern "C" fn notify_space_changed(
+                        _self: &Object,
+                        _cmd: Sel,
+                        _notification: *mut Object,
+                    ) {
+                        println!("Received application launch notification");
+
+                        let global_picker_window = GLOBAL_PICKER_WINDOW
+                            .lock()
+                            .expect("Failed to lock GLOBAL_PICKER_WINDOW");
+                        if let Some(picker_window) = &*global_picker_window {
+                            let ns_win = picker_window.ns_window().unwrap() as id;
+
+                            unsafe {
+                                println!("Hooray!");
+
+                                // NSWindowCollectionBehavior::NSWindowCollectionBehaviorMoveToActiveSpace 
+                                // NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary
+                                // NSWindowCollectionBehaviorStationary
+                                // NSWindowCollectionBehaviorIgnoresCycle
+                                // NSWindowCollectionBehaviorCanJoinAllSpaces
+
+                                // ns_win.setLevel_(((NSMainMenuWindowLevel + 1) as u64).try_into().unwrap());
+                                // ns_win.setStyleMask_(NSWindowStyleMask::NSBorderlessWindowMask);
+                                // ns_win.setCollectionBehavior_(
+                                //     NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces
+                                //     | NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary,
+                                // );
+                                // ns_win.orderFrontRegardless();
+
+                                // ns_win.setLevel_(((NSMainMenuWindowLevel + 1) as u64).try_into().unwrap());
+                                // ns_win.setCanHide_(false);
+                                // ns_win.setCollectionBehavior_(
+                                //     NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces 
+                                //     | NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary,
+                                // );
+                            }
+                        }
+                    }
+
+                    let mut class_decl = ClassDecl::new("RustObserver", class!(NSObject)).unwrap();
+                    class_decl.add_method(
+                        sel!(notify_space_changed:),
+                        notify_space_changed as extern "C" fn(&Object, Sel, *mut Object),
+                    );
+                    let observer_class = class_decl.register();
+                    let observer: *mut Object = msg_send![observer_class, new];
+                    let name = NSWorkspaceActiveSpaceDidChangeNotification;
+
+                    NSWorkspace::sharedWorkspace()
+                        .notificationCenter()
+                        .addObserver_selector_name_object_(
+                            observer,
+                            sel!(notify_space_changed:),
+                            name,
+                            nil,
+                        );
                 }
             }
 

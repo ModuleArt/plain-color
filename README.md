@@ -41,7 +41,7 @@
 - Lense cannot be dragged on top of fullscreen windows
 - Lense is lagging when picking on another screen and virtual desktop
   - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
-- PlainColor process is active after app closed
+- PlainColor process is active after app closed (?)
 
 ##### Palette
 

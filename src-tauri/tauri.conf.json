@@ -52,7 +52,10 @@
         "decorations": false,
         "contentProtected": true,
         "visibleOnAllWorkspaces": true,
-        "fullscreen": false
+        "fullscreen": false,
+        "skipTaskbar": true,
+        "alwaysOnTop": true,
+        "windowEffects": { "effects": ["fullScreenUI", "hudWindow"] }
       }
     ],
     "security": {
