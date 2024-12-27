@@ -1,6 +1,6 @@
 use base64::{engine::general_purpose, Engine as _};
 use core_graphics::display::{CGDisplay, CGPoint, CGRect, CGSize};
-use image::{ImageFormat, Rgb, RgbImage};
+use image::{DynamicImage, GenericImageView, ImageFormat, Rgb, RgbImage};
 use once_cell::sync::Lazy;
 use std::{io::Cursor, sync::Mutex};
 use tauri::{
@@ -38,12 +38,27 @@ fn get_display_from_coordinates(x: f64, y: f64) -> Option<CGDisplay> {
     None // Return None if no display contains the point
 }
 
-fn capture_screenshot(x: f64, y: f64, width: f64, height: f64) -> Option<RgbImage> {
-    if let Some(display) = get_display_from_coordinates(x, y) {
-        println!("Found display: {:?}", display);
+fn capture_screenshot(
+    physical_x: f64,
+    physical_y: f64,
+    physical_width: f64,
+    physical_height: f64,
+    scale_factor: f64,
+) -> Option<DynamicImage> {
+    let logical_x = (physical_x / scale_factor).round();
+    let logical_y = (physical_y / scale_factor).round();
+    let logical_width = (physical_width / scale_factor).round();
+    let logical_height = (physical_height / scale_factor).round();
 
-        let point = CGPoint::new(x, y);
-        let size = CGSize::new(width, height);
+    // coordinates with offset in all sides
+    let capture_x = logical_x - 1 as f64;
+    let capture_y = logical_y - 1 as f64;
+    let capture_width = logical_width + 2 as f64;
+    let capture_height = logical_height + 2 as f64;
+
+    if let Some(display) = get_display_from_coordinates(logical_x, logical_y) {
+        let point = CGPoint::new(capture_x, capture_y);
+        let size = CGSize::new(capture_width, capture_height);
 
         // Capture the screenshot of the specified area from the display
         let image_data = display.image_for_rect(CGRect::new(&point, &size)).unwrap();
@@ -78,20 +93,33 @@ fn capture_screenshot(x: f64, y: f64, width: f64, height: f64) -> Option<RgbImag
             }
         }
 
+        // Convert RgbImage to DynamicImage for cropping
+        let mut dynamic_img = DynamicImage::ImageRgb8(img);
+
+        let crop_x = ((physical_x / scale_factor).trunc() - capture_x) as u32; // Adjust for the offset
+        let crop_y = ((physical_y / scale_factor).trunc() - capture_y) as u32;
+        let crop_width = physical_width.round() as u32;
+        let crop_height = physical_height.round() as u32;
+
+        let cropped = dynamic_img.crop(crop_x, crop_y, crop_width, crop_height);
+
         // Save the image to a file (e.g., PNG format)
         // match img.save("screenshot.png") {
         //     Ok(_) => println!("Image saved successfully to 'screenshot.png'"),
         //     Err(e) => println!("Failed to save image: {}", e),
         // }
 
-        Some(img) // Return the captured image
+        Some(cropped) // Return the captured image
     } else {
-        println!("No display found for coordinates ({}, {})", x, y);
+        println!(
+            "No display found for coordinates ({}, {})",
+            physical_x, physical_y
+        );
         None // Return None if no display is found
     }
 }
 
-fn image_to_base64(img: &RgbImage) -> String {
+fn image_to_base64(img: &DynamicImage) -> String {
     let mut image_data: Vec<u8> = Vec::new();
     img.write_to(&mut Cursor::new(&mut image_data), ImageFormat::Png)
         .unwrap();
@@ -99,7 +127,7 @@ fn image_to_base64(img: &RgbImage) -> String {
     format!("data:image/png;base64,{}", res_base64)
 }
 
-fn get_center_pixel_color(img: &RgbImage) -> (u8, u8, u8) {
+fn get_center_pixel_color(img: DynamicImage) -> Option<(u8, u8, u8)> {
     // Get the dimensions of the image
     let (width, height) = img.dimensions();
 
@@ -110,11 +138,10 @@ fn get_center_pixel_color(img: &RgbImage) -> (u8, u8, u8) {
     // Get the pixel at the center
     let pixel = img.get_pixel(center_x - 1, center_y - 1);
 
-    let [r, g, b] = pixel.0;
-
-    (r, g, b)
+    // Convert the pixel to RGB and return its color values
+    let image::Rgba([r, g, b, _]) = pixel;
+    Some((r, g, b))
 }
-
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
 #[tauri::command]
@@ -143,6 +170,7 @@ fn fetch_preview(app: AppHandle, size: u32) {
         p_coords.y - offset,
         size as f64,
         size as f64,
+        scale_factor,
     );
 
     match img {
@@ -151,7 +179,7 @@ fn fetch_preview(app: AppHandle, size: u32) {
             let img_base64 = image_to_base64(&img);
 
             // capture color
-            let color = get_center_pixel_color(&img);
+            let color = get_center_pixel_color(img);
 
             // emit image and color
             app.emit_to(
