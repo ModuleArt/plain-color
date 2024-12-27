@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://moduleart.github.io/plain-color">
+  <a href="https://moduleart.github.io/plaincolor">
     <img src='/src-tauri/icons/128x128.png' height="96px" />
   </a>
 </p>

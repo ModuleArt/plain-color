@@ -1,13 +1,14 @@
 {
   "name": "plain-color",
-  "private": true,
+  "private": false,
   "version": "1.0.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "t:dev": "tauri dev",
+    "t:build": "tauri build"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",

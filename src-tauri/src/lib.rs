@@ -1,9 +1,7 @@
 use base64::{engine::general_purpose, Engine as _};
-use cocoa::appkit::NSPanel;
-use image::{DynamicImage, GenericImageView, ImageFormat};
-use mouse_position::mouse_position::Mouse;
+use core_graphics::display::{CGDisplay, CGPoint, CGRect, CGSize};
+use image::{ImageFormat, Rgb, RgbImage};
 use once_cell::sync::Lazy;
-use screenshots::Screen;
 use std::{io::Cursor, sync::Mutex};
 use tauri::{
     menu::{Menu, PredefinedMenuItem, Submenu},
@@ -11,56 +9,89 @@ use tauri::{
     AppHandle,
     Emitter,
     EventTarget,
-    LogicalPosition,
     Manager,
+    PhysicalPosition,
 };
 
-static GLOBAL_LAST_SCREEN: Lazy<Mutex<Option<Screen>>> = Lazy::new(|| Mutex::new(None));
 static GLOBAL_PICKER_WINDOW: Lazy<Mutex<Option<tauri::WebviewWindow>>> =
     Lazy::new(|| Mutex::new(None));
 
-fn get_screen(x: i32, y: i32) -> Screen {
-    match Screen::from_point(x, y) {
-        Ok(screen) => {
-            let mut global_last_screen = GLOBAL_LAST_SCREEN
-                .lock()
-                .expect("Failed to lock GLOBAL_SCREEN");
-            *global_last_screen = Some(screen.clone());
-            screen
+fn get_display_from_coordinates(x: f64, y: f64) -> Option<CGDisplay> {
+    // Get the active displays (Vec<u32>, each representing a display ID)
+    let displays = CGDisplay::active_displays().unwrap();
+
+    // Iterate through the display IDs
+    for display_id in displays {
+        let display = CGDisplay::new(display_id);
+
+        // Get the bounds of the display using the display ID
+        let bounds = CGDisplay::bounds(&display);
+
+        let point = CGPoint::new(x, y);
+
+        // Check if the point (x, y) is inside the display's bounds
+        if bounds.contains(&point) {
+            return Some(display); // Return the display ID if the point is within its bounds
         }
-        Err(e) => {
-            let global_last_screen = GLOBAL_LAST_SCREEN
-                .lock()
-                .expect("Failed to lock GLOBAL_SCREEN");
-            if let Some(last_screen) = &*global_last_screen {
-                last_screen.clone()
-            } else {
-                panic!("No screen available and failed to get a new one: {:?}", e);
+    }
+
+    None // Return None if no display contains the point
+}
+
+fn capture_screenshot(x: f64, y: f64, width: f64, height: f64) -> Option<RgbImage> {
+    if let Some(display) = get_display_from_coordinates(x, y) {
+        println!("Found display: {:?}", display);
+
+        let point = CGPoint::new(x, y);
+        let size = CGSize::new(width, height);
+
+        // Capture the screenshot of the specified area from the display
+        let image_data = display.image_for_rect(CGRect::new(&point, &size)).unwrap();
+
+        let img_width = image_data.width() as u32;
+        let img_height = image_data.height() as u32;
+
+        // Handle image row stride, if available (some images have extra padding)
+        let stride = image_data.bytes_per_row() as usize;
+
+        let mut img = RgbImage::new(img_width, img_height); // Create a new image buffer
+        let data = image_data.data(); // Access the raw pixel data (RGBA)
+
+        let data_len = data.len() as usize;
+
+        // Iterate through each pixel and set it in the image buffer
+        for y in 0..img_height {
+            for x in 0..img_width {
+                // Cast `x` and `y` to `usize` before multiplying with `stride` and `4`
+                let offset = (y as usize * stride + x as usize * 4) as usize; // Adjust for row stride
+
+                // Ensure the offset is within the bounds of the data array
+                if offset + 3 < data_len {
+                    let r = data[offset];
+                    let g = data[offset + 1];
+                    let b = data[offset + 2];
+                    // Ignore the alpha channel (data[offset + 3])
+
+                    // Set the pixel color in the image
+                    img.put_pixel(x, y, Rgb([r, g, b]));
+                }
             }
         }
+
+        // Save the image to a file (e.g., PNG format)
+        // match img.save("screenshot.png") {
+        //     Ok(_) => println!("Image saved successfully to 'screenshot.png'"),
+        //     Err(e) => println!("Failed to save image: {}", e),
+        // }
+
+        Some(img) // Return the captured image
+    } else {
+        println!("No display found for coordinates ({}, {})", x, y);
+        None // Return None if no display is found
     }
 }
 
-fn get_screen_area(x: i32, y: i32, w: u32, h: u32) -> DynamicImage {
-    // Get the screen object for the specified coordinates
-    let screen = get_screen(x, y);
-
-    let target_w = (w as f32) / screen.display_info.scale_factor;
-    let target_h = (h as f32) / screen.display_info.scale_factor;
-
-    // Round to the nearest integer and then cast to u32
-    let rounded_w = target_w.round() as u32;
-    let rounded_h = target_h.round() as u32;
-
-    // Capture the specified area on the screen
-    let area = screen
-        .capture_area(x, y, rounded_w, rounded_h)
-        .expect("Failed to capture area");
-
-    DynamicImage::ImageRgba8(area)
-}
-
-fn image_to_base64(img: &DynamicImage) -> String {
+fn image_to_base64(img: &RgbImage) -> String {
     let mut image_data: Vec<u8> = Vec::new();
     img.write_to(&mut Cursor::new(&mut image_data), ImageFormat::Png)
         .unwrap();
@@ -68,7 +99,7 @@ fn image_to_base64(img: &DynamicImage) -> String {
     format!("data:image/png;base64,{}", res_base64)
 }
 
-fn get_center_pixel_color(img: DynamicImage) -> Option<(u8, u8, u8)> {
+fn get_center_pixel_color(img: &RgbImage) -> (u8, u8, u8) {
     // Get the dimensions of the image
     let (width, height) = img.dimensions();
 
@@ -79,32 +110,48 @@ fn get_center_pixel_color(img: DynamicImage) -> Option<(u8, u8, u8)> {
     // Get the pixel at the center
     let pixel = img.get_pixel(center_x - 1, center_y - 1);
 
-    // Convert the pixel to RGB and return its color values
-    let image::Rgba([r, g, b, _]) = pixel;
-    Some((r, g, b))
+    let [r, g, b] = pixel.0;
+
+    (r, g, b)
 }
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
 #[tauri::command]
 fn fetch_preview(app: AppHandle, size: u32) {
-    let position = Mouse::get_mouse_position();
-    match position {
-        Mouse::Position { x, y } => {
-            // move window to cursor
-            let win = app.get_webview_window("picker").unwrap();
-            win.set_position(LogicalPosition::new(x - 64, y - 64))
-                .unwrap();
+    let picker_window_logical_w = 128;
+    let picker_window_logical_h = 128;
 
-            // capture image
-            let offset = (size / 2) as i32;
-            let img = get_screen_area(x - offset, y - offset, size, size);
+    // move window to cursor
+    let win: tauri::WebviewWindow = app.get_webview_window("picker").unwrap();
+    let scale_factor = win.scale_factor().unwrap();
 
+    let p_coords: tauri::PhysicalPosition<f64> = win.cursor_position().unwrap();
+    let picker_window_physical_w = picker_window_logical_w as f64 * scale_factor;
+    let picker_window_physical_h = picker_window_logical_h as f64 * scale_factor;
+
+    win.set_position(PhysicalPosition::new(
+        p_coords.x as f64 - (picker_window_physical_w / 2 as f64),
+        p_coords.y as f64 - (picker_window_physical_h / 2 as f64),
+    ))
+    .unwrap();
+
+    // capture image
+    let offset = (size / 2) as f64;
+    let img = capture_screenshot(
+        p_coords.x - offset,
+        p_coords.y - offset,
+        size as f64,
+        size as f64,
+    );
+
+    match img {
+        Some(img) => {
             // transform image to base64
             let img_base64 = image_to_base64(&img);
 
             // capture color
-            let color = get_center_pixel_color(img);
+            let color = get_center_pixel_color(&img);
 
             // emit image and color
             app.emit_to(
@@ -114,7 +161,9 @@ fn fetch_preview(app: AppHandle, size: u32) {
             )
             .unwrap();
         }
-        Mouse::Error => println!("Error getting mouse position"),
+        None => {
+            println!("No image captured");
+        }
     }
 }
 
@@ -163,9 +212,12 @@ pub fn run() {
                     NSWorkspaceActiveSpaceDidChangeNotification,
                 };
                 use cocoa::{
-                    appkit::{NSMainMenuWindowLevel, NSWindow, NSWindowCollectionBehavior,NSWindowStyleMask},
+                    appkit::{
+                        NSMainMenuWindowLevel, NSWindow, NSWindowCollectionBehavior,
+                        NSWindowStyleMask,
+                    },
                     base::{id, nil},
-                    foundation::NSPoint
+                    foundation::NSPoint,
                 };
                 use objc::declare::ClassDecl;
                 use objc::runtime::{Object, Sel};
@@ -178,7 +230,7 @@ pub fn run() {
                     ns_win.setLevel_(((NSMainMenuWindowLevel + 1) as u64).try_into().unwrap());
                     // ns_win.setCanHide_(false);
                     // ns_win.setCollectionBehavior_(
-                    //     NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces 
+                    //     NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces
                     //     | NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary,
                     // );
 
@@ -198,7 +250,7 @@ pub fn run() {
                             unsafe {
                                 println!("Hooray!");
 
-                                // NSWindowCollectionBehavior::NSWindowCollectionBehaviorMoveToActiveSpace 
+                                // NSWindowCollectionBehavior::NSWindowCollectionBehaviorMoveToActiveSpace
                                 // NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary
                                 // NSWindowCollectionBehaviorStationary
                                 // NSWindowCollectionBehaviorIgnoresCycle
@@ -215,7 +267,7 @@ pub fn run() {
                                 // ns_win.setLevel_(((NSMainMenuWindowLevel + 1) as u64).try_into().unwrap());
                                 // ns_win.setCanHide_(false);
                                 // ns_win.setCollectionBehavior_(
-                                //     NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces 
+                                //     NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces
                                 //     | NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary,
                                 // );
                             }
