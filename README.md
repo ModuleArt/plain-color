@@ -16,7 +16,9 @@
   </a>
 </p>
 <p align="center">
-  <img src='https://moduleart.github.io/assets/images/projects/plain-color/1.webp' width="100%" />
+  <a href="https://moduleart.github.io/plaincolor">
+    <img src='https://moduleart.github.io/assets/images/projects/plain-color/1.webp' width="100%" />
+  </a>
 </p>
 
 ### Download
