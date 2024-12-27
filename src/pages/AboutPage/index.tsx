@@ -11,7 +11,7 @@ import { Image } from '@/components/Image'
 export const AboutPage: FC = () => {
   const navigate = useNavigate()
   const [version, setVersion] = useState('0')
-  const projectUrl = 'https://moduleart.github.io/plain-color'
+  const projectUrl = 'https://moduleart.github.io/plaincolor'
   const githubUrl = 'https://github.com/ModuleArt/plain-color'
   const moreAppsUrl = 'https://moduleart.github.io/'
   const donateUrl = 'https://opencollective.com/moduleart'
