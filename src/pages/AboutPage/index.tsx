@@ -20,8 +20,8 @@ export const AboutPage: FC = () => {
     app.getVersion().then((v) => setVersion(v))
   }, [])
 
-  const goHome = () => {
-    navigate('/')
+  const goBack = () => {
+    navigate('/settings')
   }
 
   const openUrl = (url: string) => {
@@ -30,8 +30,10 @@ export const AboutPage: FC = () => {
 
   return (
     <Stack dir="vertical" gap="none" grow>
-      <Header leftElement={<Button icon={CaretLeft} variant="clear" onClick={goHome} />} />
-      <Stack dir="vertical" gap="large" grow>
+      <Header leftElement={<Button iconPre={CaretLeft} variant="clear" onClick={goBack} nativeTooltip="Back" />}>
+        <Text text="About" />
+      </Header>
+      <Stack dir="vertical" gap="none" grow>
         <Stack justify="center" align="center" grow>
           <Image src="/assets/imgs/icon.svg" width={120} />
         </Stack>
@@ -52,12 +54,12 @@ export const AboutPage: FC = () => {
 
         <Stack dir="vertical" padding="medium">
           <Stack>
-            <Button icon={Globe} label="Website" onClick={() => openUrl(projectUrl)} grow />
-            <Button icon={CoinVertical} label="Donate" onClick={() => openUrl(donateUrl)} grow />
+            <Button iconPre={Globe} label="Website" onClick={() => openUrl(projectUrl)} grow />
+            <Button iconPre={CoinVertical} label="Donate" onClick={() => openUrl(donateUrl)} grow />
           </Stack>
           <Stack>
-            <Button icon={GithubLogo} label="GitHub" onClick={() => openUrl(githubUrl)} grow />
-            <Button icon={AppStoreLogo} label="More Apps" onClick={() => openUrl(moreAppsUrl)} grow />
+            <Button iconPre={GithubLogo} label="GitHub" onClick={() => openUrl(githubUrl)} grow />
+            <Button iconPre={AppStoreLogo} label="More Apps" onClick={() => openUrl(moreAppsUrl)} grow />
           </Stack>
         </Stack>
       </Stack>

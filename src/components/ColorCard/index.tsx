@@ -6,22 +6,28 @@ import { Button } from '@/components/Button'
 import { Copy, Trash, FloppyDisk, PencilSimple, PlusSquare } from '@phosphor-icons/react'
 import { Text } from '@/components/Text'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
-import { hexToRgbStr, isDark } from '@/utils/color.util'
+import { isDark } from '@/utils/color.util'
 import cn from 'classnames'
+import { useSettingsStore } from '@/store/settings.store'
+import { copyVariants, formatCopyText } from '@/utils/copyVariants.util'
+import { ECopyVariant } from '@/types/settings.types'
+import { commonComponentClasses } from '@/lib'
 
-export const ColorCard: FC<IColorCardProps> = ({ color, onSave, onDelete, onEdit, onDuplicate, onColorChange }) => {
+export const ColorCard: FC<IColorCardProps> = ({
+  color,
+  onSave,
+  onDelete,
+  onEdit,
+  onDuplicate,
+  onColorChange,
+  containerRef,
+  ...props
+}) => {
   const [copied, setCopied] = useState('')
+  const settingsStore = useSettingsStore()
 
-  const copyHex = () => {
-    const text = `#${color.hex.toUpperCase()}`
-    writeText(text)
-
-    setCopied(text)
-    setTimeout(() => setCopied(''), 1000)
-  }
-
-  const copyRgb = () => {
-    const text = hexToRgbStr(color.hex)
+  const copy = (copyVariant: ECopyVariant) => {
+    const text = formatCopyText(color.hex, copyVariant)
     writeText(text)
 
     setCopied(text)
@@ -32,10 +38,13 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onSave, onDelete, onEdit
     onColorChange && onColorChange({ ...color, label })
   }
 
+  const quickCopyVariants = copyVariants.filter((variant) => settingsStore.quickCopyVariants.includes(variant.id))
+
   return (
     <Stack
+      containerRef={containerRef}
       dir="vertical"
-      className={cn('color-card', { 'color-card--inverted': !isDark(color.hex) })}
+      className={cn('color-card', { 'color-card--inverted': !isDark(color.hex) }, commonComponentClasses(props))}
       style={{ background: `#${color.hex}` }}
     >
       {copied && (
@@ -53,11 +62,17 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onSave, onDelete, onEdit
         <Text text={color.label} grow editable={!!onColorChange} onTextChange={onLabelChange} />
         <Stack>
           {onEdit && (
-            <Button icon={PencilSimple} variant="clear" size="inline" onClick={() => onEdit()} nativeTooltip="Edit" />
+            <Button
+              iconPre={PencilSimple}
+              variant="clear"
+              size="inline"
+              onClick={() => onEdit()}
+              nativeTooltip="Edit"
+            />
           )}
           {onSave && (
             <Button
-              icon={FloppyDisk}
+              iconPre={FloppyDisk}
               variant="clear"
               size="inline"
               onClick={() => onSave()}
@@ -66,7 +81,7 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onSave, onDelete, onEdit
           )}
           {onDuplicate && (
             <Button
-              icon={PlusSquare}
+              iconPre={PlusSquare}
               variant="clear"
               size="inline"
               onClick={() => onDuplicate()}
@@ -74,14 +89,24 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onSave, onDelete, onEdit
             />
           )}
           {onDelete && (
-            <Button icon={Trash} variant="clear" size="inline" onClick={() => onDelete()} nativeTooltip="Delete" />
+            <Button iconPre={Trash} variant="clear" size="inline" onClick={() => onDelete()} nativeTooltip="Delete" />
           )}
         </Stack>
       </Stack>
       <Stack>
         <Stack grow>
-          <Button label="HEX" size="inline" variant="clear" icon={Copy} tinted onClick={copyHex} />
-          <Button label="RGB" size="inline" variant="clear" icon={Copy} tinted onClick={copyRgb} />
+          {quickCopyVariants.map((copyVariant) => (
+            <Button
+              key={copyVariant.id}
+              label={copyVariant.shortLabel}
+              size="inline"
+              variant="clear"
+              iconPre={Copy}
+              tinted
+              onClick={() => copy(copyVariant.id)}
+              nativeTooltip={copyVariant.label}
+            />
+          ))}
         </Stack>
         <Text text={color.hex} tinted transform="uppercase" />
       </Stack>

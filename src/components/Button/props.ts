@@ -1,8 +1,9 @@
 import { IPlainlibComponentProps } from '@/lib/types'
 import { Icon } from '@phosphor-icons/react'
 
-export interface IButtonProps extends IPlainlibComponentProps {
-  icon?: Icon
+export interface IButtonProps extends IPlainlibComponentProps<HTMLButtonElement> {
+  iconPre?: Icon
+  iconPost?: Icon
   onClick?: () => void
   variant?: 'fill' | 'outline' | 'clear'
   tinted?: boolean
@@ -10,4 +11,7 @@ export interface IButtonProps extends IPlainlibComponentProps {
   size?: 'inline' | 'regular'
   padding?: 'none' | 'small' | 'medium' | 'large'
   nativeTooltip?: string
+  justify?: 'start' | 'end' | 'center' | 'between'
+  maxWidth?: number
+  textWrap?: boolean
 }

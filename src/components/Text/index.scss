@@ -11,12 +11,20 @@
     text-transform: lowercase;
   }
 
+  &--size-small {
+    & > * {
+      font-size: 12px;
+    }
+  }
+
   &__input {
     width: 100%;
   }
 
   &__label {
     &--clickable {
+      cursor: text;
+
       &:hover {
         opacity: var(--opacity_tinted);
       }

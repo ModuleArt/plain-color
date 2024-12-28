@@ -1,6 +1,6 @@
 import { ColorCard } from '@/components/ColorCard'
 import { Stack } from '@/components/Stack'
-import { useColorsStore } from '@/store/colors'
+import { useColorsStore } from '@/store/colors.store'
 import { FC, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from '@/components/Button'

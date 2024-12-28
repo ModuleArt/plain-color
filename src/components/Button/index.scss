@@ -2,7 +2,24 @@
   border-radius: 0.375rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+
+  &--justify-start {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  &--justify-end {
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  &--justify-center {
+    justify-content: center;
+  }
+
+  &--justify-between {
+    justify-content: space-between;
+  }
 
   &:hover {
     opacity: var(--opacity_tinted);
@@ -44,6 +61,12 @@
     }
   }
 
+  &--no-text-wrap &__label {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
   &--size-inline {
     & > * {
       margin-right: 0.25rem;
@@ -55,8 +78,8 @@
   }
 
   &--size-regular {
-    min-width: var(--size_basicHeight);
-    min-height: var(--size_basicHeight);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 
     & > * {
       margin-right: 0.5rem;
