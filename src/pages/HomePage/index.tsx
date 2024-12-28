@@ -6,21 +6,21 @@ import {
   Eyedropper,
   Plus,
   Trash,
-  QuestionMark,
+  Gear,
   // Palette
 } from '@phosphor-icons/react'
-import { useColorsStore } from '@/store/colors'
+import { useColorsStore } from '@/store/colors.store'
 import { useNavigate } from 'react-router-dom'
-import { usePickerStore } from '@/store/picker'
-import { IColor } from '@/types/color'
+import { usePickerStore } from '@/store/picker.store'
+import { IColor } from '@/types/color.types'
 
 export const HomePage: FC = () => {
   const colorsStore = useColorsStore()
   const pickerStore = usePickerStore()
   const navigate = useNavigate()
 
-  const goToAbout = () => {
-    navigate('/about')
+  const goToSettings = () => {
+    navigate('/settings')
   }
 
   // const goToPalettes = () => {
@@ -46,11 +46,11 @@ export const HomePage: FC = () => {
   return (
     <Stack dir="vertical" gap="medium" grow padding="medium">
       <Stack>
-        <Button icon={Eyedropper} onClick={pickColor} grow nativeTooltip="Pick color from screen" />
-        <Button icon={Plus} onClick={addColor} grow nativeTooltip="Add color manually" />
-        <Button icon={Trash} onClick={clearAllColors} grow nativeTooltip="Clear all colors" />
+        <Button iconPre={Eyedropper} onClick={pickColor} grow nativeTooltip="Pick color from screen" />
+        <Button iconPre={Plus} onClick={addColor} grow nativeTooltip="Add color manually" />
+        <Button iconPre={Trash} onClick={clearAllColors} grow nativeTooltip="Clear all colors" />
         {/* <Button icon={Palette} onClick={goToPalettes} grow /> */}
-        <Button icon={QuestionMark} onClick={goToAbout} grow nativeTooltip="About the app" />
+        <Button iconPre={Gear} onClick={goToSettings} grow nativeTooltip="Settings" />
       </Stack>
       <Stack dir="vertical" gap="medium">
         {colorsStore.colors.map((color) => (

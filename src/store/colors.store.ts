@@ -1,4 +1,4 @@
-import { IColor } from '@/types/color'
+import { IColor } from '@/types/color.types'
 import { generateRandomUuid } from '@/utils/uuid.util'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'

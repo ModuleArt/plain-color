@@ -1,0 +1,13 @@
+export enum ECopyVariant {
+  // common
+  HEX_WITH_SHARP = 'HEX_WITH_SHARP',
+  HEX_WITHOUT_SHARP = 'HEX_WITHOUT_SHARP',
+  RGB_COMMA_SEPARATED = 'RGB_COMMA_SEPARATED',
+  // CMYK_PERCENTS = 'CMYK_PERCENTS',
+  // HSL = 'HSL',
+  // HSB = 'HSB',
+  // web
+  CSS_RGB = 'CSS_RGB',
+  // CSS_HSL = 'CSS_HSL',
+  // CSS_DISPLAY_P3 = 'CSS_DISPLAY_P3',
+}

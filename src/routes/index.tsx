@@ -8,6 +8,7 @@ import { AppLayout } from '@/layouts/AppLayout'
 import { HomePage } from '@/pages/HomePage'
 import { PalettesPage } from '@/pages/PalettesPage'
 import { ColorPage } from '@/pages/ColorPage'
+import { SettingsPage } from '@/pages/SettingsPage'
 import { AboutPage } from '@/pages/AboutPage'
 
 const router = createBrowserRouter(
@@ -17,6 +18,7 @@ const router = createBrowserRouter(
       <Route path="palettes" element={<PalettesPage />} />
       <Route path="color" element={<ColorPage />} />
       <Route path="color/:id" element={<ColorPage />} />
+      <Route path="settings" element={<SettingsPage />} />
       <Route path="about" element={<AboutPage />} />
     </Route>
   )

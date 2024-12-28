@@ -12,10 +12,12 @@ export const Stack: FC<PropsWithChildren<IStackProps>> = ({
   align,
   gap = 'small',
   padding = 'none',
+  containerRef,
   ...props
 }) => {
   return (
     <div
+      ref={containerRef}
       className={cn(
         'stack',
         [`stack--${dir}`],

@@ -1,6 +1,5 @@
 .stack {
   display: flex;
-  border-radius: 0.375rem;
 
   &--justify-start {
     justify-content: flex-start;
@@ -31,6 +30,16 @@
   }
 
   &--horizontal {
+    &.stack--gap-extra-small {
+      & > * {
+        margin-right: 0.25rem;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+
     &.stack--gap-small {
       & > * {
         margin-right: 0.5rem;
@@ -65,6 +74,16 @@
   &--vertical {
     flex-direction: column;
 
+    &.stack--gap-extra-small {
+      & > * {
+        margin-bottom: 0.25rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
     &.stack--gap-small {
       & > * {
         margin-bottom: 0.5rem;
@@ -94,6 +113,10 @@
         }
       }
     }
+  }
+
+  &--padding-extra-small {
+    padding: 0.25rem;
   }
 
   &--padding-small {

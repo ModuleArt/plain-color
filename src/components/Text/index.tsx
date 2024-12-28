@@ -10,16 +10,16 @@ export const Text: FC<ITextProps> = ({
   transform = 'none',
   editable = false,
   onTextChange,
+  size = 'regular',
+  containerRef,
   ...props
 }) => {
   const [isEditing, setIsEditing] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const onClick = () => {
-    if (editable) {
-      setIsEditing(true)
-      setTimeout(() => inputRef.current?.focus())
-    }
+    setIsEditing(true)
+    setTimeout(() => inputRef.current?.focus())
   }
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -38,9 +38,11 @@ export const Text: FC<ITextProps> = ({
 
   return (
     <span
+      ref={containerRef}
       className={cn(
         'text',
         [`text--transform-${transform}`],
+        [`text--size-${size}`],
         { 'text--tinted': tinted },
         commonComponentClasses(props)
       )}
@@ -54,10 +56,12 @@ export const Text: FC<ITextProps> = ({
           onBlur={onBlur}
           onKeyDown={onKeyDown}
         />
-      ) : (
-        <span onClick={onClick} className={cn('text__label', { 'text__label--clickable': editable })}>
+      ) : editable ? (
+        <button onClick={onClick} className="text__label text__label--clickable">
           {text}
-        </span>
+        </button>
+      ) : (
+        <span className="text__label">{text}</span>
       )}
     </span>
   )

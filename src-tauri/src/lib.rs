@@ -1,5 +1,8 @@
+mod display;
+mod macospermissions;
+
 use base64::{engine::general_purpose, Engine as _};
-use core_graphics::display::{CGDisplay, CGPoint, CGRect, CGSize};
+use core_graphics::display::{CGPoint, CGRect, CGSize};
 use image::{DynamicImage, GenericImageView, ImageFormat, Rgb, RgbImage, Rgba};
 use once_cell::sync::Lazy;
 use std::{io::Cursor, sync::Mutex};
@@ -15,31 +18,6 @@ use tauri::{
 
 static GLOBAL_PICKER_WINDOW: Lazy<Mutex<Option<tauri::WebviewWindow>>> =
     Lazy::new(|| Mutex::new(None));
-
-fn get_display_from_coordinates(x: f64, y: f64) -> Option<CGDisplay> {
-    let valid_x = x.max(0 as f64);
-    let valid_y = y.max(0 as f64);
-
-    // Get the active displays (Vec<u32>, each representing a display ID)
-    let displays = CGDisplay::active_displays().unwrap();
-
-    // Iterate through the display IDs
-    for display_id in displays {
-        let display = CGDisplay::new(display_id);
-
-        // Get the bounds of the display using the display ID
-        let bounds = CGDisplay::bounds(&display);
-
-        let point = CGPoint::new(valid_x, valid_y);
-
-        // Check if the point (x, y) is inside the display's bounds
-        if bounds.contains(&point) {
-            return Some(display); // Return the display ID if the point is within its bounds
-        }
-    }
-
-    None // Return None if no display contains the point
-}
 
 fn capture_screenshot(
     physical_x: f64,
@@ -59,7 +37,7 @@ fn capture_screenshot(
     let capture_width = logical_width + 2 as f64;
     let capture_height = logical_height + 2 as f64;
 
-    if let Some(display) = get_display_from_coordinates(logical_x, logical_y) {
+    if let Some(display) = display::get_display_from_coordinates(logical_x, logical_y) {
         let point = CGPoint::new(capture_x, capture_y);
         let size = CGSize::new(capture_width, capture_height);
 
@@ -191,6 +169,16 @@ fn fetch_preview(app: AppHandle, size: u32) {
     }
 }
 
+#[tauri::command]
+fn check_macos_screen_recording_permission() {
+    macospermissions::check_macos_screen_recording_permission();
+}
+
+#[tauri::command]
+fn request_macos_screen_recording_permission() {
+    macospermissions::request_macos_screen_recording_permission();
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -217,7 +205,11 @@ pub fn run() {
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_clipboard_manager::init())
-        .invoke_handler(tauri::generate_handler![fetch_preview])
+        .invoke_handler(tauri::generate_handler![
+            fetch_preview,
+            check_macos_screen_recording_permission,
+            request_macos_screen_recording_permission,
+        ])
         .setup(|app| {
             #[cfg(target_os = "macos")]
             app.set_activation_policy(tauri::ActivationPolicy::Accessory);

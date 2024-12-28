@@ -4,7 +4,7 @@ import { IWindowTitlebarProps } from './props'
 import cn from 'classnames'
 import { commonComponentClasses } from '@/lib'
 import { Stack } from '@/components/Stack'
-import { Button } from '../Button'
+import { Button } from '@/components/Button'
 import { X, Minus } from '@phosphor-icons/react'
 import { Window } from '@tauri-apps/api/window'
 
@@ -12,6 +12,7 @@ export const WindowTitlebar: FC<PropsWithChildren<IWindowTitlebarProps>> = ({
   color = 'window',
   leftIndent = 0,
   windowControls = false,
+  containerRef,
   ...props
 }) => {
   const onClose = () => {
@@ -32,6 +33,7 @@ export const WindowTitlebar: FC<PropsWithChildren<IWindowTitlebarProps>> = ({
 
   return (
     <div
+      ref={containerRef}
       data-tauri-drag-region
       className={cn('window-titlebar', [`window-titlebar--color-${color}`], commonComponentClasses(props))}
       style={{ paddingLeft: `${leftIndent}px` }}
@@ -39,8 +41,8 @@ export const WindowTitlebar: FC<PropsWithChildren<IWindowTitlebarProps>> = ({
       {props.children}
       {windowControls && (
         <Stack gap="none">
-          <Button icon={Minus} variant="clear" onClick={onMinimize} />
-          <Button icon={X} variant="clear" onClick={onClose} />
+          <Button iconPre={Minus} variant="clear" onClick={onMinimize} padding="small" />
+          <Button iconPre={X} variant="clear" onClick={onClose} padding="small" />
         </Stack>
       )}
     </div>

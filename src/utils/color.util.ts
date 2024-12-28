@@ -12,11 +12,19 @@ export const hexToRgbObj = (hex: string) => {
   return hexRgb(hex)
 }
 
-export const hexToRgbStr = (hex: string) => {
+export const hexToRgbStr = (hex: string, wrapWithCssFunc?: boolean) => {
   const obj = hexToRgbObj(hex)
-  return obj.alpha !== 1
-    ? `rgba(${obj.red},${obj.green},${obj.blue},${obj.alpha})`
-    : `rgb(${obj.red},${obj.green},${obj.blue})`
+
+  const main = `${obj.red},${obj.green},${obj.blue}`
+
+  if (obj.alpha === 1) {
+    return wrapWithCssFunc ? `rgb(${main})` : main
+  }
+
+  const alpha = obj.alpha.toFixed(2)
+  return wrapWithCssFunc
+    ? `rgba(${main},${alpha === '0.00' ? '0' : alpha})`
+    : `${main},${alpha === '0.00' ? '0' : alpha}`
 }
 
 export const rgbToHex = (rgb: TColorRgb) => {
