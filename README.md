@@ -21,25 +21,24 @@
   </a>
 </p>
 
-### Download
+## Download
 
 - <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.2/PlainColor_1.0.2_aarch64.dmg">macOS: dmg</a>
 - Windows: Coming soon...
 - Linux: Coming soon...
 
-### Features
+## Features
 
 - 🔍 Zoomed preview
 - 🎨 Custom palettes - Coming soon...
 - 🔲 Contrast checker - Coming soon...
 
-### Todo
+## Todo
 
-##### v1.0.3
+### v1.0.3
 
-- <b>macOS permissions:</b> Better user experience
-- <b>Settings page:</b>
-
+- macOS permissions: Better user experience
+- Settings page:
   - macOS permission status
   - Select quick copy options
     - Common:
@@ -66,32 +65,31 @@
       - 🌊 .NET RGB/ARGB
       - ☕ Java RGB/RGBA
       - 📱 Android RGB/ARGB
+- Lense: Control zoom level with `+` and `-` keys
+- Lense: Move picker with arrows (step = 1px)
+- Lense: Press `C` to copy color instantly (what to copy? - need a setting for this)
+- ColorCard: Checkboard background for alpha colors
 
-- <b>Lense:</b> Control zoom level with `+` and `-` keys
-- <b>Lense:</b> Move picker with arrows (step = 1px)
-- <b>Lense:</b> Press `C` to copy color instantly (what to copy? - need a setting for this)
-- <b>ColorCard:</b> Checkboard background for alpha colors
-
-##### Critical
+### Critical
 
 - Lense cannot be dragged on top of fullscreen windows
 - Lense is lagging when picking on another screen and virtual desktop
   - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
 - PlainColor process is active after app closed (?)
 
-##### Palette
+### Palette
 
 - Palettes tab
 - Save color to palette
 - Manage palettes
 
-##### Shortcuts (?)
+### Shortcuts (?)
 
 - Tray icon
 - Picker shortcut `Command + Shift + M`
   - Instant picker shortcut `Ctrl + Shift + M` (?)
 
-##### Fun stuff / Quality improvements
+### Fun stuff / Quality improvements
 
 - Add picker sound (Water drop sound)
 - Prepend one color (Use different color on every new release)
