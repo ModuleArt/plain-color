@@ -1,5 +1,7 @@
 <p align="center">
-  <img src='/src-tauri/icons/128x128.png' height="96px" />
+  <a href="https://moduleart.github.io/plaincolor">
+    <img src='/src-tauri/icons/128x128.png' height="96px" />
+  </a>
 </p>
 <h1 align="center">PlainColor</h1>
 <p align="center">
@@ -14,12 +16,14 @@
   </a>
 </p>
 <p align="center">
-  <img src='https://moduleart.github.io/assets/images/projects/plain-color/1.webp' width="100%" />
+  <a href="https://moduleart.github.io/plaincolor">
+    <img src='https://moduleart.github.io/assets/images/projects/plain-color/1.webp' width="100%" />
+  </a>
 </p>
 
 ### Download
 
-- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.1/PlainColor_1.0.1_aarch64.dmg">macOS: dmg</a>
+- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.2/PlainColor_1.0.2_aarch64.dmg">macOS: dmg</a>
 - Windows: Coming soon...
 - Linux: Coming soon...
 
@@ -33,10 +37,11 @@
 
 ##### Critical
 
-- Crash when cursor is close to screen sides
-- Lense cannot be dragged on top of the macOS menubar
 - Lense cannot be dragged on top of fullscreen windows
 - Lense is lagging when picking on another screen and virtual desktop
+  - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
+- Better user experience with macOS permissions
+- PlainColor process is active after app closed (?)
 
 ##### Palette
 
@@ -49,20 +54,15 @@
 - Tray icon
 - Picker shortcut `Command + Shift + M`
 - Instant picker shortcut `Ctrl + Shift + M` (?)
-- Lense: Press `C` to copy color instantly (what to copy? - need a setting for this)
 - Add Settings window
 
 ##### Lense improvements
 
+- Press `C` to copy color instantly (what to copy? - need a setting for this)
 - Control zoom level with `+` and `-` keys
-- Hard to target specific pixel with touchpad, ColorSlurp is much more responsive
-- Try to use tauri `cursor_position` function to retrieve mouse coordinates
+- Move picker with arrows (step = 1px)
 
-##### Optimizations
-
-- Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
-
-##### Fun stuff
+##### Fun stuff / Quality improvements
 
 - Add picker sound (Water drop sound)
 - Prepend one color (Use background color)

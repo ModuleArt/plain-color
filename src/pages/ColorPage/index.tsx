@@ -5,6 +5,7 @@ import { FC, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from '@/components/Button'
 import { ColorPicker } from '@/components/ColorPicker'
+import { generateRandomUuid } from '@/utils/uuid.util'
 
 export const ColorPage: FC = () => {
   const params = useParams<{ id: string }>()
@@ -13,7 +14,7 @@ export const ColorPage: FC = () => {
 
   const [color, setColor] = useState(
     colorsStore.colors.find((color) => color.id === params.id) || {
-      id: crypto.randomUUID(),
+      id: generateRandomUuid(),
       label: 'New Color',
       hex: 'ff1500',
     }

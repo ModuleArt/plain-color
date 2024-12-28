@@ -29,6 +29,7 @@ export const Button: FC<IButtonProps> = ({
         commonComponentClasses(props)
       )}
       onClick={() => onClick && onClick()}
+      title={props.nativeTooltip}
     >
       {icon && <div className="button__icon">{<Icon icon={icon} />}</div>}
       {label && <Text className="button__label" text={label} />}

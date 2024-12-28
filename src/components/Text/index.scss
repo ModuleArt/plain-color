@@ -14,4 +14,16 @@
   &__input {
     width: 100%;
   }
+
+  &__label {
+    &--clickable {
+      &:hover {
+        opacity: var(--opacity_tinted);
+      }
+
+      &:active {
+        opacity: calc(var(--opacity_tinted) / 2);
+      }
+    }
+  }
 }

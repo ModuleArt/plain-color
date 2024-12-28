@@ -46,11 +46,11 @@ export const HomePage: FC = () => {
   return (
     <Stack dir="vertical" gap="medium" grow padding="medium">
       <Stack>
-        <Button icon={Eyedropper} onClick={pickColor} grow />
-        <Button icon={Plus} onClick={addColor} grow />
-        <Button icon={Trash} onClick={clearAllColors} grow />
+        <Button icon={Eyedropper} onClick={pickColor} grow nativeTooltip="Pick color from screen" />
+        <Button icon={Plus} onClick={addColor} grow nativeTooltip="Add color manually" />
+        <Button icon={Trash} onClick={clearAllColors} grow nativeTooltip="Clear all colors" />
         {/* <Button icon={Palette} onClick={goToPalettes} grow /> */}
-        <Button icon={QuestionMark} onClick={goToAbout} grow />
+        <Button icon={QuestionMark} onClick={goToAbout} grow nativeTooltip="About the app" />
       </Stack>
       <Stack dir="vertical" gap="medium">
         {colorsStore.colors.map((color) => (
@@ -59,6 +59,7 @@ export const HomePage: FC = () => {
             color={color}
             onDelete={() => colorsStore.removeColor(color.id)}
             onEdit={() => navigate(`/color/${color.id}`)}
+            onDuplicate={() => colorsStore.duplicateColor(color.id)}
             onColorChange={onColorChange}
           />
         ))}

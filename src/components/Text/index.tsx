@@ -44,7 +44,6 @@ export const Text: FC<ITextProps> = ({
         { 'text--tinted': tinted },
         commonComponentClasses(props)
       )}
-      onClick={onClick}
     >
       {isEditing ? (
         <input
@@ -56,7 +55,9 @@ export const Text: FC<ITextProps> = ({
           onKeyDown={onKeyDown}
         />
       ) : (
-        text
+        <span onClick={onClick} className={cn('text__label', { 'text__label--clickable': editable })}>
+          {text}
+        </span>
       )}
     </span>
   )
