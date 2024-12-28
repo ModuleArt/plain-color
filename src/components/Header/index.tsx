@@ -7,7 +7,7 @@ import './index.scss'
 
 export const Header: FC<PropsWithChildren<IHeaderProps>> = ({ children, leftElement, rightElement, ...props }) => {
   return (
-    <Stack className={cn('header', commonComponentClasses(props))} align="center" title={props.nativeTooltip}>
+    <Stack className={cn('header', commonComponentClasses(props))} align="center">
       <Stack grow justify="start">
         {leftElement}
       </Stack>

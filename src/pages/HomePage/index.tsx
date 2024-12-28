@@ -59,6 +59,7 @@ export const HomePage: FC = () => {
             color={color}
             onDelete={() => colorsStore.removeColor(color.id)}
             onEdit={() => navigate(`/color/${color.id}`)}
+            onDuplicate={() => colorsStore.duplicateColor(color.id)}
             onColorChange={onColorChange}
           />
         ))}

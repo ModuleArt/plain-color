@@ -1,6 +1,6 @@
 use base64::{engine::general_purpose, Engine as _};
 use core_graphics::display::{CGDisplay, CGPoint, CGRect, CGSize};
-use image::{DynamicImage, GenericImageView, ImageFormat, Rgb, RgbImage};
+use image::{DynamicImage, GenericImageView, ImageFormat, Rgb, RgbImage, Rgba};
 use once_cell::sync::Lazy;
 use std::{io::Cursor, sync::Mutex};
 use tauri::{
@@ -17,6 +17,9 @@ static GLOBAL_PICKER_WINDOW: Lazy<Mutex<Option<tauri::WebviewWindow>>> =
     Lazy::new(|| Mutex::new(None));
 
 fn get_display_from_coordinates(x: f64, y: f64) -> Option<CGDisplay> {
+    let valid_x = x.max(0 as f64);
+    let valid_y = y.max(0 as f64);
+
     // Get the active displays (Vec<u32>, each representing a display ID)
     let displays = CGDisplay::active_displays().unwrap();
 
@@ -27,7 +30,7 @@ fn get_display_from_coordinates(x: f64, y: f64) -> Option<CGDisplay> {
         // Get the bounds of the display using the display ID
         let bounds = CGDisplay::bounds(&display);
 
-        let point = CGPoint::new(x, y);
+        let point = CGPoint::new(valid_x, valid_y);
 
         // Check if the point (x, y) is inside the display's bounds
         if bounds.contains(&point) {
@@ -45,10 +48,10 @@ fn capture_screenshot(
     physical_height: f64,
     scale_factor: f64,
 ) -> Option<DynamicImage> {
-    let logical_x = (physical_x / scale_factor).round();
-    let logical_y = (physical_y / scale_factor).round();
-    let logical_width = (physical_width / scale_factor).round();
-    let logical_height = (physical_height / scale_factor).round();
+    let logical_x: f64 = (physical_x / scale_factor).round();
+    let logical_y: f64 = (physical_y / scale_factor).round();
+    let logical_width: f64 = (physical_width / scale_factor).round();
+    let logical_height: f64 = (physical_height / scale_factor).round();
 
     // coordinates with offset in all sides
     let capture_x = logical_x - 1 as f64;
@@ -82,10 +85,9 @@ fn capture_screenshot(
 
                 // Ensure the offset is within the bounds of the data array
                 if offset + 3 < data_len {
-                    let r = data[offset];
+                    let r = data[offset + 2];
                     let g = data[offset + 1];
-                    let b = data[offset + 2];
-                    // Ignore the alpha channel (data[offset + 3])
+                    let b = data[offset];
 
                     // Set the pixel color in the image
                     img.put_pixel(x, y, Rgb([r, g, b]));
@@ -103,13 +105,7 @@ fn capture_screenshot(
 
         let cropped = dynamic_img.crop(crop_x, crop_y, crop_width, crop_height);
 
-        // Save the image to a file (e.g., PNG format)
-        // match img.save("screenshot.png") {
-        //     Ok(_) => println!("Image saved successfully to 'screenshot.png'"),
-        //     Err(e) => println!("Failed to save image: {}", e),
-        // }
-
-        Some(cropped) // Return the captured image
+        Some(cropped)
     } else {
         println!(
             "No display found for coordinates ({}, {})",
@@ -139,7 +135,7 @@ fn get_center_pixel_color(img: DynamicImage) -> Option<(u8, u8, u8)> {
     let pixel = img.get_pixel(center_x - 1, center_y - 1);
 
     // Convert the pixel to RGB and return its color values
-    let image::Rgba([r, g, b, _]) = pixel;
+    let Rgba([r, g, b, _]) = pixel;
     Some((r, g, b))
 }
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/

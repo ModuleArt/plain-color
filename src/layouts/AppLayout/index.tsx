@@ -13,6 +13,7 @@ import { getPlatform } from '@/utils/tauri.util'
 import { Header } from '@/components/Header'
 import { Stack } from '@/components/Stack'
 import { exit } from '@tauri-apps/plugin-process'
+import { generateRandomUuid } from '@/utils/uuid.util'
 
 export const AppLayout: FC = () => {
   const pickerStore = usePickerStore()
@@ -65,7 +66,7 @@ export const AppLayout: FC = () => {
 
         switch (pickerStore.pickerTarget) {
           case 'HOME':
-            colorsStore.addColor({ id: crypto.randomUUID(), label, hex: event.payload })
+            colorsStore.addColor({ id: generateRandomUuid(), label, hex: event.payload })
             break
         }
 

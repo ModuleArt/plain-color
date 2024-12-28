@@ -3,13 +3,13 @@ import { IColorCardProps } from './props'
 import { Stack } from '@/components/Stack'
 import './index.scss'
 import { Button } from '@/components/Button'
-import { Copy, Trash, FloppyDisk, SlidersHorizontal } from '@phosphor-icons/react'
+import { Copy, Trash, FloppyDisk, PencilSimple, PlusSquare } from '@phosphor-icons/react'
 import { Text } from '@/components/Text'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
 import { hexToRgbStr, isDark } from '@/utils/color.util'
 import cn from 'classnames'
 
-export const ColorCard: FC<IColorCardProps> = ({ color, onSave, onDelete, onEdit, onColorChange }) => {
+export const ColorCard: FC<IColorCardProps> = ({ color, onSave, onDelete, onEdit, onDuplicate, onColorChange }) => {
   const [copied, setCopied] = useState('')
 
   const copyHex = () => {
@@ -52,9 +52,30 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onSave, onDelete, onEdit
       <Stack>
         <Text text={color.label} grow editable={!!onColorChange} onTextChange={onLabelChange} />
         <Stack>
-          {onEdit && <Button icon={SlidersHorizontal} variant="clear" size="inline" onClick={() => onEdit()} />}
-          {onSave && <Button icon={FloppyDisk} variant="clear" size="inline" onClick={() => onSave()} />}
-          {onDelete && <Button icon={Trash} variant="clear" size="inline" onClick={() => onDelete()} />}
+          {onEdit && (
+            <Button icon={PencilSimple} variant="clear" size="inline" onClick={() => onEdit()} nativeTooltip="Edit" />
+          )}
+          {onSave && (
+            <Button
+              icon={FloppyDisk}
+              variant="clear"
+              size="inline"
+              onClick={() => onSave()}
+              nativeTooltip="Add to palette"
+            />
+          )}
+          {onDuplicate && (
+            <Button
+              icon={PlusSquare}
+              variant="clear"
+              size="inline"
+              onClick={() => onDuplicate()}
+              nativeTooltip="Duplicate"
+            />
+          )}
+          {onDelete && (
+            <Button icon={Trash} variant="clear" size="inline" onClick={() => onDelete()} nativeTooltip="Delete" />
+          )}
         </Stack>
       </Stack>
       <Stack>

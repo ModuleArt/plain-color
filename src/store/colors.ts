@@ -1,4 +1,5 @@
 import { IColor } from '@/types/color'
+import { generateRandomUuid } from '@/utils/uuid.util'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -7,6 +8,7 @@ interface IColorsState {
   addColor: (color: IColor) => void
   removeColor: (colorId: string) => void
   updateColor: (colorId: string, payload: Omit<IColor, 'id'>) => void
+  duplicateColor: (colorId: string) => void
   clearAllColors: () => void
 }
 
@@ -20,6 +22,17 @@ export const useColorsStore = create<IColorsState>()(
         set((state) => ({
           colors: state.colors.map((color) => (color.id === colorId ? { ...color, ...payload } : color)),
         })),
+      duplicateColor: (colorId) =>
+        set((state) => {
+          const colorToDuplicateIndex = state.colors.findIndex((color) => color.id === colorId)
+          const colorToDuplicate = state.colors[colorToDuplicateIndex]
+          return {
+            colors: state.colors.toSpliced(colorToDuplicateIndex, 0, {
+              ...colorToDuplicate,
+              id: generateRandomUuid(),
+            }),
+          }
+        }),
       clearAllColors: () => set(() => ({ colors: [] })),
     }),
     {

@@ -40,6 +40,7 @@
 - Lense cannot be dragged on top of fullscreen windows
 - Lense is lagging when picking on another screen and virtual desktop
   - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
+- Better user experience with macOS permissions
 - PlainColor process is active after app closed (?)
 
 ##### Palette
@@ -60,8 +61,6 @@
 - Press `C` to copy color instantly (what to copy? - need a setting for this)
 - Control zoom level with `+` and `-` keys
 - Move picker with arrows (step = 1px)
-- Hard to target specific pixel with touchpad, ColorSlurp is much more responsive
-  - Try to use tauri `cursor_position` function to retrieve mouse coordinates
 
 ##### Fun stuff / Quality improvements
 
