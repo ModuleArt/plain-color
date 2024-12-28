@@ -35,12 +35,48 @@
 
 ### Todo
 
+##### v1.0.3
+
+- <b>macOS permissions:</b> Better user experience
+- <b>Settings page:</b>
+
+  - macOS permission status
+  - Select quick copy options
+    - Common:
+      - #HEX/HEXA `#5C2D91`
+      - HEX/HEXA `5C2D91`
+      - RGB/RGBA `92, 45, 145`
+      - RGB/RGBA from 0 to 1 `0,36; 0,18; 0,57`
+      - CMYK % `37, 69, 0, 43`
+      - HSL/HSLA `268, 53, 37`
+      - HSB/HSV `268, 69, 57`
+    - WEB:
+      - 🌐 CSS RGB/RGBA
+      - 🌐 CSS HSL/HSLA
+      - 🌐 CSS Display P3
+    - Native:
+      - 🖥️ NSColor RGB
+      - 🖥️ NSColor HSB
+      - 📱 UIColor RGB
+      - 📱 UIColor HSB
+      - 🐦‍⬛ SwiftUI Color HSB
+      - 🐦‍⬛ Swift Color Literal
+      - 🖥️ Obj-C NSColor Calibrated RGB
+      - 📱 Obj-C UIColor RGB
+      - 🌊 .NET RGB/ARGB
+      - ☕ Java RGB/RGBA
+      - 📱 Android RGB/ARGB
+
+- <b>Lense:</b> Control zoom level with `+` and `-` keys
+- <b>Lense:</b> Move picker with arrows (step = 1px)
+- <b>Lense:</b> Press `C` to copy color instantly (what to copy? - need a setting for this)
+- <b>ColorCard:</b> Checkboard background for alpha colors
+
 ##### Critical
 
 - Lense cannot be dragged on top of fullscreen windows
 - Lense is lagging when picking on another screen and virtual desktop
   - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
-- Better user experience with macOS permissions
 - PlainColor process is active after app closed (?)
 
 ##### Palette
@@ -49,23 +85,15 @@
 - Save color to palette
 - Manage palettes
 
-##### Shortcuts
+##### Shortcuts (?)
 
 - Tray icon
 - Picker shortcut `Command + Shift + M`
-- Instant picker shortcut `Ctrl + Shift + M` (?)
-- Add Settings window
-
-##### Lense improvements
-
-- Press `C` to copy color instantly (what to copy? - need a setting for this)
-- Control zoom level with `+` and `-` keys
-- Move picker with arrows (step = 1px)
+  - Instant picker shortcut `Ctrl + Shift + M` (?)
 
 ##### Fun stuff / Quality improvements
 
 - Add picker sound (Water drop sound)
-- Prepend one color (Use background color)
+- Prepend one color (Use different color on every new release)
 - Prepend default palette (Apple colors)
 - <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
-- ColorCard: Checkboard background for alpha colors
