@@ -8,4 +8,5 @@ export interface IStackProps extends IPlainlibComponentProps<HTMLDivElement> {
   align?: 'start' | 'end' | 'center'
   gap?: 'none' | 'extra-small' | 'small' | 'medium' | 'large'
   padding?: 'none' | 'extra-small' | 'small' | 'medium' | 'large'
+  wrap?: boolean
 }

@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "PlainColor",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "identifier": "com.moduleart.plaincolor",
   "build": {
     "beforeDevCommand": "yarn dev",
@@ -65,6 +65,9 @@
   "bundle": {
     "active": true,
     "targets": "all",
-    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"]
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"],
+    "macOS": {
+      "signingIdentity": "-"
+    }
   }
 }

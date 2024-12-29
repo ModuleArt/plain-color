@@ -41,4 +41,12 @@
     z-index: 1;
     margin: 0;
   }
+
+  &__copy-variants {
+    margin: -0.25rem;
+
+    & > * {
+      padding: 0.25rem;
+    }
+  }
 }

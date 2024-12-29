@@ -57,16 +57,14 @@ export const SettingsPage: FC = () => {
           <Select
             options={copyVariants.map((copyVariant) => ({
               ...copyVariant,
-              description: `Examples: ${formatCopyText(exampleColor, copyVariant.id)} or ${formatCopyText(
-                exampleColorTransparent,
-                copyVariant.id
-              )}`,
+              description: `${formatCopyText(exampleColor, copyVariant.id)}${
+                copyVariant.supportsAlpha ? ` or ${formatCopyText(exampleColorTransparent, copyVariant.id)}` : ''
+              }`,
             }))}
             value={settingsStore.quickCopyVariants}
             onChange={settingsStore.setQuickCopyVariants}
             multiple
           />
-          <Text size="small" tinted text="You can select up to 3 options" />
         </Stack>
         {platform === 'macos' && (
           <Stack dir="vertical" align="start">

@@ -94,11 +94,11 @@ export const ColorCard: FC<IColorCardProps> = ({
         </Stack>
       </Stack>
       <Stack>
-        <Stack grow>
+        <Stack grow wrap gap="none" className="color-card__copy-variants">
           {quickCopyVariants.map((copyVariant) => (
             <Button
               key={copyVariant.id}
-              label={copyVariant.shortLabel}
+              label={copyVariant.label}
               size="inline"
               variant="clear"
               iconPre={Copy}

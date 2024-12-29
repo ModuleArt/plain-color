@@ -12,6 +12,7 @@ export const Stack: FC<PropsWithChildren<IStackProps>> = ({
   align,
   gap = 'small',
   padding = 'none',
+  wrap = false,
   containerRef,
   ...props
 }) => {
@@ -26,6 +27,7 @@ export const Stack: FC<PropsWithChildren<IStackProps>> = ({
         [`stack--padding-${padding}`],
         {
           [`stack--align-${align}`]: align,
+          'stack--wrap': wrap,
         },
         commonComponentClasses(props)
       )}
