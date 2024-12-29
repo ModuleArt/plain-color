@@ -43,9 +43,11 @@
   - Show permission status on the Settings page
 - Add picker sound (Funny mouth sound)
 - ColorCard: Checkboard background for alpha colors
+- ColorCard: Add ability to type HEX value
 
 ### Critical
 
+- Better color wheel: Add inputs for values (hex, rgba, etc.)
 - Lense cannot be dragged on top of fullscreen windows
 - Lense is lagging when picking on another screen and virtual desktop
   - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
