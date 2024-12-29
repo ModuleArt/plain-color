@@ -35,14 +35,21 @@
 
 ## Todo
 
+### v1.0.5
+
+- macOS permission
+  - "Grant" button crashes the app
+  - Ask for permission on app startup if permission is not granted
+  - Show permission status on the Settings page
+- Add picker sound (Funny mouth sound)
+- ColorCard: Checkboard background for alpha colors
+
 ### Critical
 
-- macOS permissions: Better user experience
 - Lense cannot be dragged on top of fullscreen windows
 - Lense is lagging when picking on another screen and virtual desktop
   - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
 - PlainColor process is active after app closed (?)
-- ColorCard: Checkboard background for alpha colors
 
 ### Palette
 
@@ -63,7 +70,6 @@
 
 ### Fun stuff / Quality improvements
 
-- Add picker sound (Water drop sound)
 - Prepend one color (Use different color on every new release)
 - Prepend default palette (Apple colors)
 - <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
