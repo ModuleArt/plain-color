@@ -159,7 +159,7 @@ fn fetch_preview(app: AppHandle, size: u32) {
             app.emit_to(
                 EventTarget::labeled("picker"),
                 "preview_fetched",
-                (img_base64, color),
+                (img_base64, color, size),
             )
             .unwrap();
         }

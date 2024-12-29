@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { WindowTitlebar } from '@/components/WindowTitlebar'
 import { WindowContent } from '@/components/WindowContent'
 import { Outlet } from 'react-router-dom'
@@ -20,6 +20,7 @@ export const AppLayout: FC = () => {
   const colorsStore = useColorsStore()
   const [pickingInterval, setPickingInterval] = useState<NodeJS.Timeout | null>(null)
   const platform = getPlatform()
+  const previewSize = useRef(12) // should be even
 
   useEffect(() => {
     if (pickerStore.isPicking) {
@@ -29,7 +30,8 @@ export const AppLayout: FC = () => {
             pickerWindow.show()
 
             const interval = setInterval(() => {
-              invoke('fetch_preview', { size: 12 }) // should be even
+              console.log('previewSize.current', previewSize.current)
+              invoke('fetch_preview', { size: previewSize.current })
             }, 50)
             setPickingInterval(interval)
           }
@@ -71,6 +73,22 @@ export const AppLayout: FC = () => {
         }
 
         pickerStore.closePicker()
+      })
+    )
+
+    listeners.push(
+      listen<string>('preview_zoom_out', () => {
+        if (previewSize.current < 32) {
+          previewSize.current += 2
+        }
+      })
+    )
+
+    listeners.push(
+      listen<string>('preview_zoom_in', () => {
+        if (previewSize.current > 4) {
+          previewSize.current -= 2
+        }
       })
     )
 

@@ -23,7 +23,7 @@
 
 ## Download
 
-- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.3/PlainColor_1.0.3_aarch64.dmg">macOS: dmg</a>
+- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.4/PlainColor_1.0.4_aarch64.dmg">macOS: dmg</a>
 - Windows: Coming soon...
 - Linux: Coming soon...
 
@@ -35,55 +35,25 @@
 
 ## Todo
 
-### v1.0.4
-
-- Fix: “PlainColor.app” is damaged and can’t be opened
-- macOS permissions: Better user experience
-- More quick copy options
-  - Common:
-    - ✅ #HEX/HEXA `#5C2D91`
-    - ✅ HEX/HEXA `5C2D91`
-    - ✅ RGB/RGBA `92, 45, 145`
-    - RGB/RGBA from 0 to 1 `0,36; 0,18; 0,57`
-    - CMYK % `37, 69, 0, 43`
-    - HSL/HSLA `268, 53, 37`
-    - HSB/HSV `268, 69, 57`
-  - WEB:
-    - ✅ 🌐 CSS RGB/RGBA
-    - 🌐 CSS HSL/HSLA
-    - 🌐 CSS Display P3
-  - Native:
-    - 🖥️ NSColor RGB
-    - 🖥️ NSColor HSB
-    - 📱 UIColor RGB
-    - 📱 UIColor HSB
-    - 🐦‍⬛ SwiftUI Color HSB
-    - 🐦‍⬛ Swift Color Literal
-    - 🖥️ Obj-C NSColor Calibrated RGB
-    - 📱 Obj-C UIColor RGB
-    - 🌊 .NET RGB/ARGB
-    - ☕ Java RGB/RGBA
-    - 📱 Android RGB/ARGB
-- Lense: Control zoom level with `+` and `-` keys
-- Lense: Move picker with arrows (step = 1px) (make sure it cannot be out of screen bounds)
-
-### v1.0.5
-
-- Lense: Press `C` to copy color instantly (what to copy? - need a setting for this)
-- ColorCard: Checkboard background for alpha colors
-
 ### Critical
 
+- macOS permissions: Better user experience
 - Lense cannot be dragged on top of fullscreen windows
 - Lense is lagging when picking on another screen and virtual desktop
   - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
 - PlainColor process is active after app closed (?)
+- ColorCard: Checkboard background for alpha colors
 
 ### Palette
 
 - Palettes tab
 - Save color to palette
 - Manage palettes
+
+### Lense
+
+- Move picker with arrows (step = 1px) (make sure it cannot be out of screen bounds)
+- Press `C` to copy color instantly (what to copy? - need a setting for this)
 
 ### Shortcuts (?)
 
@@ -97,3 +67,21 @@
 - Prepend one color (Use different color on every new release)
 - Prepend default palette (Apple colors)
 - <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
+- More quick copy options
+  - Common:
+    - RGB/RGBA from 0 to 1 `0,36; 0,18; 0,57`
+    - HSB/HSV `268, 69, 57`
+  - WEB:
+    - 🌐 CSS Display P3
+  - Native:
+    - 🖥️ NSColor RGB
+    - 🖥️ NSColor HSB
+    - 📱 UIColor RGB
+    - 📱 UIColor HSB
+    - 🐦‍⬛ SwiftUI Color HSB
+    - 🐦‍⬛ Swift Color Literal
+    - 🖥️ Obj-C NSColor Calibrated RGB
+    - 📱 Obj-C UIColor RGB
+    - 🌊 .NET RGB/ARGB
+    - ☕ Java RGB/RGBA
+    - 📱 Android RGB/ARGB

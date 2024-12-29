@@ -1,11 +1,9 @@
 .picker-layout {
-  $pixel: calc(100% / 11);
-
   position: fixed;
   left: 0;
   top: 0;
-  width: calc(100% + $pixel);
-  height: calc(100% + $pixel);
+  width: calc(100% + var(--pixel));
+  height: calc(100% + var(--pixel));
   cursor: none;
 
   &__image {
@@ -26,17 +24,19 @@
 
   &__color-text {
     &--inverted {
-      color: var(--color_window);
+      * {
+        color: var(--color_window);
+      }
     }
   }
 
   &::after {
     content: '';
     position: fixed;
-    left: calc(50% - calc($pixel / 2));
-    top: calc(50% - calc($pixel / 2));
-    width: $pixel;
-    height: $pixel;
+    left: calc(50% - calc(var(--pixel) / 2));
+    top: calc(50% - calc(var(--pixel) / 2));
+    width: var(--pixel);
+    height: var(--pixel);
     border: var(--size_borderWidth) solid var(--color_text);
     display: block;
     pointer-events: none;
