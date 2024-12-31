@@ -1,13 +1,9 @@
 export const disableDefaultContextMenu = () => {
   document.addEventListener('contextmenu', (event) => {
-    if (event.target) {
-      const target = event.target as any
+    const allowContextMenu = event.target ? (event.target as HTMLElement).closest('[data-allow-context-menu]') : null
 
-      // console.log(target)
-
-      // if (target.nodeName !== 'INPUT' && target.nodeName !== 'TEXTAREA' && target.type !== 'text') {
-      //   event.preventDefault()
-      // }
+    if (!allowContextMenu) {
+      event.preventDefault()
     }
   })
 }

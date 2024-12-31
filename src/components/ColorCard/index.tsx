@@ -12,7 +12,7 @@ import { useSettingsStore } from '@/store/settings.store'
 import { copyVariants, formatCopyText } from '@/utils/copyVariants.util'
 import { ECopyVariant } from '@/types/settings.types'
 import { commonComponentClasses } from '@/lib'
-import { IContextMenuItem, useContextMenuStore } from '@/store/contextMenu.store'
+import { IContextMenuItem, IContextMenuShowMenuProps, useContextMenuStore } from '@/store/contextMenu.store'
 import { usePalettesStore } from '@/store/palettes.store'
 import { useRightClick } from '@/hooks/useRightClick.hook'
 
@@ -36,7 +36,7 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onDelete, onEdit, onDupl
 
   const quickCopyVariants = copyVariants.filter((variant) => settingsStore.quickCopyVariants.includes(variant.id))
 
-  const showOptions = (event: MouseEvent | TouchEvent) => {
+  const showOptions = (menuProps: IContextMenuShowMenuProps) => {
     const menuItems: IContextMenuItem[] = [
       {
         icon: Copy,
@@ -87,12 +87,11 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onDelete, onEdit, onDupl
       })
     }
 
-    contextMenuStore.showMenu({ event }, menuItems)
+    contextMenuStore.showMenu(menuProps, menuItems)
   }
 
   const rightClickRef = useRightClick((event) => {
-    console.log(event)
-    showOptions(event)
+    showOptions({ event, useMousePosition: true })
   })
 
   return (
@@ -115,7 +114,7 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onDelete, onEdit, onDupl
       )}
       <Stack>
         <Text text={color.label} grow editable={!!onColorChange} onTextChange={onLabelChange} />
-        <Button iconPre={DotsThreeOutline} variant="clear" size="inline" onClick={showOptions} />
+        <Button iconPre={DotsThreeOutline} variant="clear" size="inline" onClick={(event) => showOptions({ event })} />
       </Stack>
       <Stack>
         <Stack grow wrap gap="none" className="color-card__copy-variants">

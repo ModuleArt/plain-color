@@ -7,7 +7,8 @@ import { Trash, DotsThreeOutline, PlusSquare } from '@phosphor-icons/react'
 import { Text } from '@/components/Text'
 import cn from 'classnames'
 import { commonComponentClasses } from '@/lib'
-import { useContextMenuStore } from '@/store/contextMenu.store'
+import { IContextMenuShowMenuProps, useContextMenuStore } from '@/store/contextMenu.store'
+import { useRightClick } from '@/hooks/useRightClick.hook'
 
 export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplicate, onPaletteChange, ...props }) => {
   const contextMenuStore = useContextMenuStore()
@@ -20,8 +21,8 @@ export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplic
     .map((color) => color.hex)
     .filter((value, index, array) => array.indexOf(value) === index)
 
-  const showOptions = (event: MouseEvent) => {
-    contextMenuStore.showMenu({ event }, [
+  const showOptions = (menuProps: IContextMenuShowMenuProps) => {
+    contextMenuStore.showMenu(menuProps, [
       {
         icon: PlusSquare,
         label: 'Duplicate',
@@ -35,12 +36,26 @@ export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplic
     ])
   }
 
+  const rightClickRef = useRightClick((event) => {
+    showOptions({ event, useMousePosition: true })
+  })
+
   return (
-    <Stack gap="none" dir="vertical" className={cn('palette-card', commonComponentClasses(props))}>
+    <Stack
+      stackRef={rightClickRef}
+      gap="none"
+      dir="vertical"
+      className={cn('palette-card', commonComponentClasses(props))}
+    >
       <Stack padding="medium">
         <Text text={palette.label} grow editable={!!onPaletteChange} onTextChange={onLabelChange} />
         <Stack>
-          <Button iconPre={DotsThreeOutline} variant="clear" size="inline" onClick={showOptions} />
+          <Button
+            iconPre={DotsThreeOutline}
+            variant="clear"
+            size="inline"
+            onClick={(event) => showOptions({ event })}
+          />
         </Stack>
       </Stack>
       {uniqueColors.length > 0 && (

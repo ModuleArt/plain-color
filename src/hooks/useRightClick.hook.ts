@@ -1,16 +1,31 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 
 export const useRightClick = (handleClick: (event: MouseEvent | TouchEvent) => void) => {
   const ref = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    ref.current?.setAttribute('contextmenu', '')
-    ref.current?.addEventListener('contextmenu', handleClick)
+  const handleContextMenu = useCallback(
+    (event: MouseEvent) => {
+      event.preventDefault()
+      event.stopPropagation()
 
-    return () => {
-      ref.current?.removeEventListener('contextmenu', handleClick)
+      handleClick(event)
+    },
+    [handleClick]
+  )
+
+  useEffect(() => {
+    const element = ref.current
+
+    if (element) {
+      element.setAttribute('data-allow-context-menu', '')
+
+      element.addEventListener('contextmenu', handleContextMenu)
+
+      return () => {
+        element.removeEventListener('contextmenu', handleContextMenu)
+      }
     }
-  }, [])
+  }, [handleContextMenu])
 
   return ref
 }

@@ -23,16 +23,17 @@ export const ContextMenu: FC = () => {
     menuItem.onClick && menuItem.onClick(event)
   }
 
-  const posX = Math.min(window.innerWidth - 208, contextMenuStore.position.x || 0)
+  const posX = Math.min(contextMenuStore.position.x, window.innerWidth - 208)
+  const posY = Math.min(
+    contextMenuStore.position.y,
+    window.innerHeight -
+      (contextMenuStore.menuItems.length > 7 ? 288 : contextMenuStore.menuItems.reduce((prev) => prev + 36, 24))
+  )
 
   if (contextMenuStore.menuItems.length === 0) return null
 
   return (
-    <div
-      ref={clickOutsideRef}
-      className="context-menu"
-      style={{ left: `${posX}px`, top: `${contextMenuStore.position.y}px` }}
-    >
+    <div ref={clickOutsideRef} className="context-menu" style={{ left: `${posX}px`, top: `${posY}px` }}>
       <Stack dir="vertical" padding="small" gap="none" className="context-menu__list">
         {contextMenuStore.menuItems.map((menuItem, index) => (
           <Stack key={index} gap="extra-small" className="context-menu__item" align="center">
