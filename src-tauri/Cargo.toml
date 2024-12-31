@@ -1,6 +1,6 @@
 [package]
 name = "PlainColor"
-version = "1.0.4"
+version = "1.0.5"
 description = "A Tauri App"
 authors = ["Eugene Volynko <volynko.ua@gmail.com>"]
 edition = "2021"
@@ -28,11 +28,10 @@ tauri-plugin-clipboard-manager = "2.0.1"
 base64 = "0.22.1"
 tauri-plugin-os = "2"
 tauri-plugin-process = "2.0.0"
-once_cell = "1.20.2"
 appkit-nsworkspace-bindings = "0.1.2"
 objc = "0.2.7"
 core-graphics = "0.24"
+tauri-nspanel = { git = "https://github.com/ahkohd/tauri-nspanel", branch = "v2" }
 
 [target.'cfg(target_os = "macos")'.dependencies]
 cocoa = "0.26.0"
-

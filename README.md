@@ -23,41 +23,27 @@
 
 ## Download
 
-- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.4/PlainColor_1.0.4_aarch64.dmg">macOS: dmg</a>
+- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.5/PlainColor_1.0.5_aarch64.dmg">macOS: dmg</a>
 - Windows: Coming soon...
 - Linux: Coming soon...
 
 ## Features
 
-- 🔍 Zoomed preview
-- 🎨 Custom palettes - Coming soon...
+- 🔍 Magnifying glass
+- 🎨 Custom palettes
 - 🔲 Contrast checker - Coming soon...
 
 ## Todo
 
-### v1.0.5
+### v1.0.6
 
-- macOS permission
-  - "Grant" button crashes the app
-  - Ask for permission on app startup if permission is not granted
-  - Show permission status on the Settings page
-- Add picker sound (Funny mouth sound)
+- Add ability to open empty palettes
+- Fix: Color name, Palette name white-space
 - ColorCard: Checkboard background for alpha colors
 - ColorCard: Add ability to type HEX value
-
-### Critical
-
-- Better color wheel: Add inputs for values (hex, rgba, etc.)
-- Lense cannot be dragged on top of fullscreen windows
+- Add picker sound (Funny mouth sound)
 - Lense is lagging when picking on another screen and virtual desktop
   - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
-- PlainColor process is active after app closed (?)
-
-### Palette
-
-- Palettes tab
-- Save color to palette
-- Manage palettes
 
 ### Lense
 
@@ -72,7 +58,8 @@
 
 ### Fun stuff / Quality improvements
 
-- Prepend one color (Use different color on every new release)
+- Better color wheel: Add inputs for values (hex, rgba, etc.)
+- <a href="https://icon.kitchen/">New app icon</a>
 - Prepend default palette (Apple colors)
 - <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
 - More quick copy options

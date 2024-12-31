@@ -1,5 +1,7 @@
 import { ECopyVariant } from '@/types/settings.types'
-import { hexToCmykStr, hexToRgbObj, hexToRgbStr, rgbToHslStr } from './color.util'
+import { hexToRgbStr } from './color/rgb.color.util'
+import { hexToCmykStr } from './color/cmyk.color.util'
+import { hexToHslStr } from './color/hsl.color.util'
 
 export const copyVariants = [
   // hex
@@ -45,12 +47,10 @@ export const formatCopyText = (colorHex: string, copyVariant: ECopyVariant) => {
       return hexToCmykStr(colorHex)
     }
     case ECopyVariant.CSS_HSL: {
-      const rgb = hexToRgbObj(colorHex)
-      return rgbToHslStr(rgb.red, rgb.green, rgb.blue, rgb.alpha, true)
+      return hexToHslStr(colorHex, true)
     }
     case ECopyVariant.HSL_COMMA_SEPARATED: {
-      const rgb = hexToRgbObj(colorHex)
-      return rgbToHslStr(rgb.red, rgb.green, rgb.blue, rgb.alpha)
+      return hexToHslStr(colorHex)
     }
   }
 }

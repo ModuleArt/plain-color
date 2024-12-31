@@ -1,0 +1,7 @@
+.icon {
+  pointer-events: none;
+
+  &--tinted {
+    opacity: var(--opacity_tinted);
+  }
+}

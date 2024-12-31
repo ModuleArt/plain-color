@@ -1,0 +1,22 @@
+.palette-card {
+  overflow: hidden;
+  position: relative;
+  border-radius: 0.375rem;
+  background: var(--color_element);
+
+  &__colors {
+    display: flex;
+
+    &:hover {
+      opacity: var(--opacity_tinted);
+    }
+
+    &:active {
+      opacity: calc(var(--opacity_tinted) / 2);
+    }
+  }
+
+  &__color {
+    height: 2rem;
+  }
+}

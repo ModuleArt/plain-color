@@ -3,7 +3,6 @@ import { WindowTitlebar } from '@/components/WindowTitlebar'
 import { WindowContent } from '@/components/WindowContent'
 import { Outlet } from 'react-router-dom'
 import { usePickerStore } from '@/store/picker.store'
-import { invoke } from '@tauri-apps/api/core'
 import { Window } from '@tauri-apps/api/window'
 import { listen, UnlistenFn } from '@tauri-apps/api/event'
 import namer from 'color-namer'
@@ -14,10 +13,15 @@ import { Header } from '@/components/Header'
 import { Stack } from '@/components/Stack'
 import { exit } from '@tauri-apps/plugin-process'
 import { generateRandomUuid } from '@/utils/uuid.util'
+import { disableDefaultContextMenu } from '@/utils/contextMenu.util'
+import { ContextMenu } from '@/components/ContextMenu'
+import { invokeFetchPreview } from '@/utils/cmd/picker.cmd.util'
+import { usePalettesStore } from '@/store/palettes.store'
 
 export const AppLayout: FC = () => {
   const pickerStore = usePickerStore()
   const colorsStore = useColorsStore()
+  const palettesStore = usePalettesStore()
   const [pickingInterval, setPickingInterval] = useState<NodeJS.Timeout | null>(null)
   const platform = getPlatform()
   const previewSize = useRef(12) // should be even
@@ -30,8 +34,7 @@ export const AppLayout: FC = () => {
             pickerWindow.show()
 
             const interval = setInterval(() => {
-              console.log('previewSize.current', previewSize.current)
-              invoke('fetch_preview', { size: previewSize.current })
+              invokeFetchPreview({ size: previewSize.current })
             }, 50)
             setPickingInterval(interval)
           }
@@ -52,7 +55,7 @@ export const AppLayout: FC = () => {
   }, [pickerStore.isPicking])
 
   useEffect(() => {
-    const listeners: Promise<UnlistenFn>[] = []
+    disableDefaultContextMenu()
 
     Window.getByLabel('main').then((mainWindow) => {
       if (mainWindow) {
@@ -61,14 +64,23 @@ export const AppLayout: FC = () => {
         })
       }
     })
+  }, [])
+
+  useEffect(() => {
+    const listeners: Promise<UnlistenFn>[] = []
 
     listeners.push(
       listen<string>('color_picked', (event) => {
         const label = namer(event.payload).ntc[0].name
 
-        switch (pickerStore.pickerTarget) {
+        const newColor = { id: generateRandomUuid(), label, hex: event.payload }
+
+        switch (pickerStore.pickerTarget.target) {
           case 'HOME':
-            colorsStore.addColor({ id: generateRandomUuid(), label, hex: event.payload })
+            colorsStore.addColor(newColor)
+            break
+          case 'PALETTE':
+            palettesStore.addColorToPalette(pickerStore.pickerTarget.paletteId, newColor)
             break
         }
 
@@ -101,7 +113,7 @@ export const AppLayout: FC = () => {
     return () => {
       listeners.map((unlisten) => unlisten.then((f) => f()))
     }
-  }, [])
+  }, [pickerStore.pickerTarget])
 
   return (
     <>
@@ -119,6 +131,7 @@ export const AppLayout: FC = () => {
       <WindowContent>
         <Outlet />
       </WindowContent>
+      <ContextMenu />
     </>
   )
 }

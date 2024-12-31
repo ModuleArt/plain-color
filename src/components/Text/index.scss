@@ -1,4 +1,22 @@
 .text {
+  &--align-left {
+    * {
+      text-align: left;
+    }
+  }
+
+  &--align-center {
+    * {
+      text-align: center;
+    }
+  }
+
+  &--align-right {
+    * {
+      text-align: right;
+    }
+  }
+
   &--tinted {
     opacity: var(--opacity_tinted);
   }
@@ -19,6 +37,7 @@
 
   &__input {
     width: 100%;
+    cursor: text;
   }
 
   &__label {
