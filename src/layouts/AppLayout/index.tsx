@@ -16,10 +16,12 @@ import { generateRandomUuid } from '@/utils/uuid.util'
 import { disableDefaultContextMenu } from '@/utils/contextMenu.util'
 import { ContextMenu } from '@/components/ContextMenu'
 import { invokeFetchPreview } from '@/utils/cmd/picker.cmd.util'
+import { usePalettesStore } from '@/store/palettes.store'
 
 export const AppLayout: FC = () => {
   const pickerStore = usePickerStore()
   const colorsStore = useColorsStore()
+  const palettesStore = usePalettesStore()
   const [pickingInterval, setPickingInterval] = useState<NodeJS.Timeout | null>(null)
   const platform = getPlatform()
   const previewSize = useRef(12) // should be even
@@ -55,8 +57,6 @@ export const AppLayout: FC = () => {
   useEffect(() => {
     disableDefaultContextMenu()
 
-    const listeners: Promise<UnlistenFn>[] = []
-
     Window.getByLabel('main').then((mainWindow) => {
       if (mainWindow) {
         mainWindow.onCloseRequested(() => {
@@ -64,14 +64,23 @@ export const AppLayout: FC = () => {
         })
       }
     })
+  }, [])
+
+  useEffect(() => {
+    const listeners: Promise<UnlistenFn>[] = []
 
     listeners.push(
       listen<string>('color_picked', (event) => {
         const label = namer(event.payload).ntc[0].name
 
-        switch (pickerStore.pickerTarget) {
+        const newColor = { id: generateRandomUuid(), label, hex: event.payload }
+
+        switch (pickerStore.pickerTarget.target) {
           case 'HOME':
-            colorsStore.addColor({ id: generateRandomUuid(), label, hex: event.payload })
+            colorsStore.addColor(newColor)
+            break
+          case 'PALETTE':
+            palettesStore.addColorToPalette(pickerStore.pickerTarget.paletteId, newColor)
             break
         }
 
@@ -104,7 +113,7 @@ export const AppLayout: FC = () => {
     return () => {
       listeners.map((unlisten) => unlisten.then((f) => f()))
     }
-  }, [])
+  }, [pickerStore.pickerTarget])
 
   return (
     <>

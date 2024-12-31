@@ -37,6 +37,7 @@
 
 ### v1.0.6
 
+- Add ability to open empty palettes
 - Fix: Color name, Palette name white-space
 - ColorCard: Checkboard background for alpha colors
 - ColorCard: Add ability to type HEX value

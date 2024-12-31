@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-type TPickerTarget = 'HOME'
+type TPickerTarget = { target: 'HOME' } | { target: 'PALETTE'; paletteId: string }
 
 interface IPickerState {
   isPicking: boolean
@@ -13,5 +13,5 @@ export const usePickerStore = create<IPickerState>()((set) => ({
   isPicking: false,
   openPicker: (pickerTarget) => set(() => ({ isPicking: true, pickerTarget })),
   closePicker: () => set(() => ({ isPicking: false })),
-  pickerTarget: 'HOME',
+  pickerTarget: { target: 'HOME' },
 }))

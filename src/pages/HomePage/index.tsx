@@ -32,7 +32,7 @@ export const HomePage: FC = () => {
   const pickColor = async () => {
     const authorized = await invokeCheckMacosScreenRecordingPermission()
     if (authorized) {
-      pickerStore.openPicker('HOME')
+      pickerStore.openPicker({ target: 'HOME' })
     } else {
       invokeRequestMacosScreenRecordingPermission()
     }
