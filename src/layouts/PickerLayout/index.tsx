@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react'
-import { listen, emitTo, UnlistenFn } from '@tauri-apps/api/event'
+import { listen, UnlistenFn } from '@tauri-apps/api/event'
 import './index.scss'
 import { isDark, rgbToHex } from '@/utils/color'
 import { Text } from '@/components/Text'
@@ -7,13 +7,15 @@ import cn from 'classnames'
 import { Stack } from '@/components/Stack'
 import { Image } from '@/components/Image'
 import { disableDefaultContextMenu } from '@/utils/contextMenu.util'
+import { emitToMain } from '@/utils/emit'
 
 export const PickerLayout: FC = () => {
   const [image, setImage] = useState('')
   const [color, setColor] = useState('000000')
   const [previewSize, setPreviewSize] = useState(1)
+  const [isHoldingShift, setIsHoldingShift] = useState(false)
 
-  const listenHotkeys = (e: KeyboardEvent) => {
+  const listenKeyPress = (e: KeyboardEvent) => {
     switch (e.key) {
       case 'Escape':
         cancel()
@@ -27,6 +29,22 @@ export const PickerLayout: FC = () => {
       case '=':
       case '+':
         zoomIn()
+        break
+    }
+  }
+
+  const listenKeyDown = (e: KeyboardEvent) => {
+    switch (e.key) {
+      case 'Shift':
+        setIsHoldingShift(true)
+        break
+    }
+  }
+
+  const listenKeyUp = (e: KeyboardEvent) => {
+    switch (e.key) {
+      case 'Shift':
+        setIsHoldingShift(false)
         break
     }
   }
@@ -53,28 +71,33 @@ export const PickerLayout: FC = () => {
       })
     )
 
-    document.addEventListener('keypress', listenHotkeys)
+    document.addEventListener('keypress', listenKeyPress)
+    document.addEventListener('keydown', listenKeyDown)
+    document.addEventListener('keyup', listenKeyUp)
 
     return () => {
-      document.removeEventListener('keypress', listenHotkeys)
+      document.removeEventListener('keypress', listenKeyPress)
+      document.removeEventListener('keydown', listenKeyDown)
+      document.removeEventListener('keyup', listenKeyUp)
+
       listeners.map((unlisten) => unlisten.then((f) => f()))
     }
   }, [])
 
   const pickColor = () => {
-    emitTo('main', 'color_picked', color)
+    emitToMain({ cmd: 'color_picked', payload: { color, closePicker: !isHoldingShift } })
   }
 
   const zoomIn = () => {
-    emitTo('main', 'preview_zoom_in')
+    emitToMain({ cmd: 'preview_zoom_in', payload: {} })
   }
 
   const zoomOut = () => {
-    emitTo('main', 'preview_zoom_out')
+    emitToMain({ cmd: 'preview_zoom_out', payload: {} })
   }
 
   const cancel = () => {
-    emitTo('main', 'color_canceled')
+    emitToMain({ cmd: 'color_canceled', payload: {} })
   }
 
   return (

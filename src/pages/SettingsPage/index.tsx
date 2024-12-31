@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { Stack } from '@/components/Stack'
 import { Header } from '@/components/Header'
-import { CaretLeft, QuestionMark } from '@phosphor-icons/react'
+import { CaretLeft, QuestionMark, Keyboard } from '@phosphor-icons/react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/Button'
 import { Text } from '@/components/Text'
@@ -30,6 +30,10 @@ export const SettingsPage: FC = () => {
     navigate('/about')
   }
 
+  const goToKeybindings = () => {
+    navigate('/keybindings')
+  }
+
   useEffect(() => {
     invokeCheckMacosScreenRecordingPermission().then((authorized) => {
       setIsMacosPermissionGranted(authorized)
@@ -46,7 +50,7 @@ export const SettingsPage: FC = () => {
   const exampleColorTransparent = '3D061AED'
 
   return (
-    <Stack dir="vertical" gap="extra-large" grow>
+    <Stack dir="vertical" gap="large" grow>
       <Header
         leftElement={<Button iconPre={CaretLeft} padding="small" onClick={goBack} nativeTooltip="Back" />}
         rightElement={
@@ -56,9 +60,11 @@ export const SettingsPage: FC = () => {
         <Text text="Settings" />
       </Header>
       <Stack dir="vertical" gap="extra-large" grow padding="medium">
-        <Stack dir="vertical">
-          <Text text="Quick Copy" />
-          <Text text="Choose which copy options are shown directly on the color card" size="small" tinted />
+        <Stack dir="vertical" gap="extra-small">
+          <Stack dir="vertical">
+            <Text text="Quick Copy" />
+            <Text text="Choose which copy options are shown directly on the color card" size="small" tinted />
+          </Stack>
           <Select
             options={copyVariants.map((copyVariant) => ({
               ...copyVariant,
@@ -72,13 +78,15 @@ export const SettingsPage: FC = () => {
           />
         </Stack>
         {platform === 'macos' && !isMacosPermissionStatusLoading && (
-          <Stack dir="vertical" align="start">
-            <Text text="Screen Recording Permission" />
-            <Text
-              text="This permission is required to allow the magnifying glass to capture the screen"
-              size="small"
-              tinted
-            />
+          <Stack dir="vertical" gap="extra-small" align="start">
+            <Stack dir="vertical" align="start">
+              <Text text="Screen Recording Permission" />
+              <Text
+                text="This permission is required to allow the magnifying glass to capture the screen"
+                size="small"
+                tinted
+              />
+            </Stack>
             {isMacosPermissionGranted ? (
               <Text text="Granted" />
             ) : (
@@ -86,6 +94,9 @@ export const SettingsPage: FC = () => {
             )}
           </Stack>
         )}
+        <Stack dir="vertical" align="start">
+          <Button iconPre={Keyboard} label="Key Bindings" padding="medium" onClick={goToKeybindings} />
+        </Stack>
       </Stack>
     </Stack>
   )
