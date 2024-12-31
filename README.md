@@ -29,8 +29,8 @@
 
 ## Features
 
-- 🔍 Zoomed preview
-- 🎨 Custom palettes - Coming soon...
+- 🔍 Magnifying glass
+- 🎨 Custom palettes
 - 🔲 Contrast checker - Coming soon...
 
 ## Todo
@@ -53,12 +53,6 @@
   - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
 - PlainColor process is active after app closed (?)
 
-### Palette
-
-- Palettes tab
-- Save color to palette
-- Manage palettes
-
 ### Lense
 
 - Move picker with arrows (step = 1px) (make sure it cannot be out of screen bounds)
@@ -73,7 +67,6 @@
 ### Fun stuff / Quality improvements
 
 - <a href="https://icon.kitchen/">New app icon</a>
-- Prepend one color (Use different color on every new release)
 - Prepend default palette (Apple colors)
 - <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
 - More quick copy options

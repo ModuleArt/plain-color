@@ -28,7 +28,7 @@ export const PaletteCard: FC<IPaletteCardProps> = ({
     .filter((value, index, array) => array.indexOf(value) === index)
 
   const showOptions = (event: MouseEvent) => {
-    contextMenuStore.showMenu({ x: event.clientX, y: event.clientY }, [
+    contextMenuStore.showMenu({ event }, [
       {
         icon: PlusSquare,
         label: 'Duplicate',

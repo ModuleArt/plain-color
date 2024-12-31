@@ -3,7 +3,7 @@ import { IColorCardProps } from './props'
 import { Stack } from '@/components/Stack'
 import './index.scss'
 import { Button } from '@/components/Button'
-import { Copy, Trash, FloppyDisk, PencilSimple, PlusSquare, DotsThreeOutline } from '@phosphor-icons/react'
+import { Copy, Trash, FloppyDisk, PencilSimple, PlusSquare, DotsThreeOutline, Palette } from '@phosphor-icons/react'
 import { Text } from '@/components/Text'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
 import { isDark } from '@/utils/color'
@@ -44,7 +44,17 @@ export const ColorCard: FC<IColorCardProps> = ({
   const quickCopyVariants = copyVariants.filter((variant) => settingsStore.quickCopyVariants.includes(variant.id))
 
   const showOptions = (event: MouseEvent) => {
-    const menuItems: IContextMenuItem[] = []
+    const menuItems: IContextMenuItem[] = [
+      {
+        icon: Copy,
+        label: 'Copy',
+        subMenuItems: copyVariants.map((copyVariant) => ({
+          icon: Copy,
+          label: copyVariant.label,
+          onClick: () => copy(copyVariant.id),
+        })),
+      },
+    ]
 
     if (onEdit) {
       menuItems.push({
@@ -59,6 +69,7 @@ export const ColorCard: FC<IColorCardProps> = ({
         icon: FloppyDisk,
         label: 'Save to palette',
         subMenuItems: palettesStore.palettes.map((palette) => ({
+          icon: Palette,
           label: palette.label,
           onClick: () => {
             palettesStore.addColorToPalette(palette.id, color)
@@ -83,7 +94,7 @@ export const ColorCard: FC<IColorCardProps> = ({
       })
     }
 
-    contextMenuStore.showMenu({ x: event.clientX, y: event.clientY }, menuItems)
+    contextMenuStore.showMenu({ event }, menuItems)
   }
 
   return (

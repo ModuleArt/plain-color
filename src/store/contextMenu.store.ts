@@ -3,8 +3,9 @@ import { Icon } from '@phosphor-icons/react'
 import { MouseEvent } from 'react'
 
 export interface IContextMenuPosition {
-  x: number
-  y: number
+  x?: number
+  y?: number
+  event?: MouseEvent
 }
 
 export interface IContextMenuItem {
@@ -25,7 +26,14 @@ interface IContextMenuState {
 export const useContextMenuStore = create<IContextMenuState>()((set) => ({
   position: { x: 0, y: 0 },
   menuItems: [],
-  showMenu: (position, menuItems) => set((state) => ({ ...state, position, menuItems })),
+  showMenu: (position, menuItems) =>
+    set((state) => {
+      if (position.event) {
+        const el = (position.event.target as HTMLDivElement).getBoundingClientRect()
+        return { ...state, position: { x: el.top, y: el.bottom }, menuItems }
+      }
+      return { ...state, position: { x: position.x || 0, y: position.y || 0 }, menuItems }
+    }),
   hideMenu: () => set((state) => ({ ...state, position: { x: 0, y: 0 }, menuItems: [] })),
   replaceMenuItems: (menuItems) => set((state) => ({ ...state, menuItems })),
 }))

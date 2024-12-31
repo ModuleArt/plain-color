@@ -65,7 +65,7 @@ export const SettingsPage: FC = () => {
             onChange={settingsStore.setQuickCopyVariants}
             multiple
           />
-          <Text text="Choose which copy options are shown on the color card" size="small" tinted />
+          <Text text="Choose which copy options are shown directly on the color card" size="small" tinted />
         </Stack>
         {platform === 'macos' && (
           <Stack dir="vertical" align="start">

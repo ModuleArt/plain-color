@@ -15,7 +15,7 @@ interface IColorsState {
 export const useColorsStore = create<IColorsState>()(
   persist(
     (set) => ({
-      colors: [],
+      colors: [{ id: 'default', label: 'Mine Shaft', hex: '2c2c2c' }],
       addColor: (color) => set((state) => ({ colors: [color, ...state.colors] })),
       removeColor: (colorId) => set((state) => ({ colors: state.colors.filter((color) => color.id !== colorId) })),
       updateColor: (colorId, payload) =>
