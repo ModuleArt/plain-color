@@ -1,4 +1,4 @@
-import { hexToRgbObj } from './rgb.util'
+import { hexToRgbObj } from './rgb.color.util'
 
 export interface TColorHsl {
   hue: number

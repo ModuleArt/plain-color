@@ -6,7 +6,7 @@ export interface IStackProps extends IPlainlibComponentProps {
   style?: CSSProperties
   justify?: 'start' | 'end' | 'center' | 'between'
   align?: 'start' | 'end' | 'center'
-  gap?: 'none' | 'extra-small' | 'small' | 'medium' | 'large'
+  gap?: 'none' | 'extra-small' | 'small' | 'medium' | 'large' | 'extra-large'
   padding?: 'none' | 'extra-small' | 'small' | 'medium' | 'large'
   wrap?: boolean
   stackRef?: RefObject<HTMLDivElement>

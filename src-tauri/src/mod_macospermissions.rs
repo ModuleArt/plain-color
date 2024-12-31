@@ -1,17 +1,18 @@
+use core_graphics::access::ScreenCaptureAccess;
 use objc::runtime::{Class, Object};
 use objc::{msg_send, sel, sel_impl};
 use std::ffi::CString;
 use std::process::Command;
 
-extern "C" {
-    fn CGPreflightScreenCaptureAccess() -> bool;
-}
-
 pub fn check_macos_screen_recording_permission() -> bool {
-    unsafe { CGPreflightScreenCaptureAccess() }
+    return ScreenCaptureAccess.preflight();
 }
 
-pub fn request_macos_screen_recording_permission() {
+pub fn request_macos_screen_recording_permission() -> bool {
+    return ScreenCaptureAccess.request();
+}
+
+pub fn open_macos_screen_recording_settings() {
     unsafe {
         // Step 1: Get NSWorkspace class
         let ns_workspace_class = Class::get("NSWorkspace").expect("NSWorkspace class not found");

@@ -3,7 +3,6 @@ import { WindowTitlebar } from '@/components/WindowTitlebar'
 import { WindowContent } from '@/components/WindowContent'
 import { Outlet } from 'react-router-dom'
 import { usePickerStore } from '@/store/picker.store'
-import { invoke } from '@tauri-apps/api/core'
 import { Window } from '@tauri-apps/api/window'
 import { listen, UnlistenFn } from '@tauri-apps/api/event'
 import namer from 'color-namer'
@@ -16,6 +15,7 @@ import { exit } from '@tauri-apps/plugin-process'
 import { generateRandomUuid } from '@/utils/uuid.util'
 import { disableDefaultContextMenu } from '@/utils/contextMenu.util'
 import { ContextMenu } from '@/components/ContextMenu'
+import { invokeFetchPreview } from '@/utils/cmd/picker.cmd.util'
 
 export const AppLayout: FC = () => {
   const pickerStore = usePickerStore()
@@ -32,7 +32,7 @@ export const AppLayout: FC = () => {
             pickerWindow.show()
 
             const interval = setInterval(() => {
-              invoke('fetch_preview', { size: previewSize.current })
+              invokeFetchPreview({ size: previewSize.current })
             }, 50)
             setPickingInterval(interval)
           }

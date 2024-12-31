@@ -73,6 +73,16 @@
         }
       }
     }
+
+    &.stack--gap-extra-large {
+      & > * {
+        margin-right: 2rem;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
   }
 
   &--vertical {
@@ -111,6 +121,16 @@
     &.stack--gap-large {
       & > * {
         margin-bottom: 1rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    &.stack--gap-extra-large {
+      & > * {
+        margin-bottom: 2rem;
 
         &:last-child {
           margin-bottom: 0;

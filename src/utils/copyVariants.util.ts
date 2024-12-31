@@ -1,7 +1,7 @@
 import { ECopyVariant } from '@/types/settings.types'
-import { hexToRgbStr } from './color/rgb.util'
-import { hexToCmykStr } from './color/cmyk.util'
-import { hexToHslStr } from './color/hsl.util'
+import { hexToRgbStr } from './color/rgb.color.util'
+import { hexToCmykStr } from './color/cmyk.color.util'
+import { hexToHslStr } from './color/hsl.color.util'
 
 export const copyVariants = [
   // hex

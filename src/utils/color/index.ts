@@ -1,6 +1,6 @@
 import rgbHex from 'rgb-hex'
 import { colorIsDark } from 'color-is-dark'
-import { hexToRgbObj } from './rgb.util'
+import { hexToRgbObj } from './rgb.color.util'
 
 export const defaultColor = '2c2c2c'
 
