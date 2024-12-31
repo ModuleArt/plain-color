@@ -1,0 +1,10 @@
+.palette-card {
+  overflow: hidden;
+  position: relative;
+  border-radius: 0.375rem;
+  background: var(--color_element);
+
+  &__color {
+    height: 2rem;
+  }
+}

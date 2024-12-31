@@ -1,21 +1,22 @@
-import { FC, useState } from 'react'
+import { FC, useState, MouseEvent } from 'react'
 import { IColorCardProps } from './props'
 import { Stack } from '@/components/Stack'
 import './index.scss'
 import { Button } from '@/components/Button'
-import { Copy, Trash, FloppyDisk, PencilSimple, PlusSquare } from '@phosphor-icons/react'
+import { Copy, Trash, FloppyDisk, PencilSimple, PlusSquare, DotsThreeOutline } from '@phosphor-icons/react'
 import { Text } from '@/components/Text'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
-import { isDark } from '@/utils/color.util'
+import { isDark } from '@/utils/color'
 import cn from 'classnames'
 import { useSettingsStore } from '@/store/settings.store'
 import { copyVariants, formatCopyText } from '@/utils/copyVariants.util'
 import { ECopyVariant } from '@/types/settings.types'
 import { commonComponentClasses } from '@/lib'
+import { IContextMenuItem, useContextMenuStore } from '@/store/contextMenu.store'
+import { usePalettesStore } from '@/store/palettes.store'
 
 export const ColorCard: FC<IColorCardProps> = ({
   color,
-  onSave,
   onDelete,
   onEdit,
   onDuplicate,
@@ -25,6 +26,8 @@ export const ColorCard: FC<IColorCardProps> = ({
 }) => {
   const [copied, setCopied] = useState('')
   const settingsStore = useSettingsStore()
+  const contextMenuStore = useContextMenuStore()
+  const palettesStore = usePalettesStore()
 
   const copy = (copyVariant: ECopyVariant) => {
     const text = formatCopyText(color.hex, copyVariant)
@@ -39,6 +42,49 @@ export const ColorCard: FC<IColorCardProps> = ({
   }
 
   const quickCopyVariants = copyVariants.filter((variant) => settingsStore.quickCopyVariants.includes(variant.id))
+
+  const showOptions = (event: MouseEvent) => {
+    const menuItems: IContextMenuItem[] = []
+
+    if (onEdit) {
+      menuItems.push({
+        icon: PencilSimple,
+        label: 'Edit',
+        onClick: onEdit,
+      })
+    }
+
+    if (palettesStore.palettes.length) {
+      menuItems.push({
+        icon: FloppyDisk,
+        label: 'Save to palette',
+        subMenuItems: palettesStore.palettes.map((palette) => ({
+          label: palette.label,
+          onClick: () => {
+            palettesStore.addColorToPalette(palette.id, color)
+          },
+        })),
+      })
+    }
+
+    if (onDuplicate) {
+      menuItems.push({
+        icon: PlusSquare,
+        label: 'Duplicate',
+        onClick: onDuplicate,
+      })
+    }
+
+    if (onDelete) {
+      menuItems.push({
+        icon: Trash,
+        label: 'Delete',
+        onClick: onDelete,
+      })
+    }
+
+    contextMenuStore.showMenu({ x: event.clientX, y: event.clientY }, menuItems)
+  }
 
   return (
     <Stack
@@ -60,38 +106,9 @@ export const ColorCard: FC<IColorCardProps> = ({
       )}
       <Stack>
         <Text text={color.label} grow editable={!!onColorChange} onTextChange={onLabelChange} />
-        <Stack>
-          {onEdit && (
-            <Button
-              iconPre={PencilSimple}
-              variant="clear"
-              size="inline"
-              onClick={() => onEdit()}
-              nativeTooltip="Edit"
-            />
-          )}
-          {onSave && (
-            <Button
-              iconPre={FloppyDisk}
-              variant="clear"
-              size="inline"
-              onClick={() => onSave()}
-              nativeTooltip="Add to palette"
-            />
-          )}
-          {onDuplicate && (
-            <Button
-              iconPre={PlusSquare}
-              variant="clear"
-              size="inline"
-              onClick={() => onDuplicate()}
-              nativeTooltip="Duplicate"
-            />
-          )}
-          {onDelete && (
-            <Button iconPre={Trash} variant="clear" size="inline" onClick={() => onDelete()} nativeTooltip="Delete" />
-          )}
-        </Stack>
+        {(onEdit || onDuplicate || onDelete || palettesStore.palettes.length) && (
+          <Button iconPre={DotsThreeOutline} variant="clear" size="inline" onClick={showOptions} />
+        )}
       </Stack>
       <Stack>
         <Stack grow wrap gap="none" className="color-card__copy-variants">

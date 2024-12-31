@@ -16,7 +16,7 @@ export const ColorPage: FC = () => {
     colorsStore.colors.find((color) => color.id === params.id) || {
       id: generateRandomUuid(),
       label: 'New Color',
-      hex: 'ff1500',
+      hex: '851723',
     }
   )
 

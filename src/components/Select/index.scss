@@ -9,14 +9,11 @@
     z-index: 1;
     background: var(--color_window);
     border-radius: 0.375rem;
+    max-height: 242px;
+    overflow-y: auto;
   }
 
-  &__option {
-    display: flex;
-    flex-direction: column;
-  }
-
-  &__option-button {
-    white-space: nowrap;
+  &__option-description {
+    padding: 0 0.5rem;
   }
 }

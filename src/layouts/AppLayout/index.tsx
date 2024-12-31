@@ -14,6 +14,8 @@ import { Header } from '@/components/Header'
 import { Stack } from '@/components/Stack'
 import { exit } from '@tauri-apps/plugin-process'
 import { generateRandomUuid } from '@/utils/uuid.util'
+import { disableDefaultContextMenu } from '@/utils/contextMenu.util'
+import { ContextMenu } from '@/components/ContextMenu'
 
 export const AppLayout: FC = () => {
   const pickerStore = usePickerStore()
@@ -30,7 +32,6 @@ export const AppLayout: FC = () => {
             pickerWindow.show()
 
             const interval = setInterval(() => {
-              console.log('previewSize.current', previewSize.current)
               invoke('fetch_preview', { size: previewSize.current })
             }, 50)
             setPickingInterval(interval)
@@ -52,6 +53,8 @@ export const AppLayout: FC = () => {
   }, [pickerStore.isPicking])
 
   useEffect(() => {
+    disableDefaultContextMenu()
+
     const listeners: Promise<UnlistenFn>[] = []
 
     Window.getByLabel('main').then((mainWindow) => {
@@ -119,6 +122,7 @@ export const AppLayout: FC = () => {
       <WindowContent>
         <Outlet />
       </WindowContent>
+      <ContextMenu />
     </>
   )
 }

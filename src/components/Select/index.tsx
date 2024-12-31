@@ -53,27 +53,30 @@ export const Select = <T extends string | number>({
         tinted={isOpened}
       />
       {isOpened && (
-        <Stack className="select__options" dir="vertical" padding="small" containerRef={clickOutsideRef}>
-          {options.map((option) => {
-            const isSelected = !!selectedOptions.find((o) => o.id === option.id)
-            return (
-              <Stack key={option.id} dir="vertical" gap="extra-small" className="select__option">
-                <Button
-                  className="select__option-button"
-                  label={option.label}
-                  onClick={() => onOptionClick(option)}
-                  justify="start"
-                  padding="medium"
-                  iconPre={isSelected ? CheckCircle : Circle}
-                  tinted={!isSelected}
-                />
-                {option.description && (
-                  <Text size="small" className="select__option-description" tinted text={option.description} />
-                )}
-              </Stack>
-            )
-          })}
-        </Stack>
+        <div className="select__options" ref={clickOutsideRef}>
+          <Stack dir="vertical" padding="small">
+            {options.map((option) => {
+              const isSelected = !!selectedOptions.find((o) => o.id === option.id)
+              return (
+                <Stack key={option.id} dir="vertical" gap="none" className="select__option">
+                  <Button
+                    variant="clear"
+                    className="select__option-button"
+                    label={option.label}
+                    onClick={() => onOptionClick(option)}
+                    justify="start"
+                    padding="small"
+                    iconPre={isSelected ? CheckCircle : Circle}
+                    tinted={!isSelected}
+                  />
+                  {option.description && (
+                    <Text size="small" className="select__option-description" tinted text={option.description} />
+                  )}
+                </Stack>
+              )
+            })}
+          </Stack>
+        </div>
       )}
     </div>
   )

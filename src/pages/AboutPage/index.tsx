@@ -30,7 +30,7 @@ export const AboutPage: FC = () => {
 
   return (
     <Stack dir="vertical" gap="none" grow>
-      <Header leftElement={<Button iconPre={CaretLeft} variant="clear" onClick={goBack} nativeTooltip="Back" />}>
+      <Header leftElement={<Button iconPre={CaretLeft} padding="small" onClick={goBack} nativeTooltip="Back" />}>
         <Text text="About" />
       </Header>
       <Stack dir="vertical" gap="none" grow>

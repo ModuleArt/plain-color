@@ -1,11 +1,12 @@
 import { FC, useEffect, useState } from 'react'
 import { listen, emitTo, UnlistenFn } from '@tauri-apps/api/event'
 import './index.scss'
-import { isDark, rgbToHex } from '@/utils/color.util'
+import { isDark, rgbToHex } from '@/utils/color'
 import { Text } from '@/components/Text'
 import cn from 'classnames'
 import { Stack } from '@/components/Stack'
 import { Image } from '@/components/Image'
+import { disableDefaultContextMenu } from '@/utils/contextMenu.util'
 
 export const PickerLayout: FC = () => {
   const [image, setImage] = useState('')
@@ -31,6 +32,8 @@ export const PickerLayout: FC = () => {
   }
 
   useEffect(() => {
+    disableDefaultContextMenu()
+
     const listeners: Promise<UnlistenFn>[] = []
 
     listeners.push(

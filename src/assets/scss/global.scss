@@ -15,12 +15,12 @@
   font-weight: 400;
   box-sizing: border-box;
   user-select: none;
+  overscroll-behavior-y: none;
 }
 
 html,
 body {
   background: var(--color_bg);
-  overscroll-behavior: none;
   height: 100%;
   overflow-x: hidden;
 }

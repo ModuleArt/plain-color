@@ -18,6 +18,10 @@ export const Button: FC<IButtonProps> = ({
   justify = 'center',
   maxWidth = 0,
   textWrap = false,
+  growLabel = false,
+  tintedLabel = false,
+  tintedIconPre = false,
+  tintedIconPost = false,
   containerRef,
   ...props
 }) => {
@@ -36,13 +40,17 @@ export const Button: FC<IButtonProps> = ({
         },
         commonComponentClasses(props)
       )}
-      onClick={() => onClick && onClick()}
+      onClick={(e) => onClick && onClick(e)}
       title={props.nativeTooltip}
       style={{ maxWidth: maxWidth ? `${maxWidth}px` : '100%' }}
     >
-      {iconPre && <div className="button__icon button__icon--pre">{<Icon icon={iconPre} />}</div>}
-      {label && <Text className="button__label" text={label} />}
-      {iconPost && <div className="button__icon button__icon--post">{<Icon icon={iconPost} />}</div>}
+      {iconPre && (
+        <div className="button__icon button__icon--pre">{<Icon tinted={tintedIconPre} icon={iconPre} />}</div>
+      )}
+      {label && <Text tinted={tintedLabel} grow={growLabel} className="button__label" text={label} />}
+      {iconPost && (
+        <div className="button__icon button__icon--post">{<Icon tinted={tintedIconPost} icon={iconPost} />}</div>
+      )}
     </button>
   )
 }

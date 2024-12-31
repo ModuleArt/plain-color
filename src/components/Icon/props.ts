@@ -5,4 +5,5 @@ export interface IIconProps extends IPlainlibComponentProps<null> {
   icon: Icon
   width?: number
   height?: number
+  tinted?: boolean
 }

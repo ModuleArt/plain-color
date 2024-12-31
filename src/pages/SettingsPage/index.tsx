@@ -20,7 +20,7 @@ export const SettingsPage: FC = () => {
   const platform = getPlatform()
   const [isMacosPermissionGranted, setIsMacosPermissionGranted] = useState(false)
 
-  const goHome = () => {
+  const goBack = () => {
     navigate('/')
   }
 
@@ -44,9 +44,9 @@ export const SettingsPage: FC = () => {
   return (
     <Stack dir="vertical" gap="medium" grow>
       <Header
-        leftElement={<Button iconPre={CaretLeft} variant="clear" onClick={goHome} nativeTooltip="Back" />}
+        leftElement={<Button iconPre={CaretLeft} padding="small" onClick={goBack} nativeTooltip="Back" />}
         rightElement={
-          <Button iconPre={QuestionMark} variant="clear" onClick={goToAbout} nativeTooltip="About the app" />
+          <Button iconPre={QuestionMark} padding="small" onClick={goToAbout} nativeTooltip="About the app" />
         }
       >
         <Text text="Settings" />
@@ -65,10 +65,11 @@ export const SettingsPage: FC = () => {
             onChange={settingsStore.setQuickCopyVariants}
             multiple
           />
+          <Text text="Choose which copy options are shown on the color card" size="small" tinted />
         </Stack>
         {platform === 'macos' && (
           <Stack dir="vertical" align="start">
-            <Text text="Accessibility Permissions" tinted />
+            <Text text="Screen Recording Permission" tinted />
             {isMacosPermissionGranted ? (
               <Text text="Granted" />
             ) : (

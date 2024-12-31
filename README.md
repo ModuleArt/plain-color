@@ -23,7 +23,7 @@
 
 ## Download
 
-- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.4/PlainColor_1.0.4_aarch64.dmg">macOS: dmg</a>
+- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.5/PlainColor_1.0.5_aarch64.dmg">macOS: dmg</a>
 - Windows: Coming soon...
 - Linux: Coming soon...
 
@@ -72,6 +72,7 @@
 
 ### Fun stuff / Quality improvements
 
+- <a href="https://icon.kitchen/">New app icon</a>
 - Prepend one color (Use different color on every new release)
 - Prepend default palette (Apple colors)
 - <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
