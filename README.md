@@ -35,23 +35,21 @@
 
 ## Todo
 
-### v1.0.5
+### v1.0.5, what is left:
 
 - macOS permission
-  - "Grant" button crashes the app
+  - Apply macOS permission
   - Ask for permission on app startup if permission is not granted
   - Show permission status on the Settings page
-- Add picker sound (Funny mouth sound)
+- Add Palette page
+
+### v1.0.6
+
 - ColorCard: Checkboard background for alpha colors
 - ColorCard: Add ability to type HEX value
-
-### Critical
-
-- Better color wheel: Add inputs for values (hex, rgba, etc.)
-- Lense cannot be dragged on top of fullscreen windows
+- Add picker sound (Funny mouth sound)
 - Lense is lagging when picking on another screen and virtual desktop
   - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
-- PlainColor process is active after app closed (?)
 
 ### Lense
 
@@ -66,6 +64,7 @@
 
 ### Fun stuff / Quality improvements
 
+- Better color wheel: Add inputs for values (hex, rgba, etc.)
 - <a href="https://icon.kitchen/">New app icon</a>
 - Prepend default palette (Apple colors)
 - <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>

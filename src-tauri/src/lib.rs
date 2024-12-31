@@ -2,10 +2,10 @@ mod display;
 mod macospermissions;
 
 use base64::{engine::general_purpose, Engine as _};
+use cocoa::appkit::{NSMainMenuWindowLevel, NSWindowCollectionBehavior};
 use core_graphics::display::{CGPoint, CGRect, CGSize};
 use image::{DynamicImage, GenericImageView, ImageFormat, Rgb, RgbImage, Rgba};
-use once_cell::sync::Lazy;
-use std::{io::Cursor, sync::Mutex};
+use std::io::Cursor;
 use tauri::{
     menu::{Menu, PredefinedMenuItem, Submenu},
     // tray::TrayIconBuilder,
@@ -15,9 +15,10 @@ use tauri::{
     Manager,
     PhysicalPosition,
 };
+use tauri_nspanel::WebviewWindowExt;
 
-static GLOBAL_PICKER_WINDOW: Lazy<Mutex<Option<tauri::WebviewWindow>>> =
-    Lazy::new(|| Mutex::new(None));
+#[allow(non_upper_case_globals)]
+const NSWindowStyleMaskNonActivatingPanel: i32 = 1 << 7;
 
 fn capture_screenshot(
     physical_x: f64,
@@ -205,6 +206,7 @@ pub fn run() {
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_clipboard_manager::init())
+        .plugin(tauri_nspanel::init())
         .invoke_handler(tauri::generate_handler![
             fetch_preview,
             check_macos_screen_recording_permission,
@@ -212,103 +214,23 @@ pub fn run() {
         ])
         .setup(|app| {
             #[cfg(target_os = "macos")]
-            app.set_activation_policy(tauri::ActivationPolicy::Accessory);
+            // app.set_activation_policy(tauri::ActivationPolicy::Accessory);
+            let picker_window = app.get_webview_window("picker").unwrap();
 
-            let picker_window: tauri::WebviewWindow = app.get_webview_window("picker").unwrap();
-            let mut global_picker_screen = GLOBAL_PICKER_WINDOW
-                .lock()
-                .expect("Failed to lock GLOBAL_PICKER_WINDOW");
-            *global_picker_screen = Some(picker_window.clone());
+            let picker_panel = picker_window.to_panel().unwrap();
 
-            // configure macOS window behavior
-            #[cfg(target_os = "macos")]
-            {
-                use appkit_nsworkspace_bindings::{
-                    INSNotificationCenter, INSWorkspace, NSWorkspace,
-                    NSWorkspaceActiveSpaceDidChangeNotification,
-                };
-                use cocoa::{
-                    appkit::{
-                        NSMainMenuWindowLevel, NSWindow, NSWindowCollectionBehavior,
-                        NSWindowStyleMask,
-                    },
-                    base::{id, nil},
-                    foundation::NSPoint,
-                };
-                use objc::declare::ClassDecl;
-                use objc::runtime::{Object, Sel};
-                use objc::{class, msg_send, sel, sel_impl};
+            // Set a higher level
+            picker_panel.set_level(NSMainMenuWindowLevel + 1);
 
-                let ns_win = picker_window.ns_window().unwrap() as id;
+            // Prevents your panel from activating the owing application
+            picker_panel.set_style_mask(NSWindowStyleMaskNonActivatingPanel);
 
-                unsafe {
-                    // ns_win.makeKeyAndOrderFront_(nil);
-                    ns_win.setLevel_(((NSMainMenuWindowLevel + 1) as u64).try_into().unwrap());
-                    // ns_win.setCanHide_(false);
-                    // ns_win.setCollectionBehavior_(
-                    //     NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces
-                    //     | NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary,
-                    // );
-
-                    extern "C" fn notify_space_changed(
-                        _self: &Object,
-                        _cmd: Sel,
-                        _notification: *mut Object,
-                    ) {
-                        println!("Received application launch notification");
-
-                        let global_picker_window = GLOBAL_PICKER_WINDOW
-                            .lock()
-                            .expect("Failed to lock GLOBAL_PICKER_WINDOW");
-                        if let Some(picker_window) = &*global_picker_window {
-                            let ns_win = picker_window.ns_window().unwrap() as id;
-
-                            unsafe {
-                                println!("Hooray!");
-
-                                // NSWindowCollectionBehavior::NSWindowCollectionBehaviorMoveToActiveSpace
-                                // NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary
-                                // NSWindowCollectionBehaviorStationary
-                                // NSWindowCollectionBehaviorIgnoresCycle
-                                // NSWindowCollectionBehaviorCanJoinAllSpaces
-
-                                // ns_win.setLevel_(((NSMainMenuWindowLevel + 1) as u64).try_into().unwrap());
-                                // ns_win.setStyleMask_(NSWindowStyleMask::NSBorderlessWindowMask);
-                                // ns_win.setCollectionBehavior_(
-                                //     NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces
-                                //     | NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary,
-                                // );
-                                // ns_win.orderFrontRegardless();
-
-                                // ns_win.setLevel_(((NSMainMenuWindowLevel + 1) as u64).try_into().unwrap());
-                                // ns_win.setCanHide_(false);
-                                // ns_win.setCollectionBehavior_(
-                                //     NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces
-                                //     | NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary,
-                                // );
-                            }
-                        }
-                    }
-
-                    let mut class_decl = ClassDecl::new("RustObserver", class!(NSObject)).unwrap();
-                    class_decl.add_method(
-                        sel!(notify_space_changed:),
-                        notify_space_changed as extern "C" fn(&Object, Sel, *mut Object),
-                    );
-                    let observer_class = class_decl.register();
-                    let observer: *mut Object = msg_send![observer_class, new];
-                    let name = NSWorkspaceActiveSpaceDidChangeNotification;
-
-                    NSWorkspace::sharedWorkspace()
-                        .notificationCenter()
-                        .addObserver_selector_name_object_(
-                            observer,
-                            sel!(notify_space_changed:),
-                            name,
-                            nil,
-                        );
-                }
-            }
+            // Allow your panel to join fullscreen spaces; you can tweak this configuration
+            picker_panel.set_collection_behaviour(
+                NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces
+                    | NSWindowCollectionBehavior::NSWindowCollectionBehaviorStationary
+                    | NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary,
+            );
 
             //     let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
             //     let menu = Menu::with_items(app, &[&quit_i])?;

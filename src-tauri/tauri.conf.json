@@ -54,8 +54,7 @@
         "visibleOnAllWorkspaces": true,
         "fullscreen": false,
         "skipTaskbar": true,
-        "alwaysOnTop": true,
-        "windowEffects": { "effects": ["fullScreenUI", "hudWindow"] }
+        "alwaysOnTop": true
       }
     ],
     "security": {
