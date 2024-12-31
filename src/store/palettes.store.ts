@@ -11,6 +11,9 @@ interface IColorsState {
   updatePalette: (paletteId: string, payload: Omit<IPalette, 'id'>) => void
   duplicatePalette: (paletteId: string) => void
   addColorToPalette: (paletteId: string, payload: Omit<IColor, 'id'>) => void
+  removeColorFromPalette: (paletteId: string, colorId: string) => void
+  duplicateColorInPalette: (paletteId: string, colorId: string) => void
+  updateColorInPalette: (paletteId: string, colorId: string, payload: Omit<IColor, 'id'>) => void
 }
 
 export const usePalettesStore = create<IColorsState>()(
@@ -40,6 +43,40 @@ export const usePalettesStore = create<IColorsState>()(
           palettes: state.palettes.map((palette) =>
             palette.id === paletteId
               ? { ...palette, colors: [{ ...payload, id: generateRandomUuid() }, ...palette.colors] }
+              : palette
+          ),
+        })),
+      removeColorFromPalette: (paletteId, colorId) =>
+        set((state) => ({
+          palettes: state.palettes.map((palette) =>
+            palette.id === paletteId
+              ? { ...palette, colors: palette.colors.filter((color) => color.id !== colorId) }
+              : palette
+          ),
+        })),
+      duplicateColorInPalette: (paletteId, colorId) =>
+        set((state) => ({
+          palettes: state.palettes.map((palette) => {
+            if (palette.id !== paletteId) return palette
+            const colorToDuplicateIndex = palette.colors.findIndex((color) => color.id === colorId)
+            const colorToDuplicate = palette.colors[colorToDuplicateIndex]
+            return {
+              ...palette,
+              colors: palette.colors.toSpliced(colorToDuplicateIndex, 0, {
+                ...colorToDuplicate,
+                id: generateRandomUuid(),
+              }),
+            }
+          }),
+        })),
+      updateColorInPalette: (paletteId, colorId, payload) =>
+        set((state) => ({
+          palettes: state.palettes.map((palette) =>
+            palette.id === paletteId
+              ? {
+                  ...palette,
+                  colors: palette.colors.map((color) => (color.id === colorId ? { ...color, ...payload } : color)),
+                }
               : palette
           ),
         })),

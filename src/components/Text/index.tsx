@@ -11,6 +11,7 @@ export const Text: FC<ITextProps> = ({
   editable = false,
   onTextChange,
   size = 'regular',
+  align = 'left',
   textRef,
   ...props
 }) => {
@@ -41,6 +42,7 @@ export const Text: FC<ITextProps> = ({
       ref={textRef}
       className={cn(
         'text',
+        [`text--align-${align}`],
         [`text--transform-${transform}`],
         [`text--size-${size}`],
         { 'text--tinted': tinted },

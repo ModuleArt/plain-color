@@ -9,4 +9,5 @@ export interface ITextProps extends IPlainlibComponentProps {
   onTextChange?: (text: string) => void
   size?: 'regular' | 'small'
   textRef?: RefObject<HTMLSpanElement>
+  align?: 'left' | 'center' | 'right'
 }

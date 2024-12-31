@@ -35,16 +35,9 @@
 
 ## Todo
 
-### v1.0.5, what is left:
-
-- macOS permission
-  - Apply macOS permission
-  - Ask for permission on app startup if permission is not granted
-  - Show permission status on the Settings page
-- Add Palette page
-
 ### v1.0.6
 
+- Fix: Color name, Palette name white-space
 - ColorCard: Checkboard background for alpha colors
 - ColorCard: Add ability to type HEX value
 - Add picker sound (Funny mouth sound)

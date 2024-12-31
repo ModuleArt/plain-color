@@ -1,4 +1,22 @@
 .text {
+  &--align-left {
+    * {
+      text-align: left;
+    }
+  }
+
+  &--align-center {
+    * {
+      text-align: center;
+    }
+  }
+
+  &--align-right {
+    * {
+      text-align: right;
+    }
+  }
+
   &--tinted {
     opacity: var(--opacity_tinted);
   }
@@ -23,8 +41,6 @@
   }
 
   &__label {
-    text-align: left;
-
     &--clickable {
       cursor: text;
 
