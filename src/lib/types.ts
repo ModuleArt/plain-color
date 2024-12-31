@@ -1,8 +1,5 @@
-import { RefObject } from 'react'
-
-export interface IPlainlibComponentProps<T> {
+export interface IPlainlibComponentProps {
   pointerEvents?: 'enable' | 'disable'
   grow?: boolean
   className?: string
-  containerRef?: RefObject<T>
 }

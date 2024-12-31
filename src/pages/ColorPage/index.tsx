@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from '@/components/Button'
 import { ColorPicker } from '@/components/ColorPicker'
 import { generateRandomUuid } from '@/utils/uuid.util'
+import { defaultColor } from '@/utils/color'
 
 export const ColorPage: FC = () => {
   const params = useParams<{ id: string }>()
@@ -16,7 +17,7 @@ export const ColorPage: FC = () => {
     colorsStore.colors.find((color) => color.id === params.id) || {
       id: generateRandomUuid(),
       label: 'New Color',
-      hex: '851723',
+      hex: defaultColor,
     }
   )
 

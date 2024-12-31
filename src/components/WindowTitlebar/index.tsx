@@ -12,7 +12,6 @@ export const WindowTitlebar: FC<PropsWithChildren<IWindowTitlebarProps>> = ({
   color = 'window',
   leftIndent = 0,
   windowControls = false,
-  containerRef,
   ...props
 }) => {
   const onClose = () => {
@@ -33,7 +32,6 @@ export const WindowTitlebar: FC<PropsWithChildren<IWindowTitlebarProps>> = ({
 
   return (
     <div
-      ref={containerRef}
       data-tauri-drag-region
       className={cn('window-titlebar', [`window-titlebar--color-${color}`], commonComponentClasses(props))}
       style={{ paddingLeft: `${leftIndent}px` }}

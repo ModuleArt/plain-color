@@ -1,11 +1,10 @@
 import { IPlainlibComponentProps } from '@/lib/types'
 import { IColor } from '@/types/color.types'
-import { MouseEvent } from 'react'
 
-export interface IColorCardProps extends IPlainlibComponentProps<HTMLDivElement> {
+export interface IColorCardProps extends IPlainlibComponentProps {
   color: IColor
-  onDelete?: (event: MouseEvent<HTMLButtonElement>) => void
-  onEdit?: (event: MouseEvent<HTMLButtonElement>) => void
-  onDuplicate?: (event: MouseEvent<HTMLButtonElement>) => void
+  onDelete?: (event: MouseEvent) => void
+  onEdit?: (event: MouseEvent) => void
+  onDuplicate?: (event: MouseEvent) => void
   onColorChange?: (color: IColor) => void
 }

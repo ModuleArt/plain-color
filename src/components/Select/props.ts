@@ -6,7 +6,7 @@ export interface ISelectOption<T> {
   description?: string
 }
 
-export interface ISelectProps<T> extends IPlainlibComponentProps<HTMLDivElement> {
+export interface ISelectProps<T> extends IPlainlibComponentProps {
   options?: ISelectOption<T>[]
   value?: T[]
   onChange?: (optionIds: T[]) => void

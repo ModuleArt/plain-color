@@ -1,4 +1,4 @@
-import { FC, MouseEvent } from 'react'
+import { FC } from 'react'
 import { IPaletteCardProps } from './props'
 import { Stack } from '@/components/Stack'
 import './index.scss'
@@ -9,14 +9,7 @@ import cn from 'classnames'
 import { commonComponentClasses } from '@/lib'
 import { useContextMenuStore } from '@/store/contextMenu.store'
 
-export const PaletteCard: FC<IPaletteCardProps> = ({
-  palette,
-  onDelete,
-  onDuplicate,
-  onPaletteChange,
-  containerRef,
-  ...props
-}) => {
+export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplicate, onPaletteChange, ...props }) => {
   const contextMenuStore = useContextMenuStore()
 
   const onLabelChange = (label: string) => {
@@ -43,12 +36,7 @@ export const PaletteCard: FC<IPaletteCardProps> = ({
   }
 
   return (
-    <Stack
-      containerRef={containerRef}
-      gap="none"
-      dir="vertical"
-      className={cn('palette-card', commonComponentClasses(props))}
-    >
+    <Stack gap="none" dir="vertical" className={cn('palette-card', commonComponentClasses(props))}>
       <Stack padding="medium">
         <Text text={palette.label} grow editable={!!onPaletteChange} onTextChange={onLabelChange} />
         <Stack>

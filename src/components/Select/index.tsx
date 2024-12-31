@@ -15,7 +15,6 @@ export const Select = <T extends string | number>({
   onChange,
   maxWidth,
   multiple = false,
-  containerRef,
   ...props
 }: ISelectProps<T>) => {
   const [isOpened, setIsOpened] = useState(false)
@@ -41,7 +40,7 @@ export const Select = <T extends string | number>({
   })
 
   return (
-    <div ref={containerRef} className={cn('select', commonComponentClasses(props))}>
+    <div className={cn('select', commonComponentClasses(props))}>
       <Button
         className="select__button"
         label={selectedOptions.map((option) => option.label).join(', ') || 'None'}

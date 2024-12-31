@@ -11,7 +11,7 @@ export const Text: FC<ITextProps> = ({
   editable = false,
   onTextChange,
   size = 'regular',
-  containerRef,
+  textRef,
   ...props
 }) => {
   const [isEditing, setIsEditing] = useState(false)
@@ -38,7 +38,7 @@ export const Text: FC<ITextProps> = ({
 
   return (
     <span
-      ref={containerRef}
+      ref={textRef}
       className={cn(
         'text',
         [`text--transform-${transform}`],

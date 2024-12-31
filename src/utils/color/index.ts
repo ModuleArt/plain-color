@@ -2,6 +2,8 @@ import rgbHex from 'rgb-hex'
 import { colorIsDark } from 'color-is-dark'
 import { hexToRgbObj } from './rgb.util'
 
+export const defaultColor = '2c2c2c'
+
 export type TColorRgb =
   | `rgb(${string},${string},${string})`
   | `rgba(${string},${string},${string},${string})`

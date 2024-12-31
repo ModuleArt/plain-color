@@ -22,12 +22,12 @@ export const Button: FC<IButtonProps> = ({
   tintedLabel = false,
   tintedIconPre = false,
   tintedIconPost = false,
-  containerRef,
+  buttonRef,
   ...props
 }) => {
   return (
     <button
-      ref={containerRef}
+      ref={buttonRef}
       className={cn(
         'button',
         [`button--variant-${variant}`],
@@ -40,7 +40,7 @@ export const Button: FC<IButtonProps> = ({
         },
         commonComponentClasses(props)
       )}
-      onClick={(e) => onClick && onClick(e)}
+      onClick={(e) => onClick && onClick(e.nativeEvent)}
       title={props.nativeTooltip}
       style={{ maxWidth: maxWidth ? `${maxWidth}px` : '100%' }}
     >

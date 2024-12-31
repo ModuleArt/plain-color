@@ -5,15 +5,9 @@ import cn from 'classnames'
 import { commonComponentClasses } from '@/lib'
 import './index.scss'
 
-export const Header: FC<PropsWithChildren<IHeaderProps>> = ({
-  children,
-  leftElement,
-  rightElement,
-  containerRef,
-  ...props
-}) => {
+export const Header: FC<PropsWithChildren<IHeaderProps>> = ({ children, leftElement, rightElement, ...props }) => {
   return (
-    <Stack containerRef={containerRef} className={cn('header', commonComponentClasses(props))} align="center">
+    <Stack className={cn('header', commonComponentClasses(props))} align="center">
       <Stack grow justify="start">
         {leftElement}
       </Stack>

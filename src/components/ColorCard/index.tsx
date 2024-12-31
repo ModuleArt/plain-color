@@ -1,4 +1,4 @@
-import { FC, useState, MouseEvent } from 'react'
+import { FC, useState } from 'react'
 import { IColorCardProps } from './props'
 import { Stack } from '@/components/Stack'
 import './index.scss'
@@ -14,16 +14,9 @@ import { ECopyVariant } from '@/types/settings.types'
 import { commonComponentClasses } from '@/lib'
 import { IContextMenuItem, useContextMenuStore } from '@/store/contextMenu.store'
 import { usePalettesStore } from '@/store/palettes.store'
+import { useRightClick } from '@/hooks/useRightClick.hook'
 
-export const ColorCard: FC<IColorCardProps> = ({
-  color,
-  onDelete,
-  onEdit,
-  onDuplicate,
-  onColorChange,
-  containerRef,
-  ...props
-}) => {
+export const ColorCard: FC<IColorCardProps> = ({ color, onDelete, onEdit, onDuplicate, onColorChange, ...props }) => {
   const [copied, setCopied] = useState('')
   const settingsStore = useSettingsStore()
   const contextMenuStore = useContextMenuStore()
@@ -43,7 +36,7 @@ export const ColorCard: FC<IColorCardProps> = ({
 
   const quickCopyVariants = copyVariants.filter((variant) => settingsStore.quickCopyVariants.includes(variant.id))
 
-  const showOptions = (event: MouseEvent) => {
+  const showOptions = (event: MouseEvent | TouchEvent) => {
     const menuItems: IContextMenuItem[] = [
       {
         icon: Copy,
@@ -97,9 +90,14 @@ export const ColorCard: FC<IColorCardProps> = ({
     contextMenuStore.showMenu({ event }, menuItems)
   }
 
+  const rightClickRef = useRightClick((event) => {
+    console.log(event)
+    showOptions(event)
+  })
+
   return (
     <Stack
-      containerRef={containerRef}
+      stackRef={rightClickRef}
       dir="vertical"
       className={cn('color-card', { 'color-card--inverted': !isDark(color.hex) }, commonComponentClasses(props))}
       style={{ background: `#${color.hex}` }}
@@ -117,9 +115,7 @@ export const ColorCard: FC<IColorCardProps> = ({
       )}
       <Stack>
         <Text text={color.label} grow editable={!!onColorChange} onTextChange={onLabelChange} />
-        {(onEdit || onDuplicate || onDelete || palettesStore.palettes.length) && (
-          <Button iconPre={DotsThreeOutline} variant="clear" size="inline" onClick={showOptions} />
-        )}
+        <Button iconPre={DotsThreeOutline} variant="clear" size="inline" onClick={showOptions} />
       </Stack>
       <Stack>
         <Stack grow wrap gap="none" className="color-card__copy-variants">
@@ -136,7 +132,7 @@ export const ColorCard: FC<IColorCardProps> = ({
             />
           ))}
         </Stack>
-        <Text text={color.hex} tinted transform="uppercase" />
+        <Text text={color.hex} tinted transform="uppercase" pointerEvents="disable" />
       </Stack>
     </Stack>
   )

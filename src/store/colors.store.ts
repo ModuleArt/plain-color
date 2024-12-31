@@ -1,4 +1,5 @@
 import { IColor } from '@/types/color.types'
+import { defaultColor } from '@/utils/color'
 import { generateRandomUuid } from '@/utils/uuid.util'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
@@ -15,7 +16,7 @@ interface IColorsState {
 export const useColorsStore = create<IColorsState>()(
   persist(
     (set) => ({
-      colors: [{ id: 'default', label: 'Mine Shaft', hex: '2c2c2c' }],
+      colors: [{ id: 'default', label: 'Mine Shaft', hex: defaultColor }],
       addColor: (color) => set((state) => ({ colors: [color, ...state.colors] })),
       removeColor: (colorId) => set((state) => ({ colors: state.colors.filter((color) => color.id !== colorId) })),
       updateColor: (colorId, payload) =>

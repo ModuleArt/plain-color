@@ -1,24 +1,25 @@
 import { create } from 'zustand'
 import { Icon } from '@phosphor-icons/react'
-import { MouseEvent } from 'react'
 
 export interface IContextMenuPosition {
-  x?: number
-  y?: number
-  event?: MouseEvent
+  x: number
+  y: number
 }
 
 export interface IContextMenuItem {
   icon?: Icon
   label: string
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void
+  onClick?: (event: MouseEvent) => void
   subMenuItems?: IContextMenuItem[]
 }
 
 interface IContextMenuState {
   position: IContextMenuPosition
   menuItems: IContextMenuItem[]
-  showMenu: (position: IContextMenuPosition, menuItems: IContextMenuItem[]) => void
+  showMenu: (
+    position: { x?: number; y?: number; event: MouseEvent | TouchEvent },
+    menuItems: IContextMenuItem[]
+  ) => void
   hideMenu: () => void
   replaceMenuItems: (menuItems: IContextMenuItem[]) => void
 }

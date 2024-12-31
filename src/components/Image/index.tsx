@@ -3,10 +3,9 @@ import { IImageProps } from './props'
 import cn from 'classnames'
 import { commonComponentClasses } from '@/lib'
 
-export const Image: FC<IImageProps> = ({ src, width, height, containerRef, ...props }) => {
+export const Image: FC<IImageProps> = ({ src, width, height, ...props }) => {
   return (
     <img
-      ref={containerRef}
       draggable={false}
       src={src}
       width={width}

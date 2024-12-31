@@ -3,9 +3,11 @@ export const disableDefaultContextMenu = () => {
     if (event.target) {
       const target = event.target as any
 
-      if (target.nodeName !== 'INPUT' && target.nodeName !== 'TEXTAREA' && target.type !== 'text') {
-        event.preventDefault()
-      }
+      // console.log(target)
+
+      // if (target.nodeName !== 'INPUT' && target.nodeName !== 'TEXTAREA' && target.type !== 'text') {
+      //   event.preventDefault()
+      // }
     }
   })
 }

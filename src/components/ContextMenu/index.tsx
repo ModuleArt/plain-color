@@ -1,4 +1,4 @@
-import { FC, MouseEvent } from 'react'
+import { FC } from 'react'
 import { Stack } from '@/components/Stack'
 import { Button } from '@/components/Button'
 import { IContextMenuItem, useContextMenuStore } from '@/store/contextMenu.store'
@@ -13,7 +13,7 @@ export const ContextMenu: FC = () => {
     contextMenuStore.hideMenu()
   })
 
-  const onMenuItemClick = (event: MouseEvent<HTMLButtonElement>, menuItem: IContextMenuItem) => {
+  const onMenuItemClick = (event: MouseEvent, menuItem: IContextMenuItem) => {
     if (menuItem.subMenuItems) {
       contextMenuStore.replaceMenuItems(menuItem.subMenuItems)
     } else {
@@ -23,7 +23,7 @@ export const ContextMenu: FC = () => {
     menuItem.onClick && menuItem.onClick(event)
   }
 
-  const posX = Math.min(window.innerWidth - 208, contextMenuStore.position.x)
+  const posX = Math.min(window.innerWidth - 208, contextMenuStore.position.x || 0)
 
   if (contextMenuStore.menuItems.length === 0) return null
 
