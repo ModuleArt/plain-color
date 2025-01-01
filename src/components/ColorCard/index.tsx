@@ -23,11 +23,13 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onDelete, onEdit, onDupl
   const palettesStore = usePalettesStore()
 
   const copy = (copyVariant: ECopyVariant) => {
-    const text = formatCopyText(color.hex, copyVariant)
-    writeText(text)
+    if (!copied) {
+      const text = formatCopyText(color.hex, copyVariant)
+      writeText(text)
 
-    setCopied(text)
-    setTimeout(() => setCopied(''), 1000)
+      setCopied(text)
+      setTimeout(() => setCopied(''), 1000)
+    }
   }
 
   const onLabelChange = (label: string) => {

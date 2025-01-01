@@ -10,27 +10,8 @@
     }
   }
 
-  @keyframes keyframes_color-card_copied-overlay {
-    0% {
-      opacity: 0;
-      transform: scale(2);
-    }
-    25% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    75% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(1);
-    }
-  }
-
   &__copied-overlay {
-    animation-name: keyframes_color-card_copied-overlay;
+    animation-name: keyframes_copiedOverlay;
     animation-duration: 1000ms;
     animation-fill-mode: forwards;
     position: absolute;

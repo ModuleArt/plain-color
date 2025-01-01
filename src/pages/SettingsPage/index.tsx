@@ -77,6 +77,22 @@ export const SettingsPage: FC = () => {
             multiple
           />
         </Stack>
+        <Stack dir="vertical" gap="extra-small">
+          <Stack dir="vertical">
+            <Text text="Primary Copy Option" />
+            <Text text="Choose which copy option will be used by default" size="small" tinted />
+          </Stack>
+          <Select
+            options={copyVariants.map((copyVariant) => ({
+              ...copyVariant,
+              description: `${formatCopyText(exampleColor, copyVariant.id)}${
+                copyVariant.supportsAlpha ? ` or ${formatCopyText(exampleColorTransparent, copyVariant.id)}` : ''
+              }`,
+            }))}
+            value={[settingsStore.defaultCopyVariant]}
+            onChange={(options) => settingsStore.setDefaultCopyVariant(options[0])}
+          />
+        </Stack>
         {platform === 'macos' && !isMacosPermissionStatusLoading && (
           <Stack dir="vertical" gap="extra-small" align="start">
             <Stack dir="vertical" align="start">

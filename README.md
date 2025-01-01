@@ -35,20 +35,22 @@
 
 ## Todo
 
-### v1.0.6
+### v1.0.6 (what's left)
 
-- Add ability to open empty palettes
+- Press `C` to copy color instantly (what to copy? - need a setting for this)
+- Lense is lagging when picking on another screen and virtual desktop
+  - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
+
+### v1.0.7
+
 - Fix: Color name, Palette name white-space
 - ColorCard: Checkboard background for alpha colors
 - ColorCard: Add ability to type HEX value
 - Add picker sound (Funny mouth sound)
-- Lense is lagging when picking on another screen and virtual desktop
-  - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
 
 ### Lense
 
 - Move picker with arrows (step = 1px) (make sure it cannot be out of screen bounds)
-- Press `C` to copy color instantly (what to copy? - need a setting for this)
 
 ### Shortcuts (?)
 
