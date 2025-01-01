@@ -1,5 +1,6 @@
 mod mod_commands;
 mod mod_display;
+mod mod_globalvars;
 mod mod_image;
 mod mod_macospermissions;
 mod mod_pickerloop;
@@ -17,6 +18,8 @@ const NSWindowStyleMaskNonActivatingPanel: i32 = 1 << 7;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    mod_globalvars::initialize_global_vars();
+
     let loop_state =
         std::sync::Arc::new(tokio::sync::Mutex::new(mod_pickerloop::LoopState::default()));
 
@@ -49,6 +52,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             mod_commands::start_picker_loop,
             mod_commands::stop_picker_loop,
+            mod_commands::set_picker_preview_size,
             mod_commands::check_macos_screen_recording_permission,
             mod_commands::request_macos_screen_recording_permission,
             mod_commands::open_macos_screen_recording_settings,

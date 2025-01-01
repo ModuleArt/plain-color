@@ -7,6 +7,8 @@ interface ISettingsState {
   setQuickCopyVariants: (quickCopyVariants: ECopyVariant[]) => void
   defaultCopyVariant: ECopyVariant
   setDefaultCopyVariant: (defaultCopyVariant: ECopyVariant) => void
+  pickerPreviewSize: number
+  setPickerPreviewSize: (pickerPreviewSize: number) => void
 }
 
 export const useSettingsStore = create<ISettingsState>()(
@@ -16,6 +18,8 @@ export const useSettingsStore = create<ISettingsState>()(
       setQuickCopyVariants: (quickCopyVariants) => set(() => ({ quickCopyVariants })),
       defaultCopyVariant: ECopyVariant.HEX_WITH_SHARP,
       setDefaultCopyVariant: (defaultCopyVariant) => set(() => ({ defaultCopyVariant })),
+      pickerPreviewSize: 12,
+      setPickerPreviewSize: (pickerPreviewSize) => set(() => ({ pickerPreviewSize })),
     }),
     {
       name: 'PlainColor_settings',

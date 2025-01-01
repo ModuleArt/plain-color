@@ -9,9 +9,8 @@ use std::sync::Arc;
 pub fn start_picker_loop(
     app: tauri::AppHandle,
     state: tauri::State<'_, Arc<tokio::sync::Mutex<mod_pickerloop::LoopState>>>,
-    size: u32,
 ) {
-    mod_pickerloop::start_picker_loop(app, state, size);
+    mod_pickerloop::start_picker_loop(app, state);
 }
 
 #[tauri::command]
@@ -20,6 +19,15 @@ pub fn stop_picker_loop(
     state: tauri::State<'_, Arc<tokio::sync::Mutex<mod_pickerloop::LoopState>>>,
 ) {
     mod_pickerloop::stop_picker_loop(app, state);
+}
+
+#[tauri::command]
+pub fn set_picker_preview_size(
+    app: tauri::AppHandle,
+    state: tauri::State<'_, Arc<tokio::sync::Mutex<mod_pickerloop::LoopState>>>,
+    size: u32,
+) {
+    mod_pickerloop::set_picker_preview_size(app, state, size);
 }
 
 #[tauri::command]

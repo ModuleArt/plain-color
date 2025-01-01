@@ -105,7 +105,7 @@ export const PickerLayout: FC = () => {
   }
 
   const cancel = () => {
-    emitToMain({ cmd: 'color_canceled', payload: {} })
+    emitToMain({ cmd: 'preview_canceled', payload: {} })
   }
 
   return (

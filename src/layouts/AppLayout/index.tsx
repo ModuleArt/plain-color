@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { WindowTitlebar } from '@/components/WindowTitlebar'
 import { WindowContent } from '@/components/WindowContent'
 import { Outlet } from 'react-router-dom'
@@ -15,7 +15,7 @@ import { exit } from '@tauri-apps/plugin-process'
 import { generateRandomUuid } from '@/utils/uuid.util'
 import { disableDefaultContextMenu } from '@/utils/contextMenu.util'
 import { ContextMenu } from '@/components/ContextMenu'
-import { invokeStartPickerLoop, invokeStopPickerLoop } from '@/utils/cmd/picker.cmd.util'
+import { invokeSetPickerPreviewSize, invokeStartPickerLoop, invokeStopPickerLoop } from '@/utils/cmd/picker.cmd.util'
 import { usePalettesStore } from '@/store/palettes.store'
 import { listenInMain } from '@/utils/emit'
 import { formatCopyText } from '@/utils/copyVariants.util'
@@ -29,7 +29,6 @@ export const AppLayout: FC = () => {
   const settingsStore = useSettingsStore()
   const [isPickerLoopActive, setIsPickerLoopActive] = useState(false)
   const platform = getPlatform()
-  const previewSize = useRef(12) // should be even
 
   useEffect(() => {
     if (pickerStore.isPicking) {
@@ -39,7 +38,7 @@ export const AppLayout: FC = () => {
             pickerWindow.show()
 
             setIsPickerLoopActive(true)
-            invokeStartPickerLoop({ size: previewSize.current })
+            invokeStartPickerLoop()
           }
         })
       }
@@ -56,6 +55,10 @@ export const AppLayout: FC = () => {
       }
     }
   }, [pickerStore.isPicking])
+
+  useEffect(() => {
+    invokeSetPickerPreviewSize({ size: settingsStore.pickerPreviewSize })
+  }, [settingsStore.pickerPreviewSize])
 
   useEffect(() => {
     disableDefaultContextMenu()
@@ -100,22 +103,22 @@ export const AppLayout: FC = () => {
 
     listeners.push(
       listenInMain('preview_zoom_out', () => {
-        if (previewSize.current < 32) {
-          previewSize.current += 2
+        if (settingsStore.pickerPreviewSize < 32) {
+          settingsStore.setPickerPreviewSize(settingsStore.pickerPreviewSize + 2)
         }
       })
     )
 
     listeners.push(
       listenInMain('preview_zoom_in', () => {
-        if (previewSize.current > 4) {
-          previewSize.current -= 2
+        if (settingsStore.pickerPreviewSize > 4) {
+          settingsStore.setPickerPreviewSize(settingsStore.pickerPreviewSize - 2)
         }
       })
     )
 
     listeners.push(
-      listenInMain('color_canceled', () => {
+      listenInMain('preview_canceled', () => {
         pickerStore.closePicker()
       })
     )
@@ -123,7 +126,7 @@ export const AppLayout: FC = () => {
     return () => {
       listeners.map((unlisten) => unlisten.then((f) => f()))
     }
-  }, [pickerStore.pickerTarget, settingsStore.defaultCopyVariant])
+  }, [pickerStore.pickerTarget, settingsStore.defaultCopyVariant, settingsStore.pickerPreviewSize])
 
   return (
     <>

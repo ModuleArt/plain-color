@@ -7,6 +7,7 @@ import { Button } from '@/components/Button'
 import { Text } from '@/components/Text'
 import { app } from '@tauri-apps/api'
 import { Image } from '@/components/Image'
+import { open } from '@tauri-apps/plugin-shell'
 
 export const AboutPage: FC = () => {
   const navigate = useNavigate()

@@ -67,6 +67,7 @@ export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplic
     >
       {copied && (
         <Stack
+          padding="medium"
           justify="center"
           align="center"
           dir="vertical"
@@ -75,7 +76,7 @@ export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplic
           })}
           style={{ background: `#${copied.colorHex}` }}
         >
-          <Text text={copied.text} />
+          <Text align="center" text={copied.text} />
         </Stack>
       )}
       <Stack padding="medium">

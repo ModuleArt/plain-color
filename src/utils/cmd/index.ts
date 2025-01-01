@@ -3,6 +3,7 @@ import { invoke, InvokeArgs } from '@tauri-apps/api/core'
 export type TInvokeCmd =
   | 'start_picker_loop'
   | 'stop_picker_loop'
+  | 'set_picker_preview_size'
   | 'check_macos_screen_recording_permission'
   | 'request_macos_screen_recording_permission'
   | 'open_macos_screen_recording_settings'

@@ -1,3 +1,4 @@
+use crate::mod_globalvars;
 use crate::mod_image;
 use crate::mod_screenshot;
 
@@ -16,7 +17,6 @@ pub struct LoopState {
 pub fn start_picker_loop(
     app: tauri::AppHandle,
     state: tauri::State<'_, Arc<tokio::sync::Mutex<LoopState>>>,
-    size: u32,
 ) {
     let state = state.inner().clone();
     tauri::async_runtime::spawn(async move {
@@ -35,8 +35,9 @@ pub fn start_picker_loop(
             println!("Picker loop has started");
 
             while running.load(Ordering::Relaxed) {
+                let preview_size = mod_globalvars::get_preview_size();
                 let win = app_handle.get_webview_window("picker").unwrap();
-                let res = process_loop_tick(win, size);
+                let res = process_loop_tick(win, preview_size);
 
                 app_handle
                     .emit_to(
@@ -81,6 +82,14 @@ pub fn stop_picker_loop(
             handle.await.expect("Failed to stop the loop task");
         }
     });
+}
+
+pub fn set_picker_preview_size(
+    _app: tauri::AppHandle,
+    _state: tauri::State<'_, Arc<tokio::sync::Mutex<LoopState>>>,
+    size: u32,
+) {
+    mod_globalvars::set_preview_size(size);
 }
 
 fn process_loop_tick(win: tauri::WebviewWindow, size: u32) -> (String, Option<(u8, u8, u8)>, u32) {

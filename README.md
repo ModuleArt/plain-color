@@ -32,14 +32,18 @@
 - 🔍 Magnifying glass
 - 🎨 Custom palettes
 - 📋 A lot of copy options
+  - `#HEX` `HEX` `#hex` `hex`
+  - `rgb()` `R,G,B` `color(display-p3)`
+  - `hsl()` `H,S,L`
+  - `cmyk()` `C,M,Y,K`
+- 🍎 Great macOS support
+  - Works on top of menu bar and fullscreen windows
 - 🔲 Contrast checker - Coming soon...
 
 ## Todo
 
-### v1.0.7
+### v1.0.7 (what's left)
 
-- Lense is lagging when picking on another screen and virtual desktop
-  - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
 - ColorCard: Checkboard background for alpha colors
 - ColorCard: Add ability to type HEX value
 
@@ -58,8 +62,6 @@
   - Common:
     - RGB/RGBA from 0 to 1 `0,36; 0,18; 0,57`
     - HSB/HSV `268, 69, 57`
-  - WEB:
-    - 🌐 CSS Display P3
   - Native:
     - 🖥️ NSColor RGB
     - 🖥️ NSColor HSB
