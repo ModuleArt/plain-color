@@ -5,7 +5,7 @@
 </p>
 <h1 align="center">PlainColor</h1>
 <p align="center">
-  Lightweight cross-platform stylish color picker app written in Rust / Tauri
+  Lightweight, versatile, cross-platform color picker app written in Rust / Tauri
   <br><br>
   <a href="https://github.com/ModuleArt/plain-color/releases">
     <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/moduleart/plain-color?include_prereleases">
@@ -23,7 +23,7 @@
 
 ## Download
 
-- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.6/PlainColor_1.0.6_aarch64.dmg">macOS: dmg</a>
+- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.7/PlainColor_1.0.7_aarch64.dmg">macOS: dmg</a>
 - Windows: Coming soon...
 - Linux: Coming soon...
 

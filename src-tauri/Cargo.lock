@@ -4,7 +4,7 @@ version = 3
 
 [[package]]
 name = "PlainColor"
-version = "1.0.6"
+version = "1.0.7"
 dependencies = [
  "appkit-nsworkspace-bindings",
  "base64 0.22.1",
