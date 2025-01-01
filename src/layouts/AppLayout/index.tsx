@@ -15,7 +15,7 @@ import { exit } from '@tauri-apps/plugin-process'
 import { generateRandomUuid } from '@/utils/uuid.util'
 import { disableDefaultContextMenu } from '@/utils/contextMenu.util'
 import { ContextMenu } from '@/components/ContextMenu'
-import { invokeFetchPreview } from '@/utils/cmd/picker.cmd.util'
+import { invokeStartPickerLoop, invokeStopPickerLoop } from '@/utils/cmd/picker.cmd.util'
 import { usePalettesStore } from '@/store/palettes.store'
 import { listenInMain } from '@/utils/emit'
 import { formatCopyText } from '@/utils/copyVariants.util'
@@ -27,32 +27,30 @@ export const AppLayout: FC = () => {
   const colorsStore = useColorsStore()
   const palettesStore = usePalettesStore()
   const settingsStore = useSettingsStore()
-  const [pickingInterval, setPickingInterval] = useState<NodeJS.Timeout | null>(null)
+  const [isPickerLoopActive, setIsPickerLoopActive] = useState(false)
   const platform = getPlatform()
   const previewSize = useRef(12) // should be even
 
   useEffect(() => {
     if (pickerStore.isPicking) {
-      if (!pickingInterval) {
+      if (!isPickerLoopActive) {
         Window.getByLabel('picker').then((pickerWindow) => {
           if (pickerWindow) {
             pickerWindow.show()
 
-            const interval = setInterval(() => {
-              invokeFetchPreview({ size: previewSize.current })
-            }, 50)
-            setPickingInterval(interval)
+            setIsPickerLoopActive(true)
+            invokeStartPickerLoop({ size: previewSize.current })
           }
         })
       }
     } else {
-      if (pickingInterval) {
+      if (isPickerLoopActive) {
         Window.getByLabel('picker').then((pickerWindow) => {
           if (pickerWindow) {
             pickerWindow.hide()
 
-            clearInterval(pickingInterval)
-            setPickingInterval(null)
+            setIsPickerLoopActive(false)
+            invokeStopPickerLoop()
           }
         })
       }
