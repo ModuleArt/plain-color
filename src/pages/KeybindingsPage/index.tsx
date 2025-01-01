@@ -28,6 +28,7 @@ export const KeybindingsPage: FC = () => {
           <Stack dir="vertical" gap="extra-small">
             <Text text="Control zoom level with + and - keys" size="small" tinted />
             <Text text="Hold Shift to pick multiple colors in a row" size="small" tinted />
+            <Text text="Press C to pick and instantly copy the color" size="small" tinted />
           </Stack>
         </Stack>
       </Stack>

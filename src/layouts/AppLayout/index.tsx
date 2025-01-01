@@ -18,11 +18,15 @@ import { ContextMenu } from '@/components/ContextMenu'
 import { invokeFetchPreview } from '@/utils/cmd/picker.cmd.util'
 import { usePalettesStore } from '@/store/palettes.store'
 import { listenInMain } from '@/utils/emit'
+import { formatCopyText } from '@/utils/copyVariants.util'
+import { useSettingsStore } from '@/store/settings.store'
+import { writeText } from '@tauri-apps/plugin-clipboard-manager'
 
 export const AppLayout: FC = () => {
   const pickerStore = usePickerStore()
   const colorsStore = useColorsStore()
   const palettesStore = usePalettesStore()
+  const settingsStore = useSettingsStore()
   const [pickingInterval, setPickingInterval] = useState<NodeJS.Timeout | null>(null)
   const platform = getPlatform()
   const previewSize = useRef(12) // should be even
@@ -85,6 +89,11 @@ export const AppLayout: FC = () => {
             break
         }
 
+        if (payload.instantCopy) {
+          const text = formatCopyText(payload.color, settingsStore.defaultCopyVariant)
+          writeText(text)
+        }
+
         if (payload.closePicker) {
           pickerStore.closePicker()
         }
@@ -116,7 +125,7 @@ export const AppLayout: FC = () => {
     return () => {
       listeners.map((unlisten) => unlisten.then((f) => f()))
     }
-  }, [pickerStore.pickerTarget])
+  }, [pickerStore.pickerTarget, settingsStore.defaultCopyVariant])
 
   return (
     <>

@@ -30,6 +30,11 @@ export const PickerLayout: FC = () => {
       case '+':
         zoomIn()
         break
+
+      case 'c':
+      case 'C':
+        pickColor(true)
+        break
     }
   }
 
@@ -82,10 +87,13 @@ export const PickerLayout: FC = () => {
 
       listeners.map((unlisten) => unlisten.then((f) => f()))
     }
-  }, [])
+  }, [color])
 
-  const pickColor = () => {
-    emitToMain({ cmd: 'color_picked', payload: { color, closePicker: !isHoldingShift } })
+  const pickColor = (instantCopy: boolean) => {
+    emitToMain({
+      cmd: 'color_picked',
+      payload: { color, closePicker: !isHoldingShift, instantCopy },
+    })
   }
 
   const zoomIn = () => {
@@ -103,7 +111,7 @@ export const PickerLayout: FC = () => {
   return (
     <div
       className="picker-layout"
-      onClick={pickColor}
+      onClick={() => pickColor(false)}
       style={{ '--pixel': `calc(100% / ${previewSize - 1}` } as React.CSSProperties}
     >
       <Image src={image} className="picker-layout__image" pointerEvents="disable" />

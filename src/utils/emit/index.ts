@@ -1,7 +1,7 @@
 import { emitTo, listen } from '@tauri-apps/api/event'
 
 interface TEmitToMainPayload {
-  color_picked: { color: string; closePicker: boolean }
+  color_picked: { color: string; closePicker: boolean; instantCopy: boolean }
   preview_zoom_in: {}
   preview_zoom_out: {}
   color_canceled: {}
