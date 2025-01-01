@@ -20,6 +20,12 @@
   user-select: none;
   overscroll-behavior-y: none;
   cursor: default;
+  outline: none;
+
+  &:focus {
+    outline: 0.1rem solid currentColor;
+    outline-offset: 0.1rem;
+  }
 }
 
 html,

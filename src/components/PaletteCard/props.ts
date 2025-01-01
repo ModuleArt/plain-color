@@ -5,5 +5,4 @@ export interface IPaletteCardProps extends IPlainlibComponentProps {
   palette: IPalette
   onDelete: () => void
   onDuplicate: () => void
-  onPaletteChange?: (color: IPalette) => void
 }

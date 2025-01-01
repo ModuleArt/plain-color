@@ -3,7 +3,7 @@ import { IColorCardProps } from './props'
 import { Stack } from '@/components/Stack'
 import './index.scss'
 import { Button } from '@/components/Button'
-import { Copy, Trash, FloppyDisk, PencilSimple, PlusSquare, DotsThreeOutline, Palette } from '@phosphor-icons/react'
+import { Copy, Trash, PencilSimple, PlusSquare, DotsThreeOutline, Palette } from '@phosphor-icons/react'
 import { Text } from '@/components/Text'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
 import { isDark } from '@/utils/color'
@@ -23,11 +23,13 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onDelete, onEdit, onDupl
   const palettesStore = usePalettesStore()
 
   const copy = (copyVariant: ECopyVariant) => {
-    const text = formatCopyText(color.hex, copyVariant)
-    writeText(text)
+    if (!copied) {
+      const text = formatCopyText(color.hex, copyVariant)
+      writeText(text)
 
-    setCopied(text)
-    setTimeout(() => setCopied(''), 1000)
+      setCopied(text)
+      setTimeout(() => setCopied(''), 1000)
+    }
   }
 
   const onLabelChange = (label: string) => {
@@ -59,7 +61,7 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onDelete, onEdit, onDupl
 
     if (palettesStore.palettes.length) {
       menuItems.push({
-        icon: FloppyDisk,
+        icon: Palette,
         label: 'Save to palette',
         subMenuItems: palettesStore.palettes.map((palette) => ({
           icon: Palette,

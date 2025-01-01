@@ -4,7 +4,7 @@ import { WindowContent } from '@/components/WindowContent'
 import { Outlet } from 'react-router-dom'
 import { usePickerStore } from '@/store/picker.store'
 import { Window } from '@tauri-apps/api/window'
-import { listen, UnlistenFn } from '@tauri-apps/api/event'
+import { UnlistenFn } from '@tauri-apps/api/event'
 import namer from 'color-namer'
 import { useColorsStore } from '@/store/colors.store'
 import { Logo } from '@/components/Logo'
@@ -17,11 +17,16 @@ import { disableDefaultContextMenu } from '@/utils/contextMenu.util'
 import { ContextMenu } from '@/components/ContextMenu'
 import { invokeFetchPreview } from '@/utils/cmd/picker.cmd.util'
 import { usePalettesStore } from '@/store/palettes.store'
+import { listenInMain } from '@/utils/emit'
+import { formatCopyText } from '@/utils/copyVariants.util'
+import { useSettingsStore } from '@/store/settings.store'
+import { writeText } from '@tauri-apps/plugin-clipboard-manager'
 
 export const AppLayout: FC = () => {
   const pickerStore = usePickerStore()
   const colorsStore = useColorsStore()
   const palettesStore = usePalettesStore()
+  const settingsStore = useSettingsStore()
   const [pickingInterval, setPickingInterval] = useState<NodeJS.Timeout | null>(null)
   const platform = getPlatform()
   const previewSize = useRef(12) // should be even
@@ -70,10 +75,10 @@ export const AppLayout: FC = () => {
     const listeners: Promise<UnlistenFn>[] = []
 
     listeners.push(
-      listen<string>('color_picked', (event) => {
-        const label = namer(event.payload).ntc[0].name
+      listenInMain('color_picked', (payload) => {
+        const label = namer(payload.color).ntc[0].name
 
-        const newColor = { id: generateRandomUuid(), label, hex: event.payload }
+        const newColor = { id: generateRandomUuid(), label, hex: payload.color }
 
         switch (pickerStore.pickerTarget.target) {
           case 'HOME':
@@ -84,12 +89,19 @@ export const AppLayout: FC = () => {
             break
         }
 
-        pickerStore.closePicker()
+        if (payload.instantCopy) {
+          const text = formatCopyText(payload.color, settingsStore.defaultCopyVariant)
+          writeText(text)
+        }
+
+        if (payload.closePicker) {
+          pickerStore.closePicker()
+        }
       })
     )
 
     listeners.push(
-      listen<string>('preview_zoom_out', () => {
+      listenInMain('preview_zoom_out', () => {
         if (previewSize.current < 32) {
           previewSize.current += 2
         }
@@ -97,7 +109,7 @@ export const AppLayout: FC = () => {
     )
 
     listeners.push(
-      listen<string>('preview_zoom_in', () => {
+      listenInMain('preview_zoom_in', () => {
         if (previewSize.current > 4) {
           previewSize.current -= 2
         }
@@ -105,7 +117,7 @@ export const AppLayout: FC = () => {
     )
 
     listeners.push(
-      listen<string>('color_canceled', () => {
+      listenInMain('color_canceled', () => {
         pickerStore.closePicker()
       })
     )
@@ -113,7 +125,7 @@ export const AppLayout: FC = () => {
     return () => {
       listeners.map((unlisten) => unlisten.then((f) => f()))
     }
-  }, [pickerStore.pickerTarget])
+  }, [pickerStore.pickerTarget, settingsStore.defaultCopyVariant])
 
   return (
     <>

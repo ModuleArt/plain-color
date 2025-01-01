@@ -1,22 +1,34 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { IPaletteCardProps } from './props'
 import { Stack } from '@/components/Stack'
 import './index.scss'
 import { Button } from '@/components/Button'
 import { Trash, DotsThreeOutline, PlusSquare } from '@phosphor-icons/react'
-import { Text } from '@/components/Text'
 import cn from 'classnames'
 import { commonComponentClasses } from '@/lib'
 import { IContextMenuShowMenuProps, useContextMenuStore } from '@/store/contextMenu.store'
 import { useRightClick } from '@/hooks/useRightClick.hook'
 import { useNavigate } from 'react-router-dom'
+import { writeText } from '@tauri-apps/plugin-clipboard-manager'
+import { formatCopyText } from '@/utils/copyVariants.util'
+import { useSettingsStore } from '@/store/settings.store'
+import { Text } from '@/components/Text'
+import { isDark } from '@/utils/color'
 
-export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplicate, onPaletteChange, ...props }) => {
+export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplicate, ...props }) => {
+  const [copied, setCopied] = useState<{ colorHex: string; text: string } | null>(null)
   const contextMenuStore = useContextMenuStore()
   const navigate = useNavigate()
+  const settingsStore = useSettingsStore()
 
-  const onLabelChange = (label: string) => {
-    onPaletteChange && onPaletteChange({ ...palette, label })
+  const copy = (colorHex: string) => {
+    if (!copied) {
+      const text = formatCopyText(colorHex, settingsStore.defaultCopyVariant)
+      writeText(text)
+
+      setCopied({ text, colorHex })
+      setTimeout(() => setCopied(null), 1000)
+    }
   }
 
   const uniqueColors = palette.colors
@@ -53,8 +65,21 @@ export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplic
       dir="vertical"
       className={cn('palette-card', commonComponentClasses(props))}
     >
+      {copied && (
+        <Stack
+          justify="center"
+          align="center"
+          dir="vertical"
+          className={cn('palette-card__copied-overlay', {
+            'palette-card__copied-overlay--inverted': !isDark(copied.colorHex),
+          })}
+          style={{ background: `#${copied.colorHex}` }}
+        >
+          <Text text={copied.text} />
+        </Stack>
+      )}
       <Stack padding="medium">
-        <Text text={palette.label} grow editable={!!onPaletteChange} onTextChange={onLabelChange} />
+        <Button label={palette.label} grow justify="start" size="inline" onClick={openPalette} />
         <Stack>
           <Button
             iconPre={DotsThreeOutline}
@@ -65,11 +90,16 @@ export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplic
         </Stack>
       </Stack>
       {uniqueColors.length > 0 && (
-        <button className="palette-card__colors" onClick={openPalette}>
+        <Stack gap="none">
           {uniqueColors.map((color) => (
-            <Stack grow className="palette-card__color" key={color} style={{ background: `#${color}` }} />
+            <button
+              className="palette-card__color"
+              key={color}
+              style={{ background: `#${color}` }}
+              onClick={() => copy(color)}
+            />
           ))}
-        </button>
+        </Stack>
       )}
     </Stack>
   )

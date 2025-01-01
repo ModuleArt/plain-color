@@ -11,6 +11,7 @@ import {
   invokeCheckMacosScreenRecordingPermission,
   invokeRequestMacosScreenRecordingPermission,
 } from '@/utils/cmd/macosPermissions.cmd.util'
+import { IS_DEBUG } from '@/config'
 
 export const HomePage: FC = () => {
   const navigate = useNavigate()
@@ -31,7 +32,7 @@ export const HomePage: FC = () => {
 
   const pickColor = async () => {
     const authorized = await invokeCheckMacosScreenRecordingPermission()
-    if (authorized) {
+    if (authorized || IS_DEBUG) {
       pickerStore.openPicker({ target: 'HOME' })
     } else {
       invokeRequestMacosScreenRecordingPermission()

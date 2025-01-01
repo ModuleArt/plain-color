@@ -7,7 +7,6 @@ import { Text } from '@/components/Text'
 import { CaretLeft, Plus } from '@phosphor-icons/react'
 import { usePalettesStore } from '@/store/palettes.store'
 import { PaletteCard } from '@/components/PaletteCard'
-import { IPalette } from '@/types/palette.types'
 import { generateRandomUuid } from '@/utils/uuid.util'
 
 export const PalettesPage: FC = () => {
@@ -16,10 +15,6 @@ export const PalettesPage: FC = () => {
 
   const goBack = () => {
     navigate('/')
-  }
-
-  const onPaletteChange = (palette: IPalette) => {
-    palettesStore.updatePalette(palette.id, palette)
   }
 
   const addPalette = () => {
@@ -41,7 +36,6 @@ export const PalettesPage: FC = () => {
             palette={palette}
             onDelete={() => palettesStore.removePalette(palette.id)}
             onDuplicate={() => palettesStore.duplicatePalette(palette.id)}
-            onPaletteChange={onPaletteChange}
           />
         ))}
       </Stack>

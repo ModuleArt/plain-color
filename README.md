@@ -5,7 +5,7 @@
 </p>
 <h1 align="center">PlainColor</h1>
 <p align="center">
-  Lightweight stylish cross-platform color picker app
+  Lightweight cross-platform stylish color picker app written in Rust / Tauri
   <br><br>
   <a href="https://github.com/ModuleArt/plain-color/releases">
     <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/moduleart/plain-color?include_prereleases">
@@ -31,36 +31,28 @@
 
 - 🔍 Magnifying glass
 - 🎨 Custom palettes
+- 📋 A lot of copy options
 - 🔲 Contrast checker - Coming soon...
 
 ## Todo
 
-### v1.0.6
+### v1.0.7
 
-- Add ability to open empty palettes
-- Fix: Color name, Palette name white-space
-- ColorCard: Checkboard background for alpha colors
-- ColorCard: Add ability to type HEX value
-- Add picker sound (Funny mouth sound)
 - Lense is lagging when picking on another screen and virtual desktop
   - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
+- ColorCard: Checkboard background for alpha colors
+- ColorCard: Add ability to type HEX value
 
-### Lense
+### v1.0.8
 
-- Move picker with arrows (step = 1px) (make sure it cannot be out of screen bounds)
-- Press `C` to copy color instantly (what to copy? - need a setting for this)
-
-### Shortcuts (?)
-
-- Tray icon
-- Picker shortcut `Command + Shift + M`
-  - Instant picker shortcut `Ctrl + Shift + M` (?)
-
-### Fun stuff / Quality improvements
-
+- Fix: Color name, Palette name white-space
+- Add picker sound (Funny mouth sound)
 - Better color wheel: Add inputs for values (hex, rgba, etc.)
-- <a href="https://icon.kitchen/">New app icon</a>
 - Prepend default palette (Apple colors)
+- <a href="https://icon.kitchen/">New app icon</a>
+
+### v1.0.9
+
 - <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
 - More quick copy options
   - Common:
@@ -80,3 +72,13 @@
     - 🌊 .NET RGB/ARGB
     - ☕ Java RGB/RGBA
     - 📱 Android RGB/ARGB
+
+### Lense
+
+- Move picker with arrows (step = 1px) (make sure it cannot be out of screen bounds)
+
+### Shortcuts (?)
+
+- Tray icon
+- Picker shortcut `Command + Shift + M`
+  - Instant picker shortcut `Ctrl + Shift + M` (?)

@@ -14,6 +14,7 @@ import {
   invokeRequestMacosScreenRecordingPermission,
 } from '@/utils/cmd/macosPermissions.cmd.util'
 import { usePickerStore } from '@/store/picker.store'
+import { IS_DEBUG } from '@/config'
 
 export const PalettePage: FC = () => {
   const params = useParams<{ paletteId: string }>()
@@ -39,7 +40,7 @@ export const PalettePage: FC = () => {
 
   const pickColor = async () => {
     const authorized = await invokeCheckMacosScreenRecordingPermission()
-    if (authorized) {
+    if (authorized || IS_DEBUG) {
       pickerStore.openPicker({ target: 'PALETTE', paletteId: palette.id })
     } else {
       invokeRequestMacosScreenRecordingPermission()
