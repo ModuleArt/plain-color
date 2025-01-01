@@ -1,6 +1,6 @@
 [package]
 name = "PlainColor"
-version = "1.0.5"
+version = "1.0.6"
 description = "A Tauri App"
 authors = ["Eugene Volynko <volynko.ua@gmail.com>"]
 edition = "2021"

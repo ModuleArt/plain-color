@@ -23,7 +23,7 @@
 
 ## Download
 
-- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.5/PlainColor_1.0.5_aarch64.dmg">macOS: dmg</a>
+- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.6/PlainColor_1.0.6_aarch64.dmg">macOS: dmg</a>
 - Windows: Coming soon...
 - Linux: Coming soon...
 
