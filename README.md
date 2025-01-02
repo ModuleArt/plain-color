@@ -5,7 +5,7 @@
 </p>
 <h1 align="center">PlainColor</h1>
 <p align="center">
-  Lightweight cross-platform stylish color picker app written in Rust / Tauri
+  Lightweight, versatile, cross-platform color picker app written in Rust / Tauri
   <br><br>
   <a href="https://github.com/ModuleArt/plain-color/releases">
     <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/moduleart/plain-color?include_prereleases">
@@ -23,7 +23,7 @@
 
 ## Download
 
-- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.6/PlainColor_1.0.6_aarch64.dmg">macOS: dmg</a>
+- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.7/PlainColor_1.0.7_aarch64.dmg">macOS: dmg</a>
 - Windows: Coming soon...
 - Linux: Coming soon...
 
@@ -32,19 +32,28 @@
 - 🔍 Magnifying glass
 - 🎨 Custom palettes
 - 📋 A lot of copy options
-- 🔲 Contrast checker - Coming soon...
+  - `#HEX` `HEX` `#hex` `hex`
+  - `rgb()` `R,G,B` `color(display-p3)`
+  - `hsl()` `H,S,L`
+  - `cmyk()` `C,M,Y,K`
+- 🍎 Great macOS support
+  - Works on top of menu bar and fullscreen windows
+
+### Coming soon
+
+- ⬛ Shades
+- ⬜ Tints
+- 🔲 Contrast checker
+- 🖼️ Extract palette from image
+  - K-Mean Algorithm
+  - Dominant Colors
 
 ## Todo
 
-### v1.0.7
-
-- Lense is lagging when picking on another screen and virtual desktop
-  - Optimize picker loop: Move `setInterval` to rust, FE invokes only event loop start and end
-- ColorCard: Checkboard background for alpha colors
-- ColorCard: Add ability to type HEX value
-
 ### v1.0.8
 
+- ColorCard: Checkboard background for alpha colors
+- ColorCard: Add ability to type HEX value
 - Fix: Color name, Palette name white-space
 - Add picker sound (Funny mouth sound)
 - Better color wheel: Add inputs for values (hex, rgba, etc.)
@@ -53,13 +62,12 @@
 
 ### v1.0.9
 
+- Add ability to reorder colors
 - <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
 - More quick copy options
   - Common:
     - RGB/RGBA from 0 to 1 `0,36; 0,18; 0,57`
     - HSB/HSV `268, 69, 57`
-  - WEB:
-    - 🌐 CSS Display P3
   - Native:
     - 🖥️ NSColor RGB
     - 🖥️ NSColor HSB

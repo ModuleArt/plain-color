@@ -60,7 +60,7 @@ export const PickerLayout: FC = () => {
     const listeners: Promise<UnlistenFn>[] = []
 
     listeners.push(
-      listen<[string, [number, number, number, number], number]>('preview_fetched', (event) => {
+      listen<[string, [number, number, number, number], number]>('picker_loop_tick', (event) => {
         if (event.payload.length > 0 && event.payload[0]) {
           setImage(event.payload[0])
 
@@ -105,7 +105,7 @@ export const PickerLayout: FC = () => {
   }
 
   const cancel = () => {
-    emitToMain({ cmd: 'color_canceled', payload: {} })
+    emitToMain({ cmd: 'preview_canceled', payload: {} })
   }
 
   return (

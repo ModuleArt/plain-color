@@ -1,7 +1,15 @@
+use crate::mod_coloradjustments;
+use crate::mod_display;
+use crate::mod_globalvars;
+
 use core_graphics::display::{CGPoint, CGRect, CGSize};
 use image::{DynamicImage, Rgb, RgbImage};
 
-use crate::mod_display;
+pub fn color_space_adjustment(r: u8, g: u8, b: u8) -> (u8, u8, u8) {
+    let rgb = mod_coloradjustments::apply_p3_to_srgb_correction(r, g, b);
+
+    (rgb.0, rgb.1, rgb.2)
+}
 
 pub fn capture_screen_area(
     physical_x: f64,
@@ -39,7 +47,7 @@ pub fn capture_screen_area(
 
         let data_len = data.len() as usize;
 
-        // Iterate through each pixel and set it in the image buffer
+        // if let Some(color_space) = mod_display::get_display_color_space(display) {
         for y in 0..img_height {
             for x in 0..img_width {
                 // Cast `x` and `y` to `usize` before multiplying with `stride` and `4`
@@ -47,15 +55,25 @@ pub fn capture_screen_area(
 
                 // Ensure the offset is within the bounds of the data array
                 if offset + 3 < data_len {
-                    let r = data[offset + 2];
-                    let g = data[offset + 1];
-                    let b = data[offset];
+                    let mut r = data[offset + 2];
+                    let mut g = data[offset + 1];
+                    let mut b = data[offset];
+
+                    let color_profile = mod_globalvars::get_color_profile();
+
+                    if color_profile == mod_globalvars::ColorProfile::SRGB {
+                        let rgb = color_space_adjustment(r, g, b);
+                        r = rgb.0;
+                        g = rgb.1;
+                        b = rgb.2;
+                    }
 
                     // Set the pixel color in the image
                     img.put_pixel(x, y, Rgb([r, g, b]));
                 }
             }
         }
+        // }
 
         // Convert RgbImage to DynamicImage for cropping
         let mut dynamic_img = DynamicImage::ImageRgb8(img);

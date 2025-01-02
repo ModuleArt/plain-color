@@ -105,13 +105,14 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onDelete, onEdit, onDupl
     >
       {copied && (
         <Stack
+          padding="medium"
           justify="center"
           align="center"
           dir="vertical"
           className="color-card__copied-overlay"
           style={{ background: `#${color.hex}` }}
         >
-          <Text text={copied} />
+          <Text align="center" text={copied} />
         </Stack>
       )}
       <Stack>
