@@ -1,6 +1,8 @@
+use crate::mod_globalvars;
 use crate::mod_macospermissions;
 use crate::mod_pickerloop;
 
+use std::str::FromStr;
 use std::sync::Arc;
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
@@ -23,11 +25,20 @@ pub fn stop_picker_loop(
 
 #[tauri::command]
 pub fn set_picker_preview_size(
-    app: tauri::AppHandle,
-    state: tauri::State<'_, Arc<tokio::sync::Mutex<mod_pickerloop::LoopState>>>,
+    _app: tauri::AppHandle,
+    _state: tauri::State<'_, Arc<tokio::sync::Mutex<mod_pickerloop::LoopState>>>,
     size: u32,
 ) {
-    mod_pickerloop::set_picker_preview_size(app, state, size);
+    mod_globalvars::set_preview_size(size);
+}
+
+#[tauri::command]
+pub fn set_picker_color_profile(
+    _app: tauri::AppHandle,
+    _state: tauri::State<'_, Arc<tokio::sync::Mutex<mod_pickerloop::LoopState>>>,
+    profile: String,
+) {
+    mod_globalvars::set_color_profile(mod_globalvars::ColorProfile::from_str(&profile).unwrap());
 }
 
 #[tauri::command]

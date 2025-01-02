@@ -1,3 +1,4 @@
+mod mod_coloradjustments;
 mod mod_commands;
 mod mod_display;
 mod mod_globalvars;
@@ -53,6 +54,7 @@ pub fn run() {
             mod_commands::start_picker_loop,
             mod_commands::stop_picker_loop,
             mod_commands::set_picker_preview_size,
+            mod_commands::set_picker_color_profile,
             mod_commands::check_macos_screen_recording_permission,
             mod_commands::request_macos_screen_recording_permission,
             mod_commands::open_macos_screen_recording_settings,

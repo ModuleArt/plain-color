@@ -84,14 +84,6 @@ pub fn stop_picker_loop(
     });
 }
 
-pub fn set_picker_preview_size(
-    _app: tauri::AppHandle,
-    _state: tauri::State<'_, Arc<tokio::sync::Mutex<LoopState>>>,
-    size: u32,
-) {
-    mod_globalvars::set_preview_size(size);
-}
-
 fn process_loop_tick(win: tauri::WebviewWindow, size: u32) -> (String, Option<(u8, u8, u8)>, u32) {
     let picker_window_logical_w = 128;
     let picker_window_logical_h = 128;

@@ -38,17 +38,22 @@
   - `cmyk()` `C,M,Y,K`
 - 🍎 Great macOS support
   - Works on top of menu bar and fullscreen windows
-- 🔲 Contrast checker - Coming soon...
+
+### Coming soon
+
+- ⬛ Shades
+- ⬜ Tints
+- 🔲 Contrast checker
+- 🖼️ Extract palette from image
+  - K-Mean Algorithm
+  - Dominant Colors
 
 ## Todo
 
-### v1.0.7 (what's left)
+### v1.0.8
 
 - ColorCard: Checkboard background for alpha colors
 - ColorCard: Add ability to type HEX value
-
-### v1.0.8
-
 - Fix: Color name, Palette name white-space
 - Add picker sound (Funny mouth sound)
 - Better color wheel: Add inputs for values (hex, rgba, etc.)
@@ -57,6 +62,7 @@
 
 ### v1.0.9
 
+- Add ability to reorder colors
 - <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
 - More quick copy options
   - Common:

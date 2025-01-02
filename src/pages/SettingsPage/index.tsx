@@ -7,13 +7,14 @@ import { Button } from '@/components/Button'
 import { Text } from '@/components/Text'
 import { Select } from '@/components/Select'
 import { copyVariants, formatCopyText } from '@/utils/copyVariants.util'
-import { useSettingsStore } from '@/store/settings.store'
+import { EColorProfile, useSettingsStore } from '@/store/settings.store'
 import { getPlatform } from '@/utils/tauri.util'
 import {
   invokeRequestMacosScreenRecordingPermission,
   invokeOpenMacosScreenRecordingSettings,
   invokeCheckMacosScreenRecordingPermission,
 } from '@/utils/cmd/macosPermissions.cmd.util'
+import { invokeSetPickerColorProfile } from '@/utils/cmd/picker.cmd.util'
 
 export const SettingsPage: FC = () => {
   const navigate = useNavigate()
@@ -46,8 +47,17 @@ export const SettingsPage: FC = () => {
     invokeOpenMacosScreenRecordingSettings()
   }
 
+  const colorProfiles = [
+    { id: EColorProfile.SRGB, label: 'sRGB (Default)' },
+    { id: EColorProfile.SYSTEM, label: 'System' },
+  ]
+
   const exampleColor = '3D061A'
   const exampleColorTransparent = '3D061AED'
+
+  useEffect(() => {
+    invokeSetPickerColorProfile({ profile: settingsStore.pickerColorProfile })
+  }, [settingsStore.pickerColorProfile])
 
   return (
     <Stack dir="vertical" gap="large" grow>
@@ -62,8 +72,24 @@ export const SettingsPage: FC = () => {
       <Stack dir="vertical" gap="extra-large" grow padding="medium">
         <Stack dir="vertical" gap="extra-small">
           <Stack dir="vertical">
+            <Text text="Primary Copy Format" />
+            <Text text="Choose which copy color format will be used by default" size="small" tinted />
+          </Stack>
+          <Select
+            options={copyVariants.map((copyVariant) => ({
+              ...copyVariant,
+              description: `${formatCopyText(exampleColor, copyVariant.id)}${
+                copyVariant.supportsAlpha ? ` or ${formatCopyText(exampleColorTransparent, copyVariant.id)}` : ''
+              }`,
+            }))}
+            value={[settingsStore.defaultCopyVariant]}
+            onChange={(options) => settingsStore.setDefaultCopyVariant(options[0])}
+          />
+        </Stack>
+        <Stack dir="vertical" gap="extra-small">
+          <Stack dir="vertical">
             <Text text="Quick Copy" />
-            <Text text="Choose which copy options are shown directly on the color card" size="small" tinted />
+            <Text text="Choose which copy color formats are shown directly on the color card" size="small" tinted />
           </Stack>
           <Select
             options={copyVariants.map((copyVariant) => ({
@@ -79,18 +105,12 @@ export const SettingsPage: FC = () => {
         </Stack>
         <Stack dir="vertical" gap="extra-small">
           <Stack dir="vertical">
-            <Text text="Primary Copy Option" />
-            <Text text="Choose which copy option will be used by default" size="small" tinted />
+            <Text text="Picker Color Profile" />
           </Stack>
           <Select
-            options={copyVariants.map((copyVariant) => ({
-              ...copyVariant,
-              description: `${formatCopyText(exampleColor, copyVariant.id)}${
-                copyVariant.supportsAlpha ? ` or ${formatCopyText(exampleColorTransparent, copyVariant.id)}` : ''
-              }`,
-            }))}
-            value={[settingsStore.defaultCopyVariant]}
-            onChange={(options) => settingsStore.setDefaultCopyVariant(options[0])}
+            options={colorProfiles}
+            value={[settingsStore.pickerColorProfile]}
+            onChange={(options) => settingsStore.setPickerColorProfile(options[0])}
           />
         </Stack>
         {platform === 'macos' && !isMacosPermissionStatusLoading && (
