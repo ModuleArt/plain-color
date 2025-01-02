@@ -5,7 +5,6 @@ import { Outlet } from 'react-router-dom'
 import { usePickerStore } from '@/store/picker.store'
 import { Window } from '@tauri-apps/api/window'
 import { UnlistenFn } from '@tauri-apps/api/event'
-import namer from 'color-namer'
 import { useColorsStore } from '@/store/colors.store'
 import { Logo } from '@/components/Logo'
 import { getPlatform } from '@/utils/tauri.util'
@@ -21,6 +20,7 @@ import { listenInMain } from '@/utils/emit'
 import { formatCopyText } from '@/utils/copyVariants.util'
 import { useSettingsStore } from '@/store/settings.store'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
+import { generateColorLabel } from '@/utils/color'
 
 export const AppLayout: FC = () => {
   const pickerStore = usePickerStore()
@@ -77,8 +77,7 @@ export const AppLayout: FC = () => {
 
     listeners.push(
       listenInMain('color_picked', (payload) => {
-        const label = namer(payload.color).ntc[0].name
-
+        const label = generateColorLabel(payload.color)
         const newColor = { id: generateRandomUuid(), label, hex: payload.color }
 
         switch (pickerStore.pickerTarget.target) {

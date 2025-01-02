@@ -6,7 +6,7 @@ import { Button } from '@/components/Button'
 import { Copy, Trash, PencilSimple, PlusSquare, DotsThreeOutline, Palette } from '@phosphor-icons/react'
 import { Text } from '@/components/Text'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
-import { isDark } from '@/utils/color'
+import { hexWithoutAlpha, isDark } from '@/utils/color'
 import cn from 'classnames'
 import { useSettingsStore } from '@/store/settings.store'
 import { copyVariants, formatCopyText } from '@/utils/copyVariants.util'
@@ -101,7 +101,13 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onDelete, onEdit, onDupl
       stackRef={rightClickRef}
       className={cn('color-card', { 'color-card--inverted': !isDark(color.hex) }, commonComponentClasses(props))}
     >
-      <Stack grow dir="vertical" padding="medium" className="color-card__bg" style={{ background: `#${color.hex}` }}>
+      <Stack
+        grow
+        dir="vertical"
+        padding="medium"
+        className="color-card__bg"
+        style={{ background: `linear-gradient(to top, #${color.hex}, #${hexWithoutAlpha(color.hex)})` }}
+      >
         {copied && (
           <Stack className="color-card__copied-overlay">
             <Stack
@@ -110,7 +116,7 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onDelete, onEdit, onDupl
               justify="center"
               align="center"
               dir="vertical"
-              style={{ background: `#${color.hex}` }}
+              style={{ background: `linear-gradient(to top, #${color.hex}, #${hexWithoutAlpha(color.hex)})` }}
             >
               <Text align="center" text={copied} />
             </Stack>
