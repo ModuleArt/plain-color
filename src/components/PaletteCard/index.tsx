@@ -67,16 +67,20 @@ export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplic
     >
       {copied && (
         <Stack
-          padding="medium"
-          justify="center"
-          align="center"
-          dir="vertical"
           className={cn('palette-card__copied-overlay', {
             'palette-card__copied-overlay--inverted': !isDark(copied.colorHex),
           })}
-          style={{ background: `#${copied.colorHex}` }}
         >
-          <Text align="center" text={copied.text} />
+          <Stack
+            padding="medium"
+            grow
+            justify="center"
+            align="center"
+            dir="vertical"
+            style={{ background: `#${copied.colorHex}` }}
+          >
+            <Text align="center" text={copied.text} />
+          </Stack>
         </Stack>
       )}
       <Stack padding="medium">
@@ -91,14 +95,11 @@ export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplic
         </Stack>
       </Stack>
       {uniqueColors.length > 0 && (
-        <Stack gap="none">
+        <Stack gap="none" className="palette-card__colors">
           {uniqueColors.map((color) => (
-            <button
-              className="palette-card__color"
-              key={color}
-              style={{ background: `#${color}` }}
-              onClick={() => copy(color)}
-            />
+            <button className="palette-card__color" key={color} onClick={() => copy(color)}>
+              <div className="palette-card__color-bg" style={{ background: `#${color}` }} />
+            </button>
           ))}
         </Stack>
       )}
