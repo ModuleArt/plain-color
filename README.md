@@ -58,8 +58,8 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 
 ### v1.0.8
 
+- Stick the Header component to the window top
 - Fix: Color name, Palette name white-space
-- ColorCard: Checkboard background for alpha colors
 - ColorCard: Add ability to type/paste HEX value
 - Prepend default palette (Apple colors)
 - Move picker with arrows (step = 1px), make sure it cannot be out of screen bounds

@@ -7,6 +7,9 @@
   &__color {
     height: 2rem;
     flex: 1;
+    position: relative;
+    background-image: var(--bgImg_checkerboard);
+    background-color: var(--color_element);
 
     &:hover {
       opacity: var(--opacity_tinted);
@@ -15,6 +18,14 @@
     &:active {
       opacity: calc(var(--opacity_tinted) / 2);
     }
+  }
+
+  &__color-bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
   }
 
   &__copied-overlay {
@@ -28,6 +39,8 @@
     height: 100%;
     z-index: 1;
     margin: 0;
+    background-image: var(--bgImg_checkerboard);
+    background-color: var(--color_element);
 
     &--inverted {
       * {

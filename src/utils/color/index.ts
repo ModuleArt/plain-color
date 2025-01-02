@@ -25,5 +25,8 @@ export const rgbToHex = (rgb: TColorRgb) => {
 
 export const isDark = (hex: string) => {
   const obj = hexToRgbObj(hex)
+
+  if (obj.alpha < 0.4) return true
+
   return colorIsDark([obj.red, obj.green, obj.blue])
 }

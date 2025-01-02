@@ -99,42 +99,49 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onDelete, onEdit, onDupl
   return (
     <Stack
       stackRef={rightClickRef}
-      dir="vertical"
       className={cn('color-card', { 'color-card--inverted': !isDark(color.hex) }, commonComponentClasses(props))}
-      style={{ background: `#${color.hex}` }}
     >
-      {copied && (
-        <Stack
-          padding="medium"
-          justify="center"
-          align="center"
-          dir="vertical"
-          className="color-card__copied-overlay"
-          style={{ background: `#${color.hex}` }}
-        >
-          <Text align="center" text={copied} />
+      <Stack grow dir="vertical" padding="medium" className="color-card__bg" style={{ background: `#${color.hex}` }}>
+        {copied && (
+          <Stack className="color-card__copied-overlay">
+            <Stack
+              padding="medium"
+              grow
+              justify="center"
+              align="center"
+              dir="vertical"
+              style={{ background: `#${color.hex}` }}
+            >
+              <Text align="center" text={copied} />
+            </Stack>
+          </Stack>
+        )}
+        <Stack>
+          <Text text={color.label} grow editable={!!onColorChange} onTextChange={onLabelChange} />
+          <Button
+            iconPre={DotsThreeOutline}
+            variant="clear"
+            size="inline"
+            onClick={(event) => showOptions({ event })}
+          />
         </Stack>
-      )}
-      <Stack>
-        <Text text={color.label} grow editable={!!onColorChange} onTextChange={onLabelChange} />
-        <Button iconPre={DotsThreeOutline} variant="clear" size="inline" onClick={(event) => showOptions({ event })} />
-      </Stack>
-      <Stack>
-        <Stack grow wrap gap="none" className="color-card__copy-variants">
-          {quickCopyVariants.map((copyVariant) => (
-            <Button
-              key={copyVariant.id}
-              label={copyVariant.label}
-              size="inline"
-              variant="clear"
-              iconPre={Copy}
-              tinted
-              onClick={() => copy(copyVariant.id)}
-              nativeTooltip={copyVariant.label}
-            />
-          ))}
+        <Stack>
+          <Stack grow wrap gap="none" className="color-card__copy-variants">
+            {quickCopyVariants.map((copyVariant) => (
+              <Button
+                key={copyVariant.id}
+                label={copyVariant.label}
+                size="inline"
+                variant="clear"
+                iconPre={Copy}
+                tinted
+                onClick={() => copy(copyVariant.id)}
+                nativeTooltip={copyVariant.label}
+              />
+            ))}
+          </Stack>
+          <Text text={color.hex} tinted transform="uppercase" pointerEvents="disable" />
         </Stack>
-        <Text text={color.hex} tinted transform="uppercase" pointerEvents="disable" />
       </Stack>
     </Stack>
   )
