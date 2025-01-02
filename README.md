@@ -50,26 +50,27 @@
 
 Want more? Open a <a href="https://github.com/ModuleArt/plain-color/issues/new">new issue</a> or 👍 an <a href="https://github.com/ModuleArt/plain-color/issues">existing one</a> so we can talk about it.
 
-## 🐞 Bug report:
+## 🐞 Bug report
 
 If you want to report a bug, first, thank you, that helps us a lot. Please open an <a href="https://github.com/ModuleArt/plain-color/issues/new">issue</a> and mention your OS, your PlainColor version, and how to reproduce it. Adding a screenshot of the issue or screen recording is a big help too.
 
-## ✅ Todo
+## 🔮 Future Plans
 
 ### v1.0.8
 
-- ColorCard: Checkboard background for alpha colors
-- ColorCard: Add ability to type HEX value
 - Fix: Color name, Palette name white-space
-- Add picker sound (Funny mouth sound)
-- Better color wheel: Add inputs for values (hex, rgba, etc.)
+- ColorCard: Checkboard background for alpha colors
+- ColorCard: Add ability to type/paste HEX value
 - Prepend default palette (Apple colors)
+- Move picker with arrows (step = 1px), make sure it cannot be out of screen bounds
+
+### v1.1.x
+
 - <a href="https://icon.kitchen/">New app icon</a>
-
-### v1.0.9
-
-- Add ability to reorder colors
 - <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
+- Add picker sound (Funny mouth sound, with ability to turn off)
+- Better color wheel: Add inputs for values (hex, rgba, etc.)
+- Add ability to reorder colors
 - More quick copy options
   - Common:
     - RGB/RGBA from 0 to 1 `0,36; 0,18; 0,57`
@@ -86,13 +87,6 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
     - 🌊 .NET RGB/ARGB
     - ☕ Java RGB/RGBA
     - 📱 Android RGB/ARGB
-
-### Lense
-
-- Move picker with arrows (step = 1px) (make sure it cannot be out of screen bounds)
-
-### Shortcuts (?)
-
 - Tray icon
 - Picker shortcut `Command + Shift + M`
   - Instant picker shortcut `Ctrl + Shift + M` (?)
