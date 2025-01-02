@@ -21,13 +21,13 @@
   </a>
 </p>
 
-## Download
+## ⬇️ Download
 
 - <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.7/PlainColor_1.0.7_aarch64.dmg">macOS: dmg</a>
 - Windows: Coming soon...
 - Linux: Coming soon...
 
-## Features
+## 🚀 Features
 
 - 🔍 Magnifying glass
 - 🎨 Custom palettes
@@ -48,7 +48,13 @@
   - K-Mean Algorithm
   - Dominant Colors
 
-## Todo
+Want more? Open a <a href="https://github.com/ModuleArt/plain-color/issues/new">new issue</a> or 👍 an <a href="https://github.com/ModuleArt/plain-color/issues">existing one</a> so we can talk about it.
+
+## 🐞 Bug report:
+
+If you want to report a bug, first, thank you, that helps us a lot. Please open an <a href="https://github.com/ModuleArt/plain-color/issues/new">issue</a> and mention your OS, your PlainColor version, and how to reproduce it. Adding a screenshot of the issue or screen recording is a big help too.
+
+## ✅ Todo
 
 ### v1.0.8
 
