@@ -132,7 +132,7 @@ export const AppLayout: FC = () => {
       <WindowTitlebar color="bg" windowControls={platform !== 'macos'}>
         {platform === 'macos' ? (
           <Header pointerEvents="disable" grow>
-            <Logo />
+            <Logo grow />
           </Header>
         ) : (
           <Stack pointerEvents="disable" grow>

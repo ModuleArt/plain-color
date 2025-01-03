@@ -56,17 +56,17 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 
 ## 🔮 Future Plans
 
-### v1.0.8
+### v1.0.8 (what's left)
 
-- Stick the Header component to the window top
+- <a href="https://icon.kitchen/">New app icon</a>
 - Fix: Color name, Palette name white-space
 - ColorCard: Add ability to type/paste HEX value
 - Prepend default palette (Apple colors)
 - Move picker with arrows (step = 1px), make sure it cannot be out of screen bounds
+- Fix context menu height (check on different window heights)
 
 ### v1.1.x
 
-- <a href="https://icon.kitchen/">New app icon</a>
 - <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
 - Add picker sound (Funny mouth sound, with ability to turn off)
 - Better color wheel: Add inputs for values (hex, rgba, etc.)

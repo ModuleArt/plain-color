@@ -32,6 +32,7 @@ export const Select = <T extends string | number>({
       onChange && onChange(newValue)
     } else {
       onChange && onChange([option.id])
+      setIsOpened(false)
     }
   }
 

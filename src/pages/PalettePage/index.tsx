@@ -15,6 +15,7 @@ import {
 } from '@/utils/cmd/macosPermissions.cmd.util'
 import { usePickerStore } from '@/store/picker.store'
 import { IS_DEBUG } from '@/config'
+import { Scroller } from '@/components/Scroller'
 
 export const PalettePage: FC = () => {
   const params = useParams<{ paletteId: string }>()
@@ -53,30 +54,36 @@ export const PalettePage: FC = () => {
 
   return (
     <Stack dir="vertical" gap="none" grow>
-      <Header leftElement={<Button iconPre={CaretLeft} padding="small" onClick={goBack} nativeTooltip="Back" />}>
-        <Text
-          text={palette.label}
-          editable
-          onTextChange={(label) => onPaletteChange({ ...palette, label })}
-          align="center"
-        />
-      </Header>
-      <Stack dir="vertical" gap="medium" padding="medium">
-        <Stack>
-          <Button iconPre={Eyedropper} onClick={pickColor} grow nativeTooltip="Pick color from screen" />
-          <Button iconPre={Plus} onClick={addColor} grow nativeTooltip="Add color manually" />
-        </Stack>
-        {palette.colors.map((color) => (
-          <ColorCard
-            key={color.id}
-            color={color}
-            onDelete={() => palettesStore.removeColorFromPalette(palette.id, color.id)}
-            onEdit={() => navigate(`/palettes/${palette.id}/color/${color.id}`)}
-            onDuplicate={() => palettesStore.duplicateColorInPalette(palette.id, color.id)}
-            onColorChange={onColorChange}
+      <Header extraPaddingRight>
+        <Stack grow align="center">
+          <Button iconPre={CaretLeft} padding="small" onClick={goBack} nativeTooltip="Back" />
+          <Text
+            text={palette.label}
+            editable
+            onTextChange={(label) => onPaletteChange({ ...palette, label })}
+            align="center"
+            grow
           />
-        ))}
-      </Stack>
+        </Stack>
+      </Header>
+      <Scroller>
+        <Stack dir="vertical" gap="medium" padding="medium">
+          <Stack>
+            <Button iconPre={Eyedropper} onClick={pickColor} grow nativeTooltip="Pick color from screen" />
+            <Button iconPre={Plus} onClick={addColor} grow nativeTooltip="Add color manually" />
+          </Stack>
+          {palette.colors.map((color) => (
+            <ColorCard
+              key={color.id}
+              color={color}
+              onDelete={() => palettesStore.removeColorFromPalette(palette.id, color.id)}
+              onEdit={() => navigate(`/palettes/${palette.id}/color/${color.id}`)}
+              onDuplicate={() => palettesStore.duplicateColorInPalette(palette.id, color.id)}
+              onColorChange={onColorChange}
+            />
+          ))}
+        </Stack>
+      </Scroller>
     </Stack>
   )
 }

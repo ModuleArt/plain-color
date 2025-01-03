@@ -8,6 +8,7 @@ import { Text } from '@/components/Text'
 import { app } from '@tauri-apps/api'
 import { Image } from '@/components/Image'
 import { open } from '@tauri-apps/plugin-shell'
+import { Scroller } from '@/components/Scroller'
 
 export const AboutPage: FC = () => {
   const navigate = useNavigate()
@@ -31,10 +32,13 @@ export const AboutPage: FC = () => {
 
   return (
     <Stack dir="vertical" gap="none" grow>
-      <Header leftElement={<Button iconPre={CaretLeft} padding="small" onClick={goBack} nativeTooltip="Back" />}>
-        <Text text="About" />
+      <Header extraPaddingRight>
+        <Stack grow align="center">
+          <Button iconPre={CaretLeft} padding="small" onClick={goBack} nativeTooltip="Back" />
+          <Text grow align="center" text="About" />
+        </Stack>
       </Header>
-      <Stack dir="vertical" gap="none" grow>
+      <Scroller>
         <Stack justify="center" align="center" grow>
           <Image src="/assets/imgs/icon.svg" width={120} />
         </Stack>
@@ -52,7 +56,6 @@ export const AboutPage: FC = () => {
             <Text text="ModuleArt" />
           </Stack>
         </Stack>
-
         <Stack dir="vertical" padding="medium">
           <Stack>
             <Button iconPre={Globe} label="Website" onClick={() => openUrl(projectUrl)} grow />
@@ -63,7 +66,7 @@ export const AboutPage: FC = () => {
             <Button iconPre={AppStoreLogo} label="More Apps" onClick={() => openUrl(moreAppsUrl)} grow />
           </Stack>
         </Stack>
-      </Stack>
+      </Scroller>
     </Stack>
   )
 }

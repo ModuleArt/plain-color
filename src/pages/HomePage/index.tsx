@@ -12,6 +12,8 @@ import {
   invokeRequestMacosScreenRecordingPermission,
 } from '@/utils/cmd/macosPermissions.cmd.util'
 import { IS_DEBUG } from '@/config'
+import { Scroller } from '@/components/Scroller'
+import { Header } from '@/components/Header'
 
 export const HomePage: FC = () => {
   const navigate = useNavigate()
@@ -48,26 +50,30 @@ export const HomePage: FC = () => {
   }
 
   return (
-    <Stack dir="vertical" gap="medium" grow padding="medium">
-      <Stack>
-        <Button iconPre={Eyedropper} onClick={pickColor} grow nativeTooltip="Pick color from screen" />
-        <Button iconPre={Plus} onClick={addColor} grow nativeTooltip="Add color manually" />
-        <Button iconPre={Palette} onClick={goToPalettes} grow nativeTooltip="Palettes" />
-        <Button iconPre={Trash} onClick={clearAllColors} grow nativeTooltip="Clear all colors" />
-        <Button iconPre={Gear} onClick={goToSettings} grow nativeTooltip="Settings" />
-      </Stack>
-      <Stack dir="vertical" gap="medium">
-        {colorsStore.colors.map((color) => (
-          <ColorCard
-            key={color.id}
-            color={color}
-            onDelete={() => colorsStore.removeColor(color.id)}
-            onEdit={() => navigate(`/color/${color.id}`)}
-            onDuplicate={() => colorsStore.duplicateColor(color.id)}
-            onColorChange={onColorChange}
-          />
-        ))}
-      </Stack>
+    <Stack dir="vertical" gap="none" grow>
+      <Header>
+        <Stack grow>
+          <Button iconPre={Eyedropper} onClick={pickColor} grow nativeTooltip="Pick color from screen" />
+          <Button iconPre={Plus} onClick={addColor} grow nativeTooltip="Add color manually" />
+          <Button iconPre={Palette} onClick={goToPalettes} grow nativeTooltip="Palettes" />
+          <Button iconPre={Trash} onClick={clearAllColors} grow nativeTooltip="Clear all colors" />
+          <Button iconPre={Gear} onClick={goToSettings} grow nativeTooltip="Settings" />
+        </Stack>
+      </Header>
+      <Scroller>
+        <Stack dir="vertical" gap="medium" padding="medium">
+          {colorsStore.colors.map((color) => (
+            <ColorCard
+              key={color.id}
+              color={color}
+              onDelete={() => colorsStore.removeColor(color.id)}
+              onEdit={() => navigate(`/color/${color.id}`)}
+              onDuplicate={() => colorsStore.duplicateColor(color.id)}
+              onColorChange={onColorChange}
+            />
+          ))}
+        </Stack>
+      </Scroller>
     </Stack>
   )
 }

@@ -1,20 +1,25 @@
 import { FC, PropsWithChildren } from 'react'
-import { Stack } from '@/components/Stack'
 import { IHeaderProps } from './props'
 import cn from 'classnames'
 import { commonComponentClasses } from '@/lib'
 import './index.scss'
+import { Stack } from '../Stack'
 
-export const Header: FC<PropsWithChildren<IHeaderProps>> = ({ children, leftElement, rightElement, ...props }) => {
+export const Header: FC<PropsWithChildren<IHeaderProps>> = ({
+  children,
+  extraPaddingLeft = false,
+  extraPaddingRight = false,
+  ...props
+}) => {
   return (
-    <Stack className={cn('header', commonComponentClasses(props))} align="center">
-      <Stack grow justify="start">
-        {leftElement}
-      </Stack>
-      {children}
-      <Stack grow justify="end">
-        {rightElement}
-      </Stack>
-    </Stack>
+    <div
+      className={cn(
+        'header',
+        { 'header--extra-padding-left': extraPaddingLeft, 'header--extra-padding-right': extraPaddingRight },
+        commonComponentClasses(props)
+      )}
+    >
+      <Stack className="header__container">{children}</Stack>
+    </div>
   )
 }

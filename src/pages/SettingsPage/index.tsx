@@ -15,6 +15,7 @@ import {
   invokeCheckMacosScreenRecordingPermission,
 } from '@/utils/cmd/macosPermissions.cmd.util'
 import { invokeSetPickerColorProfile } from '@/utils/cmd/picker.cmd.util'
+import { Scroller } from '@/components/Scroller'
 
 export const SettingsPage: FC = () => {
   const navigate = useNavigate()
@@ -60,80 +61,81 @@ export const SettingsPage: FC = () => {
   }, [settingsStore.pickerColorProfile])
 
   return (
-    <Stack dir="vertical" gap="large" grow>
-      <Header
-        leftElement={<Button iconPre={CaretLeft} padding="small" onClick={goBack} nativeTooltip="Back" />}
-        rightElement={
+    <Stack dir="vertical" gap="none" grow>
+      <Header>
+        <Stack grow align="center">
+          <Button iconPre={CaretLeft} padding="small" onClick={goBack} nativeTooltip="Back" />
+          <Text align="center" grow text="Settings" />
           <Button iconPre={QuestionMark} padding="small" onClick={goToAbout} nativeTooltip="About the app" />
-        }
-      >
-        <Text text="Settings" />
+        </Stack>
       </Header>
-      <Stack dir="vertical" gap="extra-large" grow padding="medium">
-        <Stack dir="vertical" gap="extra-small">
-          <Stack dir="vertical">
-            <Text text="Primary Copy Format" />
-            <Text text="Choose which copy color format will be used by default" size="small" tinted />
-          </Stack>
-          <Select
-            options={copyVariants.map((copyVariant) => ({
-              ...copyVariant,
-              description: `${formatCopyText(exampleColor, copyVariant.id)}${
-                copyVariant.supportsAlpha ? ` or ${formatCopyText(exampleColorTransparent, copyVariant.id)}` : ''
-              }`,
-            }))}
-            value={[settingsStore.defaultCopyVariant]}
-            onChange={(options) => settingsStore.setDefaultCopyVariant(options[0])}
-          />
-        </Stack>
-        <Stack dir="vertical" gap="extra-small">
-          <Stack dir="vertical">
-            <Text text="Quick Copy" />
-            <Text text="Choose which copy color formats are shown directly on the color card" size="small" tinted />
-          </Stack>
-          <Select
-            options={copyVariants.map((copyVariant) => ({
-              ...copyVariant,
-              description: `${formatCopyText(exampleColor, copyVariant.id)}${
-                copyVariant.supportsAlpha ? ` or ${formatCopyText(exampleColorTransparent, copyVariant.id)}` : ''
-              }`,
-            }))}
-            value={settingsStore.quickCopyVariants}
-            onChange={settingsStore.setQuickCopyVariants}
-            multiple
-          />
-        </Stack>
-        <Stack dir="vertical" gap="extra-small">
-          <Stack dir="vertical">
-            <Text text="Picker Color Profile" />
-          </Stack>
-          <Select
-            options={colorProfiles}
-            value={[settingsStore.pickerColorProfile]}
-            onChange={(options) => settingsStore.setPickerColorProfile(options[0])}
-          />
-        </Stack>
-        {platform === 'macos' && !isMacosPermissionStatusLoading && (
-          <Stack dir="vertical" gap="extra-small" align="start">
-            <Stack dir="vertical" align="start">
-              <Text text="Screen Recording Permission" />
-              <Text
-                text="This permission is required to allow the magnifying glass to capture the screen"
-                size="small"
-                tinted
-              />
+      <Scroller extraPaddingTop>
+        <Stack dir="vertical" gap="extra-large" padding="medium">
+          <Stack dir="vertical" gap="extra-small">
+            <Stack dir="vertical">
+              <Text text="Primary Copy Format" />
+              <Text text="Choose which copy color format will be used by default" size="small" tinted />
             </Stack>
-            {isMacosPermissionGranted ? (
-              <Text text="Granted" />
-            ) : (
-              <Button label="Open System Settings" padding="medium" onClick={requestMacosPermission} />
-            )}
+            <Select
+              options={copyVariants.map((copyVariant) => ({
+                ...copyVariant,
+                description: `${formatCopyText(exampleColor, copyVariant.id)}${
+                  copyVariant.supportsAlpha ? ` or ${formatCopyText(exampleColorTransparent, copyVariant.id)}` : ''
+                }`,
+              }))}
+              value={[settingsStore.defaultCopyVariant]}
+              onChange={(options) => settingsStore.setDefaultCopyVariant(options[0])}
+            />
           </Stack>
-        )}
-        <Stack dir="vertical" align="start">
-          <Button iconPre={Keyboard} label="Key Bindings" padding="medium" onClick={goToKeybindings} />
+          <Stack dir="vertical" gap="extra-small">
+            <Stack dir="vertical">
+              <Text text="Quick Copy" />
+              <Text text="Choose which copy color formats are shown directly on the color card" size="small" tinted />
+            </Stack>
+            <Select
+              options={copyVariants.map((copyVariant) => ({
+                ...copyVariant,
+                description: `${formatCopyText(exampleColor, copyVariant.id)}${
+                  copyVariant.supportsAlpha ? ` or ${formatCopyText(exampleColorTransparent, copyVariant.id)}` : ''
+                }`,
+              }))}
+              value={settingsStore.quickCopyVariants}
+              onChange={settingsStore.setQuickCopyVariants}
+              multiple
+            />
+          </Stack>
+          <Stack dir="vertical" gap="extra-small">
+            <Stack dir="vertical">
+              <Text text="Picker Color Profile" />
+            </Stack>
+            <Select
+              options={colorProfiles}
+              value={[settingsStore.pickerColorProfile]}
+              onChange={(options) => settingsStore.setPickerColorProfile(options[0])}
+            />
+          </Stack>
+          {platform === 'macos' && !isMacosPermissionStatusLoading && (
+            <Stack dir="vertical" gap="extra-small" align="start">
+              <Stack dir="vertical" align="start">
+                <Text text="Screen Recording Permission" />
+                <Text
+                  text="This permission is required to allow the magnifying glass to capture the screen"
+                  size="small"
+                  tinted
+                />
+              </Stack>
+              {isMacosPermissionGranted ? (
+                <Text text="Granted" />
+              ) : (
+                <Button label="Open System Settings" padding="medium" onClick={requestMacosPermission} />
+              )}
+            </Stack>
+          )}
+          <Stack dir="vertical" align="start">
+            <Button iconPre={Keyboard} label="Key Bindings" padding="medium" onClick={goToKeybindings} />
+          </Stack>
         </Stack>
-      </Stack>
+      </Scroller>
     </Stack>
   )
 }

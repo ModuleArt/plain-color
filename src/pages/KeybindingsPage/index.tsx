@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/Button'
 import { Text } from '@/components/Text'
 import { Icon } from '@/components/Icon'
+import { Scroller } from '@/components/Scroller'
 
 export const KeybindingsPage: FC = () => {
   const navigate = useNavigate()
@@ -15,23 +16,28 @@ export const KeybindingsPage: FC = () => {
   }
 
   return (
-    <Stack dir="vertical" gap="large" grow>
-      <Header leftElement={<Button iconPre={CaretLeft} padding="small" onClick={goBack} nativeTooltip="Back" />}>
-        <Text text="Key Bindings" />
+    <Stack dir="vertical" gap="none" grow>
+      <Header extraPaddingRight>
+        <Stack align="center" grow>
+          <Button iconPre={CaretLeft} padding="small" onClick={goBack} nativeTooltip="Back" />
+          <Text text="Key Bindings" grow align="center" />
+        </Stack>
       </Header>
-      <Stack dir="vertical" gap="extra-large" grow padding="medium">
-        <Stack dir="vertical" gap="large">
-          <Stack align="center">
-            <Icon icon={Eyedropper} />
-            <Text text="Picker" />
-          </Stack>
-          <Stack dir="vertical" gap="extra-small">
-            <Text text="Control zoom level with + and - keys" size="small" tinted />
-            <Text text="Hold Shift to pick multiple colors in a row" size="small" tinted />
-            <Text text="Press C to pick and instantly copy the color" size="small" tinted />
+      <Scroller extraPaddingTop>
+        <Stack dir="vertical" gap="extra-large" padding="medium">
+          <Stack dir="vertical" gap="large">
+            <Stack align="center">
+              <Icon icon={Eyedropper} />
+              <Text text="Picker" />
+            </Stack>
+            <Stack dir="vertical" gap="extra-small">
+              <Text text="Control zoom level with + and - keys" size="small" tinted />
+              <Text text="Hold Shift to pick multiple colors in a row" size="small" tinted />
+              <Text text="Press C to pick and instantly copy the color" size="small" tinted />
+            </Stack>
           </Stack>
         </Stack>
-      </Stack>
+      </Scroller>
     </Stack>
   )
 }
