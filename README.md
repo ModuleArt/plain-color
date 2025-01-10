@@ -54,7 +54,7 @@ Want more? Open a <a href="https://github.com/ModuleArt/plain-color/issues/new">
 
 If you want to report a bug, first, thank you, that helps us a lot. Please open an <a href="https://github.com/ModuleArt/plain-color/issues/new">issue</a> and mention your OS, your PlainColor version, and how to reproduce it. Adding a screenshot of the issue or screen recording is a big help too.
 
-## 🔮 Future Plans
+## 🔮 Future plans
 
 ### v1.0.8 (what's left)
 
@@ -73,13 +73,21 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 
 ### v1.1.x
 
+- Export/Import palettes:
+  - Select color format (hex, rgb, etc.)
+  - Export preview (textarea, copy button)
+  - Export variants:
+    - JSON `{ "Indigo": "#4464C2" }`
+    - JavaScript `const colors = { indigo: "#4464C2" }`
+    - CSS variables `:root { --color-indigo: #4464C2 }`
+    - SASS variables `$color-indigo: #4464C2`
 - <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
 - Add picker sound (Funny mouth sound, with ability to turn off)
 - Add ability to reorder colors
 - More color formats:
   - Common:
-    - RGB/RGBA from 0 to 1 `0,36; 0,18; 0,57`
-    - HSB/HSV `268, 69, 57`
+    - 🖥️ RGB/RGBA from 0 to 1 `0,36; 0,18; 0,57`
+    - 🎨 HSB/HSV `268, 69, 57`
   - Native:
     - 🖥️ NSColor RGB
     - 🖥️ NSColor HSB
@@ -92,4 +100,5 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
     - 🌊 .NET RGB/ARGB
     - ☕ Java RGB/RGBA
     - 📱 Android RGB/ARGB
+  - Custom color formatter
 - Add ability to change global shortcuts
