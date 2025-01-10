@@ -9,10 +9,8 @@ mod mod_screenshot;
 
 use tauri::{
     menu::{Menu, PredefinedMenuItem, Submenu},
-    // tray::TrayIconBuilder,
     Manager,
 };
-use tauri_nspanel::WebviewWindowExt;
 
 #[allow(non_upper_case_globals)]
 const NSWindowStyleMaskNonActivatingPanel: i32 = 1 << 7;
@@ -45,6 +43,7 @@ pub fn run() {
                 ],
             )
         })
+        .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_shell::init())
@@ -61,31 +60,20 @@ pub fn run() {
         ])
         .setup(|app| {
             #[cfg(target_os = "macos")]
-            let picker_window = app.get_webview_window("picker").unwrap();
-            let picker_panel = picker_window.to_panel().unwrap();
-            picker_panel.set_level(cocoa::appkit::NSMainMenuWindowLevel + 1);
-            picker_panel.set_style_mask(NSWindowStyleMaskNonActivatingPanel);
-            picker_panel.set_collection_behaviour(
-                cocoa::appkit::NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces
-                    | cocoa::appkit::NSWindowCollectionBehavior::NSWindowCollectionBehaviorStationary
-                    | cocoa::appkit::NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary,
-            );
+            {
+                use tauri_nspanel::WebviewWindowExt;
 
-            //     let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
-            //     let menu = Menu::with_items(app, &[&quit_i])?;
-            //     TrayIconBuilder::new()
-            //         .icon(app.default_window_icon().unwrap().clone())
-            //         .menu(&menu)
-            //         .menu_on_left_click(true)
-            //         .on_menu_event(|app, event| match event.id.as_ref() {
-            //             "quit" => {
-            //                 app.exit(0);
-            //             }
-            //             _ => {
-            //                 println!("menu item {:?} not handled", event.id);
-            //             }
-            //         })
-            //         .build(app)?;
+                let picker_window = app.get_webview_window("picker").unwrap();
+                let picker_panel = picker_window.to_panel().unwrap();
+                picker_panel.set_level(cocoa::appkit::NSMainMenuWindowLevel + 1);
+                picker_panel.set_style_mask(NSWindowStyleMaskNonActivatingPanel);
+                picker_panel.set_collection_behaviour(
+                    cocoa::appkit::NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces
+                        | cocoa::appkit::NSWindowCollectionBehavior::NSWindowCollectionBehaviorStationary
+                        | cocoa::appkit::NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary,
+                );
+            }
+
             Ok(())
         })
         .run(tauri::generate_context!())

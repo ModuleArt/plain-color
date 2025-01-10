@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { Stack } from '@/components/Stack'
 import { Header } from '@/components/Header'
-import { CaretLeft, Eyedropper } from '@phosphor-icons/react'
+import { CaretLeft, Eyedropper, KeyReturn } from '@phosphor-icons/react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/Button'
 import { Text } from '@/components/Text'
@@ -25,6 +25,16 @@ export const KeybindingsPage: FC = () => {
       </Header>
       <Scroller extraPaddingTop>
         <Stack dir="vertical" gap="extra-large" padding="medium">
+          <Stack dir="vertical" gap="large">
+            <Stack align="center">
+              <Icon icon={KeyReturn} />
+              <Text text="Global Shortcuts" />
+            </Stack>
+            <Stack dir="vertical" gap="extra-small">
+              <Text text="⇧⌘P - Open PlainColor" size="small" tinted />
+              <Text text="⌥⌘P - Open picker" size="small" tinted />
+            </Stack>
+          </Stack>
           <Stack dir="vertical" gap="large">
             <Stack align="center">
               <Icon icon={Eyedropper} />

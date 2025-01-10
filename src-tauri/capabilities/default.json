@@ -21,6 +21,10 @@
     "core:event:allow-emit-to",
     "os:default",
     "process:default",
-    "process:allow-exit"
+    "process:allow-exit",
+    "global-shortcut:default",
+    "global-shortcut:allow-is-registered",
+    "global-shortcut:allow-register",
+    "global-shortcut:allow-unregister"
   ]
 }

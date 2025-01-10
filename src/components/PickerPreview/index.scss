@@ -1,10 +1,14 @@
-.picker-layout {
+.picker-preview {
   position: fixed;
   left: 0;
   top: 0;
   width: calc(100% + var(--pixel));
   height: calc(100% + var(--pixel));
   cursor: none;
+
+  &--show-cursor {
+    cursor: default;
+  }
 
   &__image {
     width: 100%;

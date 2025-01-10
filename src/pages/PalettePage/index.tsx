@@ -9,13 +9,9 @@ import { usePalettesStore } from '@/store/palettes.store'
 import { IPalette } from '@/types/palette.types'
 import { ColorCard } from '@/components/ColorCard'
 import { IColor } from '@/types/color.types'
-import {
-  invokeCheckMacosScreenRecordingPermission,
-  invokeRequestMacosScreenRecordingPermission,
-} from '@/utils/cmd/macosPermissions.cmd.util'
 import { usePickerStore } from '@/store/picker.store'
-import { IS_DEBUG } from '@/config'
 import { Scroller } from '@/components/Scroller'
+import { preparePickerForOpen } from '@/utils/picker.util'
 
 export const PalettePage: FC = () => {
   const params = useParams<{ paletteId: string }>()
@@ -40,12 +36,7 @@ export const PalettePage: FC = () => {
   }
 
   const pickColor = async () => {
-    const authorized = await invokeCheckMacosScreenRecordingPermission()
-    if (authorized || IS_DEBUG) {
-      pickerStore.openPicker({ target: 'PALETTE', paletteId: palette.id })
-    } else {
-      invokeRequestMacosScreenRecordingPermission()
-    }
+    preparePickerForOpen(() => pickerStore.openPicker({ target: 'PALETTE', paletteId: palette.id }))
   }
 
   const addColor = () => {

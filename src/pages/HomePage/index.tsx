@@ -7,13 +7,9 @@ import { useColorsStore } from '@/store/colors.store'
 import { useNavigate } from 'react-router-dom'
 import { usePickerStore } from '@/store/picker.store'
 import { IColor } from '@/types/color.types'
-import {
-  invokeCheckMacosScreenRecordingPermission,
-  invokeRequestMacosScreenRecordingPermission,
-} from '@/utils/cmd/macosPermissions.cmd.util'
-import { IS_DEBUG } from '@/config'
 import { Scroller } from '@/components/Scroller'
 import { Header } from '@/components/Header'
+import { preparePickerForOpen } from '@/utils/picker.util'
 
 export const HomePage: FC = () => {
   const navigate = useNavigate()
@@ -33,12 +29,7 @@ export const HomePage: FC = () => {
   }
 
   const pickColor = async () => {
-    const authorized = await invokeCheckMacosScreenRecordingPermission()
-    if (authorized || IS_DEBUG) {
-      pickerStore.openPicker({ target: 'HOME' })
-    } else {
-      invokeRequestMacosScreenRecordingPermission()
-    }
+    preparePickerForOpen(() => pickerStore.openPicker({ target: 'HOME' }))
   }
 
   const addColor = () => {

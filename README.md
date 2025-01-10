@@ -23,9 +23,9 @@
 
 ## ⬇️ Download
 
-- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.8/PlainColor_1.0.8_aarch64.dmg">macOS: dmg</a>
-- Windows: Coming soon...
-- Linux: Coming soon...
+- macOS: <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.8/PlainColor_1.0.8_aarch64.dmg">dmg</a>
+- Windows: exe | microsoft store | chocolatey - Coming soon...
+- Linux: flathub | appimage | deb - Coming soon...
 
 ## 🚀 Features
 
@@ -64,6 +64,7 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 - Prepend default palette (Apple colors)
 - Move picker with arrows (step = 1px), make sure it cannot be out of screen bounds
 - Fix context menu height (check on different window heights)
+- Picker: Pinch to zoom
 
 ### v1.1.x
 
@@ -87,6 +88,5 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
     - 🌊 .NET RGB/ARGB
     - ☕ Java RGB/RGBA
     - 📱 Android RGB/ARGB
-- Tray icon
-- Picker shortcut `Command + Shift + M`
-  - Instant picker shortcut `Ctrl + Shift + M` (?)
+- Instant copy shortcut `CommandOrControl+Shift+C`
+- Add ability to change global shortcuts

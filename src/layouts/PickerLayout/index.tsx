@@ -1,13 +1,9 @@
 import { FC, useEffect, useState } from 'react'
 import { listen, UnlistenFn } from '@tauri-apps/api/event'
-import './index.scss'
-import { isDark, rgbToHex } from '@/utils/color'
-import { Text } from '@/components/Text'
-import cn from 'classnames'
-import { Stack } from '@/components/Stack'
-import { Image } from '@/components/Image'
+import { rgbToHex } from '@/utils/color'
 import { disableDefaultContextMenu } from '@/utils/contextMenu.util'
 import { emitToMain } from '@/utils/emit'
+import { PickerPreview } from '@/components/PickerPreview'
 
 export const PickerLayout: FC = () => {
   const [image, setImage] = useState('')
@@ -108,26 +104,5 @@ export const PickerLayout: FC = () => {
     emitToMain({ cmd: 'preview_canceled', payload: {} })
   }
 
-  return (
-    <div
-      className="picker-layout"
-      onClick={() => pickColor(false)}
-      style={{ '--pixel': `calc(100% / ${previewSize - 1}` } as React.CSSProperties}
-    >
-      <Image src={image} className="picker-layout__image" pointerEvents="disable" />
-      <Stack
-        className="picker-layout__color"
-        style={{ background: `#${color}` }}
-        justify="center"
-        pointerEvents="disable"
-      >
-        <Text
-          text={color}
-          tinted
-          transform="uppercase"
-          className={cn('picker-layout__color-text', { 'picker-layout__color-text--inverted': !isDark(color) })}
-        />
-      </Stack>
-    </div>
-  )
+  return <PickerPreview colorHex={color} onClick={() => pickColor(false)} previewSize={previewSize} image={image} />
 }

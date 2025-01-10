@@ -24,16 +24,16 @@ export const rgbToHex = (rgb: TColorRgb) => {
   return hexa.length === 8 && hexa.endsWith('ff') ? hexWithoutAlpha(hexa) : hexa
 }
 
-export const hexWithoutAlpha = (hex: string) => {
-  return hex.slice(0, 6)
+export const hexWithoutAlpha = (colorHex: string) => {
+  return colorHex.slice(0, 6)
 }
 
-export const isDark = (hex: string) => {
-  const obj = hexToRgbObj(hex)
+export const isDark = (colorHex: string) => {
+  const obj = hexToRgbObj(colorHex)
 
   return colorIsDark([obj.red, obj.green, obj.blue])
 }
 
-export const generateColorLabel = (hex: string) => {
-  return namer(hex).ntc[0].name
+export const generateColorLabel = (colorHex: string) => {
+  return namer(colorHex).ntc[0].name
 }

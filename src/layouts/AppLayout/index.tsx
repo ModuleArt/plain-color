@@ -21,6 +21,8 @@ import { formatCopyText } from '@/utils/copyVariants.util'
 import { useSettingsStore } from '@/store/settings.store'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
 import { generateColorLabel } from '@/utils/color'
+import { registerGlobalShortcuts, unregisterGlobalShortcuts } from '@/utils/shortcuts'
+import { preparePickerForOpen } from '@/utils/picker.util'
 
 export const AppLayout: FC = () => {
   const pickerStore = usePickerStore()
@@ -62,6 +64,11 @@ export const AppLayout: FC = () => {
 
   useEffect(() => {
     disableDefaultContextMenu()
+    registerGlobalShortcuts({
+      triggerOpenPicker: () => {
+        preparePickerForOpen(() => pickerStore.openPicker({ target: 'HOME' }))
+      },
+    })
 
     Window.getByLabel('main').then((mainWindow) => {
       if (mainWindow) {
@@ -70,6 +77,10 @@ export const AppLayout: FC = () => {
         })
       }
     })
+
+    return () => {
+      unregisterGlobalShortcuts()
+    }
   }, [])
 
   useEffect(() => {
