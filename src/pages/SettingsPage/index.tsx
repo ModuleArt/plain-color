@@ -74,7 +74,7 @@ export const SettingsPage: FC = () => {
           <Stack dir="vertical" gap="extra-small">
             <Stack dir="vertical">
               <Text text="Primary Copy Format" />
-              <Text text="Choose which copy color format will be used by default" size="small" tinted />
+              <Text text="Choose the default color format" size="small" tinted />
             </Stack>
             <Select
               options={copyVariants.map((copyVariant) => ({
@@ -90,7 +90,7 @@ export const SettingsPage: FC = () => {
           <Stack dir="vertical" gap="extra-small">
             <Stack dir="vertical">
               <Text text="Quick Copy" />
-              <Text text="Choose which copy color formats are shown directly on the color card" size="small" tinted />
+              <Text text="Choose which color formats are displayed directly on the color card" size="small" tinted />
             </Stack>
             <Select
               options={copyVariants.map((copyVariant) => ({
@@ -119,7 +119,7 @@ export const SettingsPage: FC = () => {
               <Stack dir="vertical" align="start">
                 <Text text="Screen Recording Permission" />
                 <Text
-                  text="This permission is required to allow the magnifying glass to capture the screen"
+                  text="This permission is required to allow the picker to capture the screen"
                   size="small"
                   tinted
                 />

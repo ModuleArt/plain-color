@@ -60,19 +60,23 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 
 - <a href="https://icon.kitchen/">New app icon</a>
 - Fix: Color name, Palette name white-space
-- ColorCard: Add ability to type/paste HEX value
 - Prepend default palette (Apple colors)
-- Move picker with arrows (step = 1px), make sure it cannot be out of screen bounds
 - Fix context menu height (check on different window heights)
+
+### v1.0.9
+
 - Picker: Pinch to zoom
+- ColorCard: Add ability to type/paste HEX value
+- Move picker with arrows (step = 1px), make sure it cannot be out of screen bounds
+- Instant copy shortcut `CommandOrControl+Shift+C`
+- Better color wheel: Add inputs for values (hex, rgba, etc.)
 
 ### v1.1.x
 
 - <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
 - Add picker sound (Funny mouth sound, with ability to turn off)
-- Better color wheel: Add inputs for values (hex, rgba, etc.)
 - Add ability to reorder colors
-- More quick copy options
+- More color formats:
   - Common:
     - RGB/RGBA from 0 to 1 `0,36; 0,18; 0,57`
     - HSB/HSV `268, 69, 57`
@@ -88,5 +92,4 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
     - 🌊 .NET RGB/ARGB
     - ☕ Java RGB/RGBA
     - 📱 Android RGB/ARGB
-- Instant copy shortcut `CommandOrControl+Shift+C`
 - Add ability to change global shortcuts
