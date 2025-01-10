@@ -1,6 +1,12 @@
 .select {
   position: relative;
 
+  &__button {
+    &--full-width {
+      width: 100%;
+    }
+  }
+
   &__options {
     position: absolute;
     left: 0;

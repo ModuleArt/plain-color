@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Header } from '@/components/Header'
 import { Button } from '@/components/Button'
 import { Text } from '@/components/Text'
-import { CaretLeft, Eyedropper, Plus } from '@phosphor-icons/react'
+import { CaretLeft, Eyedropper, Plus, Export } from '@phosphor-icons/react'
 import { usePalettesStore } from '@/store/palettes.store'
 import { IPalette } from '@/types/palette.types'
 import { ColorCard } from '@/components/ColorCard'
@@ -43,6 +43,10 @@ export const PalettePage: FC = () => {
     navigate(`/palettes/${palette.id}/color`)
   }
 
+  const exportPalette = () => {
+    navigate(`/palettes/${palette.id}/export`)
+  }
+
   return (
     <Stack dir="vertical" gap="none" grow>
       <Header extraPaddingRight>
@@ -62,6 +66,7 @@ export const PalettePage: FC = () => {
           <Stack>
             <Button iconPre={Eyedropper} onClick={pickColor} grow nativeTooltip="Pick color from screen" />
             <Button iconPre={Plus} onClick={addColor} grow nativeTooltip="Add color manually" />
+            <Button iconPre={Export} onClick={exportPalette} grow nativeTooltip="Export palette" />
           </Stack>
           {palette.colors.map((color) => (
             <ColorCard

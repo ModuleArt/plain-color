@@ -12,4 +12,5 @@ export interface ISelectProps<T> extends IPlainlibComponentProps {
   onChange?: (optionIds: T[]) => void
   maxWidth?: number
   multiple?: boolean
+  fullWidth?: boolean
 }

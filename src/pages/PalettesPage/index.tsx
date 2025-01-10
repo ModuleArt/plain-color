@@ -28,7 +28,7 @@ export const PalettesPage: FC = () => {
         <Stack grow align="center">
           <Button iconPre={CaretLeft} padding="small" onClick={goBack} nativeTooltip="Back" />
           <Text align="center" text="Palettes" grow />
-          <Button iconPre={Plus} padding="small" onClick={addPalette} nativeTooltip="Add palette" />
+          <Button iconPre={Plus} padding="small" onClick={addPalette} nativeTooltip="New palette" />
         </Stack>
       </Header>
       <Scroller>

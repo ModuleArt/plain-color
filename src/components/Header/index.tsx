@@ -3,7 +3,7 @@ import { IHeaderProps } from './props'
 import cn from 'classnames'
 import { commonComponentClasses } from '@/lib'
 import './index.scss'
-import { Stack } from '../Stack'
+import { Stack } from '@/components/Stack'
 
 export const Header: FC<PropsWithChildren<IHeaderProps>> = ({
   children,

@@ -58,21 +58,6 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 
 ### v1.0.8 (what's left)
 
-- <a href="https://icon.kitchen/">New app icon</a>
-- Fix: Color name, Palette name white-space
-- Prepend default palette (Apple colors)
-- Fix context menu height (check on different window heights)
-
-### v1.0.9
-
-- Picker: Pinch to zoom
-- ColorCard: Add ability to type/paste HEX value
-- Move picker with arrows (step = 1px), make sure it cannot be out of screen bounds
-- Instant copy shortcut `CommandOrControl+Shift+C`
-- Better color wheel: Add inputs for values (hex, rgba, etc.)
-
-### v1.1.x
-
 - Export/Import palettes:
   - Select color format (hex, rgb, etc.)
   - Export preview (textarea, copy button)
@@ -81,6 +66,22 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
     - JavaScript `const colors = { indigo: "#4464C2" }`
     - CSS variables `:root { --color-indigo: #4464C2 }`
     - SASS variables `$color-indigo: #4464C2`
+- <a href="https://icon.kitchen/">New app icon</a>
+- Fix: Color name, Palette name white-space
+- Prepend default palette (Apple colors)
+- Fix context menu height (check on different window heights)
+
+### v1.0.9
+
+- Import JSON palettes
+- Picker: Pinch to zoom
+- ColorCard: Add ability to type/paste HEX value
+- Move picker with arrows (step = 1px), make sure it cannot be out of screen bounds
+- Instant copy shortcut `CommandOrControl+Shift+C`
+- Better color wheel: Add inputs for values (hex, rgba, etc.)
+
+### v1.1.x
+
 - <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
 - Add picker sound (Funny mouth sound, with ability to turn off)
 - Add ability to reorder colors
