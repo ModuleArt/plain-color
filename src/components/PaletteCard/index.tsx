@@ -1,19 +1,20 @@
-import { FC, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 import { IPaletteCardProps } from './props'
 import { Stack } from '@/components/Stack'
 import './index.scss'
 import { Button } from '@/components/Button'
-import { Trash, DotsThreeOutline, PlusSquare } from '@phosphor-icons/react'
+import { Trash, DotsThreeOutline, PlusSquare, Copy } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { commonComponentClasses } from '@/lib'
 import { IContextMenuShowMenuProps, useContextMenuStore } from '@/store/contextMenu.store'
 import { useRightClick } from '@/hooks/useRightClick.hook'
 import { useNavigate } from 'react-router-dom'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
-import { formatCopyText } from '@/utils/copyVariants.util'
+import { copyVariants, formatCopyText } from '@/utils/copyVariants.util'
 import { useSettingsStore } from '@/store/settings.store'
 import { Text } from '@/components/Text'
-import { isDark } from '@/utils/color'
+import { hexWithoutAlpha, isDark } from '@/utils/color'
+import { ECopyVariant } from '@/types/settings.types'
 
 export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplicate, ...props }) => {
   const [copied, setCopied] = useState<{ colorHex: string; text: string } | null>(null)
@@ -21,9 +22,9 @@ export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplic
   const navigate = useNavigate()
   const settingsStore = useSettingsStore()
 
-  const copy = (colorHex: string) => {
+  const copy = (copyVariant: ECopyVariant, colorHex: string) => {
     if (!copied) {
-      const text = formatCopyText(colorHex, settingsStore.defaultCopyVariant)
+      const text = formatCopyText(colorHex, copyVariant)
       writeText(text)
 
       setCopied({ text, colorHex })
@@ -31,11 +32,16 @@ export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplic
     }
   }
 
-  const uniqueColors = palette.colors
-    .map((color) => color.hex)
-    .filter((value, index, array) => array.indexOf(value) === index)
+  const uniqueColors = useMemo(
+    () =>
+      palette.colors
+        .map((color) => color.hex)
+        .filter((value, index, array) => array.indexOf(value) === index)
+        .slice(0, 32),
+    [palette.colors]
+  )
 
-  const showOptions = (menuProps: IContextMenuShowMenuProps) => {
+  const showPaletteOptions = (menuProps: IContextMenuShowMenuProps) => {
     contextMenuStore.showMenu(menuProps, [
       {
         icon: PlusSquare,
@@ -50,55 +56,83 @@ export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplic
     ])
   }
 
-  const rightClickRef = useRightClick((event) => {
-    showOptions({ event, useMousePosition: true })
+  const showColorOptions = (menuProps: IContextMenuShowMenuProps, colorHex: string) => {
+    contextMenuStore.showMenu(menuProps, [
+      {
+        icon: Copy,
+        label: 'Copy',
+        subMenuItems: copyVariants.map((copyVariant) => ({
+          icon: Copy,
+          label: copyVariant.label,
+          onClick: () => copy(copyVariant.id, colorHex),
+        })),
+      },
+    ])
+  }
+
+  const paletteRightClickRef = useRightClick((event) => {
+    showPaletteOptions({ event, useMousePosition: true })
   })
+
+  const colorRightClickRefs = uniqueColors.map((colorHex) =>
+    useRightClick((event) => {
+      showColorOptions({ event, useMousePosition: true }, colorHex)
+    })
+  )
 
   const openPalette = () => {
     navigate(`/palettes/${palette.id}`)
   }
 
   return (
-    <Stack
-      stackRef={rightClickRef}
-      gap="none"
-      dir="vertical"
-      className={cn('palette-card', commonComponentClasses(props))}
-    >
+    <Stack gap="none" dir="vertical" className={cn('palette-card', commonComponentClasses(props))}>
       {copied && (
         <Stack
-          padding="medium"
-          justify="center"
-          align="center"
-          dir="vertical"
           className={cn('palette-card__copied-overlay', {
             'palette-card__copied-overlay--inverted': !isDark(copied.colorHex),
           })}
-          style={{ background: `#${copied.colorHex}` }}
         >
-          <Text align="center" text={copied.text} />
+          <Stack
+            padding="medium"
+            grow
+            justify="center"
+            align="center"
+            dir="vertical"
+            style={{
+              background: `linear-gradient(to top, #${copied.colorHex}, #${hexWithoutAlpha(copied.colorHex)})`,
+            }}
+          >
+            <Text align="center" text={copied.text} />
+          </Stack>
         </Stack>
       )}
-      <Stack padding="medium">
+      <Stack padding="medium" stackRef={paletteRightClickRef}>
         <Button label={palette.label} grow justify="start" size="inline" onClick={openPalette} />
         <Stack>
           <Button
             iconPre={DotsThreeOutline}
             variant="clear"
             size="inline"
-            onClick={(event) => showOptions({ event })}
+            onClick={(event) => showPaletteOptions({ event })}
           />
         </Stack>
       </Stack>
       {uniqueColors.length > 0 && (
-        <Stack gap="none">
-          {uniqueColors.map((color) => (
+        <Stack gap="none" className="palette-card__colors">
+          {uniqueColors.map((color, index) => (
             <button
               className="palette-card__color"
               key={color}
-              style={{ background: `#${color}` }}
-              onClick={() => copy(color)}
-            />
+              onClick={() => copy(settingsStore.defaultCopyVariant, color)}
+            >
+              <div
+                ref={colorRightClickRefs[index]}
+                className="palette-card__color-bg"
+                style={{
+                  background: `linear-gradient(to top, #${color}, #${hexWithoutAlpha(color)})`,
+                }}
+              />
+            </button>
           ))}
         </Stack>
       )}

@@ -7,7 +7,9 @@ import { AppLayout } from '@/layouts/AppLayout'
 // pages
 import { HomePage } from '@/pages/HomePage'
 import { PalettesPage } from '@/pages/PalettesPage'
+import { ImportPalettePage } from '@/pages/ImportPalettePage'
 import { PalettePage } from '@/pages/PalettePage'
+import { ExportPalettePage } from '@/pages/ExportPalettePage'
 import { ColorPage } from '@/pages/ColorPage'
 import { SettingsPage } from '@/pages/SettingsPage'
 import { KeybindingsPage } from '@/pages/KeybindingsPage'
@@ -17,12 +19,17 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<AppLayout />}>
       <Route index element={<HomePage />} />
+
       <Route path="palettes" element={<PalettesPage />} />
       <Route path="palettes/:paletteId" element={<PalettePage />} />
       <Route path="palettes/:paletteId/color" element={<ColorPage />} />
       <Route path="palettes/:paletteId/color/:colorId" element={<ColorPage />} />
+      <Route path="palettes/:paletteId/export" element={<ExportPalettePage />} />
+      <Route path="palettes/:paletteId/import" element={<ImportPalettePage />} />
+
       <Route path="color" element={<ColorPage />} />
       <Route path="color/:colorId" element={<ColorPage />} />
+
       <Route path="settings" element={<SettingsPage />} />
       <Route path="keybindings" element={<KeybindingsPage />} />
       <Route path="about" element={<AboutPage />} />

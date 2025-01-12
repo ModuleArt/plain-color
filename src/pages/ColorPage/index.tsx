@@ -1,14 +1,16 @@
 import { ColorCard } from '@/components/ColorCard'
 import { Stack } from '@/components/Stack'
 import { useColorsStore } from '@/store/colors.store'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from '@/components/Button'
 import { ColorPicker } from '@/components/ColorPicker'
 import { generateRandomUuid } from '@/utils/uuid.util'
-import { defaultColor } from '@/utils/color'
+import { defaultColor, generateColorLabel } from '@/utils/color'
 import { usePalettesStore } from '@/store/palettes.store'
 import { IColor } from '@/types/color.types'
+
+const DEFAULT_COLOR_NAME = 'New Color'
 
 export const ColorPage: FC = () => {
   const params = useParams<{ paletteId?: string; colorId?: string }>()
@@ -22,10 +24,17 @@ export const ColorPage: FC = () => {
       : colorsStore.colors
     ).find((color) => color.id === params.colorId) || {
       id: generateRandomUuid(),
-      label: 'New Color',
+      label: DEFAULT_COLOR_NAME,
       hex: defaultColor,
     }
   )
+
+  useEffect(() => {
+    if (color.label === DEFAULT_COLOR_NAME) {
+      const label = generateColorLabel(color.hex)
+      setColor({ ...color, label })
+    }
+  }, [color.hex])
 
   const onCancel = () => {
     navigate(-1)

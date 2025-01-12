@@ -13,6 +13,7 @@ export const Stack: FC<PropsWithChildren<IStackProps>> = ({
   gap = 'small',
   padding = 'none',
   wrap = false,
+  onClick,
   stackRef,
   ...props
 }) => {
@@ -32,6 +33,7 @@ export const Stack: FC<PropsWithChildren<IStackProps>> = ({
         commonComponentClasses(props)
       )}
       style={style}
+      onClick={(e) => onClick && onClick(e.nativeEvent)}
     >
       {children}
     </div>

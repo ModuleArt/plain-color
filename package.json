@@ -1,7 +1,7 @@
 {
   "name": "plain-color",
   "private": false,
-  "version": "1.0.7",
+  "version": "1.0.8",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,6 +14,10 @@
     "@phosphor-icons/react": "^2.1.7",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-clipboard-manager": "^2.0.0",
+    "@tauri-apps/plugin-dialog": "~2",
+    "@tauri-apps/plugin-fs": "~2",
+    "@tauri-apps/plugin-global-shortcut": "~2",
+    "@tauri-apps/plugin-http": "~2",
     "@tauri-apps/plugin-os": "~2",
     "@tauri-apps/plugin-process": "^2.0.0",
     "@tauri-apps/plugin-shell": "^2",

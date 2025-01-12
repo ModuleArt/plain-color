@@ -4,17 +4,22 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Header } from '@/components/Header'
 import { Button } from '@/components/Button'
 import { Text } from '@/components/Text'
-import { CaretLeft, Eyedropper, Plus } from '@phosphor-icons/react'
+import {
+  CaretLeft,
+  Eyedropper,
+  Plus,
+  UploadSimple,
+  DownloadSimple,
+  SquaresFour,
+  TextAlignJustify,
+} from '@phosphor-icons/react'
 import { usePalettesStore } from '@/store/palettes.store'
 import { IPalette } from '@/types/palette.types'
 import { ColorCard } from '@/components/ColorCard'
 import { IColor } from '@/types/color.types'
-import {
-  invokeCheckMacosScreenRecordingPermission,
-  invokeRequestMacosScreenRecordingPermission,
-} from '@/utils/cmd/macosPermissions.cmd.util'
 import { usePickerStore } from '@/store/picker.store'
-import { IS_DEBUG } from '@/config'
+import { Scroller } from '@/components/Scroller'
+import { preparePickerForOpen } from '@/utils/picker.util'
 
 export const PalettePage: FC = () => {
   const params = useParams<{ paletteId: string }>()
@@ -39,44 +44,73 @@ export const PalettePage: FC = () => {
   }
 
   const pickColor = async () => {
-    const authorized = await invokeCheckMacosScreenRecordingPermission()
-    if (authorized || IS_DEBUG) {
-      pickerStore.openPicker({ target: 'PALETTE', paletteId: palette.id })
-    } else {
-      invokeRequestMacosScreenRecordingPermission()
-    }
+    preparePickerForOpen(() => pickerStore.openPicker({ target: 'PALETTE', paletteId: palette.id }))
   }
 
   const addColor = () => {
     navigate(`/palettes/${palette.id}/color`)
   }
 
+  const exportPalette = () => {
+    navigate(`/palettes/${palette.id}/export`)
+  }
+
+  const importPalette = () => {
+    navigate(`/palettes/${palette.id}/import`)
+  }
+
+  const toggleView = () => {
+    palettesStore.updatePalette(palette.id, { ...palette, view: palette.view === 'grid' ? 'list' : 'grid' })
+  }
+
   return (
     <Stack dir="vertical" gap="none" grow>
-      <Header leftElement={<Button iconPre={CaretLeft} padding="small" onClick={goBack} nativeTooltip="Back" />}>
-        <Text
-          text={palette.label}
-          editable
-          onTextChange={(label) => onPaletteChange({ ...palette, label })}
-          align="center"
-        />
-      </Header>
-      <Stack dir="vertical" gap="medium" padding="medium">
-        <Stack>
-          <Button iconPre={Eyedropper} onClick={pickColor} grow nativeTooltip="Pick color from screen" />
-          <Button iconPre={Plus} onClick={addColor} grow nativeTooltip="Add color manually" />
-        </Stack>
-        {palette.colors.map((color) => (
-          <ColorCard
-            key={color.id}
-            color={color}
-            onDelete={() => palettesStore.removeColorFromPalette(palette.id, color.id)}
-            onEdit={() => navigate(`/palettes/${palette.id}/color/${color.id}`)}
-            onDuplicate={() => palettesStore.duplicateColorInPalette(palette.id, color.id)}
-            onColorChange={onColorChange}
+      <Header extraPaddingRight>
+        <Stack grow align="center">
+          <Button iconPre={CaretLeft} padding="small" onClick={goBack} nativeTooltip="Back" />
+          <Text
+            text={palette.label}
+            editable
+            onTextChange={(label) => onPaletteChange({ ...palette, label })}
+            align="center"
+            grow
           />
-        ))}
-      </Stack>
+        </Stack>
+      </Header>
+      <Scroller>
+        <Stack dir="vertical" gap="medium" padding="medium">
+          <Stack>
+            <Button iconPre={Eyedropper} onClick={pickColor} grow nativeTooltip="Pick color from screen" />
+            <Button iconPre={Plus} onClick={addColor} grow nativeTooltip="Add color manually" />
+            <Button iconPre={DownloadSimple} onClick={importPalette} grow nativeTooltip="Import colors" />
+            <Button iconPre={UploadSimple} onClick={exportPalette} grow nativeTooltip="Export palette" />
+            <Button
+              iconPre={palette.view === 'grid' ? TextAlignJustify : SquaresFour}
+              onClick={toggleView}
+              grow
+              nativeTooltip={palette.view === 'grid' ? 'Switch to list view' : 'Switch to grid view'}
+            />
+          </Stack>
+          <Stack
+            dir={palette.view === 'grid' ? 'horizontal' : 'vertical'}
+            wrap={palette.view === 'grid'}
+            gap={palette.view === 'grid' ? 'none' : 'medium'}
+            style={palette.view === 'grid' ? { margin: '-0.25rem' } : undefined}
+          >
+            {palette.colors.map((color) => (
+              <ColorCard
+                key={color.id}
+                color={color}
+                onDelete={() => palettesStore.removeColorFromPalette(palette.id, color.id)}
+                onEdit={() => navigate(`/palettes/${palette.id}/color/${color.id}`)}
+                onDuplicate={() => palettesStore.duplicateColorInPalette(palette.id, color.id)}
+                onColorChange={onColorChange}
+                variant={palette.view}
+              />
+            ))}
+          </Stack>
+        </Stack>
+      </Scroller>
     </Stack>
   )
 }

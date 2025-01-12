@@ -5,7 +5,6 @@ import { Outlet } from 'react-router-dom'
 import { usePickerStore } from '@/store/picker.store'
 import { Window } from '@tauri-apps/api/window'
 import { UnlistenFn } from '@tauri-apps/api/event'
-import namer from 'color-namer'
 import { useColorsStore } from '@/store/colors.store'
 import { Logo } from '@/components/Logo'
 import { getPlatform } from '@/utils/tauri.util'
@@ -17,10 +16,14 @@ import { disableDefaultContextMenu } from '@/utils/contextMenu.util'
 import { ContextMenu } from '@/components/ContextMenu'
 import { invokeSetPickerPreviewSize, invokeStartPickerLoop, invokeStopPickerLoop } from '@/utils/cmd/picker.cmd.util'
 import { usePalettesStore } from '@/store/palettes.store'
-import { listenInMain } from '@/utils/emit'
+import { listenInMain } from '@/utils/emit/main.emit'
 import { formatCopyText } from '@/utils/copyVariants.util'
 import { useSettingsStore } from '@/store/settings.store'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
+import { generateColorLabel } from '@/utils/color'
+import { registerGlobalShortcuts, unregisterGlobalShortcuts } from '@/utils/shortcuts'
+import { preparePickerForOpen } from '@/utils/picker.util'
+import { emitToPicker } from '@/utils/emit/picker.emit'
 
 export const AppLayout: FC = () => {
   const pickerStore = usePickerStore()
@@ -61,7 +64,16 @@ export const AppLayout: FC = () => {
   }, [settingsStore.pickerPreviewSize])
 
   useEffect(() => {
+    emitToPicker({ cmd: 'toggle_guidelines', payload: { show: settingsStore.showGuidelines } })
+  }, [settingsStore.showGuidelines])
+
+  useEffect(() => {
     disableDefaultContextMenu()
+    registerGlobalShortcuts({
+      triggerOpenPicker: () => {
+        preparePickerForOpen(() => pickerStore.openPicker({ target: 'HOME' }))
+      },
+    })
 
     Window.getByLabel('main').then((mainWindow) => {
       if (mainWindow) {
@@ -70,6 +82,10 @@ export const AppLayout: FC = () => {
         })
       }
     })
+
+    return () => {
+      unregisterGlobalShortcuts()
+    }
   }, [])
 
   useEffect(() => {
@@ -77,8 +93,7 @@ export const AppLayout: FC = () => {
 
     listeners.push(
       listenInMain('color_picked', (payload) => {
-        const label = namer(payload.color).ntc[0].name
-
+        const label = generateColorLabel(payload.color)
         const newColor = { id: generateRandomUuid(), label, hex: payload.color }
 
         switch (pickerStore.pickerTarget.target) {
@@ -103,7 +118,7 @@ export const AppLayout: FC = () => {
 
     listeners.push(
       listenInMain('preview_zoom_out', () => {
-        if (settingsStore.pickerPreviewSize < 32) {
+        if (settingsStore.pickerPreviewSize < 24) {
           settingsStore.setPickerPreviewSize(settingsStore.pickerPreviewSize + 2)
         }
       })
@@ -114,6 +129,12 @@ export const AppLayout: FC = () => {
         if (settingsStore.pickerPreviewSize > 4) {
           settingsStore.setPickerPreviewSize(settingsStore.pickerPreviewSize - 2)
         }
+      })
+    )
+
+    listeners.push(
+      listenInMain('toggle_guidelines', (payload) => {
+        settingsStore.setShowGuidelines(payload.show)
       })
     )
 
@@ -133,7 +154,7 @@ export const AppLayout: FC = () => {
       <WindowTitlebar color="bg" windowControls={platform !== 'macos'}>
         {platform === 'macos' ? (
           <Header pointerEvents="disable" grow>
-            <Logo />
+            <Logo grow />
           </Header>
         ) : (
           <Stack pointerEvents="disable" grow>

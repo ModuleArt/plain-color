@@ -15,6 +15,7 @@ export const Select = <T extends string | number>({
   onChange,
   maxWidth,
   multiple = false,
+  fullWidth = false,
   ...props
 }: ISelectProps<T>) => {
   const [isOpened, setIsOpened] = useState(false)
@@ -32,6 +33,7 @@ export const Select = <T extends string | number>({
       onChange && onChange(newValue)
     } else {
       onChange && onChange([option.id])
+      setIsOpened(false)
     }
   }
 
@@ -42,7 +44,7 @@ export const Select = <T extends string | number>({
   return (
     <div className={cn('select', commonComponentClasses(props))}>
       <Button
-        className="select__button"
+        className={cn('select__button', { 'select__button--full-width': fullWidth })}
         label={selectedOptions.map((option) => option.label).join(', ') || 'None'}
         iconPost={isOpened ? CaretUp : CaretDown}
         onClick={() => setIsOpened(!isOpened)}
@@ -50,6 +52,7 @@ export const Select = <T extends string | number>({
         maxWidth={maxWidth}
         pointerEvents={isOpened ? 'disable' : 'enable'}
         tinted={isOpened}
+        justify="between"
       />
       {isOpened && (
         <div className="select__options" ref={clickOutsideRef}>

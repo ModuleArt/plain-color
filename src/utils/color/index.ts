@@ -1,4 +1,5 @@
 import rgbHex from 'rgb-hex'
+import namer from 'color-namer'
 import { colorIsDark } from 'color-is-dark'
 import { hexToRgbObj } from './rgb.color.util'
 
@@ -20,10 +21,19 @@ export const rgbToHex = (rgb: TColorRgb) => {
     hexa = rgbHex(rgb.red, rgb.green, rgb.blue, rgb.alpha)
   }
 
-  return hexa.length === 8 && hexa.endsWith('ff') ? hexa.slice(0, 6) : hexa
+  return hexa.length === 8 && hexa.endsWith('ff') ? hexWithoutAlpha(hexa) : hexa
 }
 
-export const isDark = (hex: string) => {
-  const obj = hexToRgbObj(hex)
+export const hexWithoutAlpha = (colorHex: string) => {
+  return colorHex.slice(0, 6)
+}
+
+export const isDark = (colorHex: string) => {
+  const obj = hexToRgbObj(colorHex)
+
   return colorIsDark([obj.red, obj.green, obj.blue])
+}
+
+export const generateColorLabel = (colorHex: string) => {
+  return namer(colorHex).ntc[0].name
 }

@@ -16,6 +16,8 @@ interface ISettingsState {
   setPickerPreviewSize: (pickerPreviewSize: number) => void
   pickerColorProfile: EColorProfile
   setPickerColorProfile: (pickerColorProfile: EColorProfile) => void
+  showGuidelines: boolean
+  setShowGuidelines: (showGuidelines: boolean) => void
 }
 
 export const useSettingsStore = create<ISettingsState>()(
@@ -29,6 +31,8 @@ export const useSettingsStore = create<ISettingsState>()(
       setPickerPreviewSize: (pickerPreviewSize) => set(() => ({ pickerPreviewSize })),
       pickerColorProfile: EColorProfile.SRGB,
       setPickerColorProfile: (pickerColorProfile) => set(() => ({ pickerColorProfile })),
+      showGuidelines: false,
+      setShowGuidelines: (showGuidelines) => set(() => ({ showGuidelines })),
     }),
     {
       name: 'PlainColor_settings',

@@ -1,6 +1,6 @@
 [package]
 name = "PlainColor"
-version = "1.0.7"
+version = "1.0.8"
 description = "A Tauri App"
 authors = ["Eugene Volynko <volynko.ua@gmail.com>"]
 edition = "2021"
@@ -33,6 +33,12 @@ core-graphics = "0.24"
 tauri-nspanel = { git = "https://github.com/ahkohd/tauri-nspanel", branch = "v2" }
 tokio = "1.42.0"
 rcms = "0.1.0"
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+tauri-plugin-http = "2"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 cocoa = "0.26.0"
+
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+tauri-plugin-global-shortcut = "2"

@@ -5,6 +5,6 @@
     <key>LSUIElement</key>
     <true />
     <key>NSScreenCaptureUsageDescription</key>
-    <string>This permission is required to allow the magnifying glass to capture the screen.</string>
+    <string>This permission is required to allow the picker to capture the screen.</string>
 </dict>
 </plist>

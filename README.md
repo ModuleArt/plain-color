@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://moduleart.github.io/plaincolor">
-    <img src='/src-tauri/icons/128x128.png' height="96px" />
+    <img src='https://moduleart.github.io/assets/images/projects/plain-color/icon.webp' height="96px" />
   </a>
 </p>
 <h1 align="center">PlainColor</h1>
@@ -23,20 +23,22 @@
 
 ## ⬇️ Download
 
-- <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.7/PlainColor_1.0.7_aarch64.dmg">macOS: dmg</a>
-- Windows: Coming soon...
-- Linux: Coming soon...
+- macOS: <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.8/PlainColor_1.0.8_aarch64.dmg">dmg</a>
+- Windows: exe | microsoft store | chocolatey - Coming soon...
+- Linux: flathub | appimage | deb - Coming soon...
 
 ## 🚀 Features
 
-- 🔍 Magnifying glass
-- 🎨 Custom palettes
-- 📋 A lot of copy options
+- 🔍 <b>Picker</b> - Pick a color from your screen with advanced magnifying glass
+- 🎨 <b>Custom palettes</b> - Organize your colors with palettes. Name colors and add them to palettes to use in your projects
+  - Export palette to `JSON` `CSS / SASS variables` `JavaScript object`
+  - Import colors from `JSON` `Tailwind CSS default colors`
+- 📋 <b>A lot of color formats</b> - Copy your colors as:
   - `#HEX` `HEX` `#hex` `hex`
   - `rgb()` `R,G,B` `color(display-p3)`
   - `hsl()` `H,S,L`
   - `cmyk()` `C,M,Y,K`
-- 🍎 Great macOS support
+- 🍎 <b>Great macOS support</b>
   - Works on top of menu bar and fullscreen windows
 
 ### Coming soon
@@ -54,27 +56,33 @@ Want more? Open a <a href="https://github.com/ModuleArt/plain-color/issues/new">
 
 If you want to report a bug, first, thank you, that helps us a lot. Please open an <a href="https://github.com/ModuleArt/plain-color/issues/new">issue</a> and mention your OS, your PlainColor version, and how to reproduce it. Adding a screenshot of the issue or screen recording is a big help too.
 
-## 🔮 Future Plans
+## 🔮 Roadmap
 
-### v1.0.8
+### v1.0.9
 
-- Fix: Color name, Palette name white-space
-- ColorCard: Checkboard background for alpha colors
-- ColorCard: Add ability to type/paste HEX value
-- Prepend default palette (Apple colors)
+- ❗ Improve list performance (infinite scroll)
+- ❗ Fix: Color/Palette name white-space
+- ❗ Fix context menu height (check on different window heights)
+- ❗ Hide context menu on scroll
+- ❗ Animation on export palette content copied
+- ❗ Fix: Cannot copy/select text in inputs/textareas
+- ❗ ColorCard: Add ability to type/paste HEX value
+- Picker: Pinch to zoom
 - Move picker with arrows (step = 1px), make sure it cannot be out of screen bounds
+- Instant copy shortcut `CommandOrControl+Shift+C`
+- Export to image (with preview, mb use canvas)
+- Prepend default palette: Apple colors (integrate with import feature?)
 
 ### v1.1.x
 
-- <a href="https://icon.kitchen/">New app icon</a>
-- <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
-- Add picker sound (Funny mouth sound, with ability to turn off)
-- Better color wheel: Add inputs for values (hex, rgba, etc.)
+- ❗ <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
+- ❗ Better color wheel: Add inputs for values (hex, rgba, etc.)
 - Add ability to reorder colors
-- More quick copy options
+- More color formats:
   - Common:
-    - RGB/RGBA from 0 to 1 `0,36; 0,18; 0,57`
-    - HSB/HSV `268, 69, 57`
+    - 🖥️ RGB/RGBA from 0 to 1 `0,36; 0,18; 0,57`
+    - 🎨 HSB/HSV `268, 69, 57`
+    - 💈 Oklab `oklch(40.1% 0.123 21.57)`
   - Native:
     - 🖥️ NSColor RGB
     - 🖥️ NSColor HSB
@@ -87,6 +95,8 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
     - 🌊 .NET RGB/ARGB
     - ☕ Java RGB/RGBA
     - 📱 Android RGB/ARGB
-- Tray icon
-- Picker shortcut `Command + Shift + M`
-  - Instant picker shortcut `Ctrl + Shift + M` (?)
+  - Custom color formatter
+- Add ability to change global shortcuts
+- Add picker sound (Funny mouth sound, with ability to turn off)
+- New button pressed animation: scale down
+- Control Select with arrows up/down
