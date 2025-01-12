@@ -29,15 +29,15 @@
 
 ## 🚀 Features
 
-- 🔍 Magnifying glass
-- 🎨 Custom palettes
-  - Export palette as `JSON` `CSS variables` `SASS variables` `JavaScript object`
-- 📋 A lot of copy options
+- 🔍 <b>Picker</b> - Pick a color from your screen with advanced magnifying glass
+- 🎨 <b>Custom palettes</b> - Organize your colors with palettes. Name colors and add them to palettes to use in your projects
+  - Export your palettes to `JSON` `CSS variables` `SASS variables` `JavaScript object`
+- 📋 <b>A lot of color formats</b> - Copy your colors as:
   - `#HEX` `HEX` `#hex` `hex`
   - `rgb()` `R,G,B` `color(display-p3)`
   - `hsl()` `H,S,L`
   - `cmyk()` `C,M,Y,K`
-- 🍎 Great macOS support
+- 🍎 <b>Great macOS support</b>
   - Works on top of menu bar and fullscreen windows
 
 ### Coming soon
@@ -59,14 +59,13 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 
 ### v1.0.8 (what's left)
 
-- ❗ <a href="https://icon.kitchen/">New app icon</a>
+- ❗ Prepend default palette (Apple colors)
+- ❗ Fix: Color/Palette name white-space
 
 ### v1.0.9
 
 - ❗ Fix context menu height (check on different window heights)
-- ❗ Prepend default palette (Apple colors)
 - ❗ Animation on export palette content copied
-- ❗ Fix: Color/Palette name white-space
 - ❗ Fix: Cannot copy text in inputs/textareas
 - ❗ Import JSON palettes
 - ❗ ColorCard: Add ability to type/paste HEX value
