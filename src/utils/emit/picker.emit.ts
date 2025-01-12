@@ -1,6 +1,7 @@
 import { emitTo, listen } from '@tauri-apps/api/event'
 
 interface TEmitToPickerPayload {
+  picker_loop_tick: [string, [number, number, number, number], number]
   toggle_guidelines: { show: boolean }
 }
 

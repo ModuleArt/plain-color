@@ -59,8 +59,6 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 
 ### v1.0.8 (what's left)
 
-- ❗ Use palette name as js object name / add comment on top of css
-- ❗ Save palette to a file
 - ❗ <a href="https://icon.kitchen/">New app icon</a>
 
 ### v1.0.9

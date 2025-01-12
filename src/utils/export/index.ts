@@ -4,11 +4,34 @@ import { ECopyVariant } from '@/types/settings.types'
 import { formatCopyText } from '@/utils/copyVariants.util'
 
 export const exportPaletteVariants = [
-  { id: EExportPaletteVariant.JSON, label: 'JSON' },
-  { id: EExportPaletteVariant.CSS_VARS, label: 'CSS variables' },
-  { id: EExportPaletteVariant.SASS_VARS, label: 'SASS variables' },
-  { id: EExportPaletteVariant.JS_OBJECT, label: 'JavaScript object' },
+  { id: EExportPaletteVariant.JSON, label: 'JSON', fileExtension: 'json' },
+  { id: EExportPaletteVariant.CSS_VARS, label: 'CSS variables', fileExtension: 'css' },
+  { id: EExportPaletteVariant.SASS_VARS, label: 'SASS variables', fileExtension: 'scss' },
+  { id: EExportPaletteVariant.JS_OBJECT, label: 'JavaScript object', fileExtension: 'js' },
 ]
+
+const formatJsObjectFieldName = (fieldName: string) => {
+  const sanitized = fieldName.replace(/[^a-z0-9_$ ]+/gi, '')
+  const words = sanitized.split(/[\s_]+/)
+  let camelCased = words
+    .map((word, index) =>
+      index === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    )
+    .join('')
+  if (/^[0-9]/.test(camelCased)) {
+    camelCased = `_${camelCased}`
+  }
+  return camelCased
+}
+
+const formatCssVariableName = (variableName: string) => {
+  const sanitized = variableName
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-zA-Z0-9-]/g, '')
+    .replace(/^[^a-zA-Z_]/, '_')
+  return sanitized
+}
 
 const exportColor = (
   exportVariant: EExportPaletteVariant,
@@ -23,43 +46,26 @@ const exportColor = (
       return `  "${color.label}": "${formattedColor}"${isLastRow ? '' : ','}`
     }
     case EExportPaletteVariant.CSS_VARS: {
-      let prefix = 'color-'
-      const sanitized = `${prefix}${color.label}`
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^a-zA-Z0-9-]/g, '')
-        .replace(/^[^a-zA-Z_]/, '_')
-
-      return `  --${sanitized}: ${formattedColor};`
+      const variableName = formatCssVariableName(`color-${color.label}`)
+      return `  --${variableName}: ${formattedColor};`
     }
     case EExportPaletteVariant.SASS_VARS: {
-      let prefix = 'color-'
-      const sanitized = `${prefix}${color.label}`
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^a-zA-Z0-9-]/g, '')
-        .replace(/^[^a-zA-Z_]/, '_')
-
-      return `$${sanitized}: ${formattedColor};`
+      const variableName = formatCssVariableName(`color-${color.label}`)
+      return `$${variableName}: ${formattedColor};`
     }
     case EExportPaletteVariant.JS_OBJECT: {
-      const sanitized = color.label.replace(/[^a-z0-9_$ ]+/gi, '')
-      const words = sanitized.split(/[\s_]+/)
-      let camelCased = words
-        .map((word, index) =>
-          index === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-        )
-        .join('')
-      if (/^[0-9]/.test(camelCased)) {
-        camelCased = `_${camelCased}`
-      }
-
-      return `  ${camelCased}: "${formattedColor}",`
+      const fieldName = formatJsObjectFieldName(color.label)
+      return `  ${fieldName}: "${formattedColor}",`
     }
   }
 }
 
-export const exportPalette = (exportVariant: EExportPaletteVariant, colors: IColor[], colorFormat: ECopyVariant) => {
+export const exportPalette = (
+  exportVariant: EExportPaletteVariant,
+  colors: IColor[],
+  colorFormat: ECopyVariant,
+  paletteName: string
+) => {
   let prefix = ''
   let postfix = ''
 
@@ -70,17 +76,18 @@ export const exportPalette = (exportVariant: EExportPaletteVariant, colors: ICol
       break
     }
     case EExportPaletteVariant.CSS_VARS: {
-      prefix = ':root {\n'
+      prefix = `:root {\n  /* ${paletteName} */\n`
       postfix = '\n}'
       break
     }
     case EExportPaletteVariant.SASS_VARS: {
-      prefix = ''
+      prefix = `// ${paletteName}\n`
       postfix = ''
       break
     }
     case EExportPaletteVariant.JS_OBJECT: {
-      prefix = 'const colors = {\n'
+      const fieldName = formatJsObjectFieldName(paletteName)
+      prefix = `const ${fieldName} = {\n`
       postfix = '\n};'
       break
     }

@@ -11,6 +11,8 @@ import { useSettingsStore } from '@/store/settings.store'
 import { copyVariants } from '@/utils/copyVariants.util'
 import { Copy } from '@phosphor-icons/react'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
+import { save } from '@tauri-apps/plugin-dialog'
+import { writeTextFile } from '@tauri-apps/plugin-fs'
 
 export const ExportPalettePage: FC = () => {
   const params = useParams<{ paletteId: string }>()
@@ -28,9 +30,24 @@ export const ExportPalettePage: FC = () => {
     navigate(`/palettes/${palette.id}`)
   }
 
-  const result = exportPalette(exportVariant, palette.colors, colorFormat)
+  const exportPaletteVariant = exportPaletteVariants.find((epv) => epv.id === exportVariant)!
+  const result = exportPalette(exportVariant, palette.colors, colorFormat, palette.label)
 
-  const saveFile = () => {}
+  const saveFile = async () => {
+    const path = await save({
+      title: `Save "${palette.label}"`,
+      filters: [
+        {
+          name: exportPaletteVariant.fileExtension.toUpperCase(),
+          extensions: [exportPaletteVariant.fileExtension],
+        },
+      ],
+    })
+
+    if (path) {
+      writeTextFile(path, result)
+    }
+  }
 
   const copyContent = () => {
     writeText(result)

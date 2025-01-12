@@ -118,7 +118,7 @@ export const AppLayout: FC = () => {
 
     listeners.push(
       listenInMain('preview_zoom_out', () => {
-        if (settingsStore.pickerPreviewSize < 32) {
+        if (settingsStore.pickerPreviewSize < 24) {
           settingsStore.setPickerPreviewSize(settingsStore.pickerPreviewSize + 2)
         }
       })

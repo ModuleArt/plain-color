@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react'
-import { listen, UnlistenFn } from '@tauri-apps/api/event'
+import { UnlistenFn } from '@tauri-apps/api/event'
 import { rgbToHex } from '@/utils/color'
 import { disableDefaultContextMenu } from '@/utils/contextMenu.util'
 import { emitToMain } from '@/utils/emit/main.emit'
@@ -63,25 +63,25 @@ export const PickerLayout: FC = () => {
     const listeners: Promise<UnlistenFn>[] = []
 
     listeners.push(
-      listenInPicker('toggle_guidelines', (payload) => {
-        setShowGuidelines(payload.show)
+      listenInPicker('picker_loop_tick', (payload) => {
+        if (payload.length > 0 && payload[0]) {
+          setImage(payload[0])
+
+          if (payload.length > 1 && payload[1]) {
+            const color = rgbToHex({ red: payload[1][0], green: payload[1][1], blue: payload[1][2] })
+            setColor(color)
+
+            if (payload.length > 2 && payload[2]) {
+              setPreviewSize(payload[2])
+            }
+          }
+        }
       })
     )
 
     listeners.push(
-      listen<[string, [number, number, number, number], number]>('picker_loop_tick', (event) => {
-        if (event.payload.length > 0 && event.payload[0]) {
-          setImage(event.payload[0])
-
-          if (event.payload.length > 1 && event.payload[1]) {
-            const color = rgbToHex({ red: event.payload[1][0], green: event.payload[1][1], blue: event.payload[1][2] })
-            setColor(color)
-
-            if (event.payload.length > 2 && event.payload[2]) {
-              setPreviewSize(event.payload[2])
-            }
-          }
-        }
+      listenInPicker('toggle_guidelines', (payload) => {
+        setShowGuidelines(payload.show)
       })
     )
 
