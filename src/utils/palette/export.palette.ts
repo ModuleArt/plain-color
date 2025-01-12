@@ -1,10 +1,11 @@
 import { IColor } from '@/types/color.types'
-import { EExportPaletteVariant } from '@/types/export.types'
+import { EExportPaletteVariant, IPalette } from '@/types/palette.types'
 import { ECopyVariant } from '@/types/settings.types'
 import { formatCopyText } from '@/utils/copyVariants.util'
 
 export const exportPaletteVariants = [
-  { id: EExportPaletteVariant.JSON, label: 'JSON', fileExtension: 'json' },
+  { id: EExportPaletteVariant.PLAINCOLOR_JSON, label: 'PlainColor JSON', fileExtension: 'json' },
+  { id: EExportPaletteVariant.JSON, label: 'Simple JSON', fileExtension: 'json' },
   { id: EExportPaletteVariant.CSS_VARS, label: 'CSS variables', fileExtension: 'css' },
   { id: EExportPaletteVariant.SASS_VARS, label: 'SASS variables', fileExtension: 'scss' },
   { id: EExportPaletteVariant.JS_OBJECT, label: 'JavaScript object', fileExtension: 'js' },
@@ -38,7 +39,7 @@ const exportColor = (
   color: IColor,
   colorFormat: ECopyVariant,
   isLastRow: boolean
-) => {
+): string => {
   const formattedColor = formatCopyText(color.hex, colorFormat)
 
   switch (exportVariant) {
@@ -57,45 +58,50 @@ const exportColor = (
       const fieldName = formatJsObjectFieldName(color.label)
       return `  ${fieldName}: "${formattedColor}",`
     }
+    default:
+      return ''
   }
 }
 
 export const exportPalette = (
   exportVariant: EExportPaletteVariant,
-  colors: IColor[],
-  colorFormat: ECopyVariant,
-  paletteName: string
+  palette: Omit<IPalette, 'id'>,
+  colorFormat: ECopyVariant
 ) => {
-  let prefix = ''
-  let postfix = ''
+  if (exportVariant === EExportPaletteVariant.PLAINCOLOR_JSON) {
+    return JSON.stringify({ ...palette, id: undefined })
+  } else {
+    let prefix = ''
+    let postfix = ''
 
-  switch (exportVariant) {
-    case EExportPaletteVariant.JSON: {
-      prefix = '{\n'
-      postfix = '\n}'
-      break
+    switch (exportVariant) {
+      case EExportPaletteVariant.JSON: {
+        prefix = '{\n'
+        postfix = '\n}'
+        break
+      }
+      case EExportPaletteVariant.CSS_VARS: {
+        prefix = `:root {\n  /* ${palette.label} */\n`
+        postfix = '\n}'
+        break
+      }
+      case EExportPaletteVariant.SASS_VARS: {
+        prefix = `// ${palette.label}\n`
+        postfix = ''
+        break
+      }
+      case EExportPaletteVariant.JS_OBJECT: {
+        const fieldName = formatJsObjectFieldName(palette.label)
+        prefix = `const ${fieldName} = {\n`
+        postfix = '\n};'
+        break
+      }
     }
-    case EExportPaletteVariant.CSS_VARS: {
-      prefix = `:root {\n  /* ${paletteName} */\n`
-      postfix = '\n}'
-      break
-    }
-    case EExportPaletteVariant.SASS_VARS: {
-      prefix = `// ${paletteName}\n`
-      postfix = ''
-      break
-    }
-    case EExportPaletteVariant.JS_OBJECT: {
-      const fieldName = formatJsObjectFieldName(paletteName)
-      prefix = `const ${fieldName} = {\n`
-      postfix = '\n};'
-      break
-    }
+
+    const body = palette.colors
+      .map((color, index) => exportColor(exportVariant, color, colorFormat, index === palette.colors.length - 1))
+      .join('\n')
+
+    return `${prefix}${body}${postfix}`
   }
-
-  const body = colors
-    .map((color, index) => exportColor(exportVariant, color, colorFormat, index === colors.length - 1))
-    .join('\n')
-
-  return `${prefix}${body}${postfix}`
 }

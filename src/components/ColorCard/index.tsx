@@ -16,7 +16,15 @@ import { IContextMenuItem, IContextMenuShowMenuProps, useContextMenuStore } from
 import { usePalettesStore } from '@/store/palettes.store'
 import { useRightClick } from '@/hooks/useRightClick.hook'
 
-export const ColorCard: FC<IColorCardProps> = ({ color, onDelete, onEdit, onDuplicate, onColorChange, ...props }) => {
+export const ColorCard: FC<IColorCardProps> = ({
+  color,
+  onDelete,
+  onEdit,
+  onDuplicate,
+  onColorChange,
+  variant = 'list',
+  ...props
+}) => {
   const [copied, setCopied] = useState('')
   const settingsStore = useSettingsStore()
   const contextMenuStore = useContextMenuStore()
@@ -99,7 +107,13 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onDelete, onEdit, onDupl
   return (
     <Stack
       stackRef={rightClickRef}
-      className={cn('color-card', { 'color-card--inverted': !isDark(color.hex) }, commonComponentClasses(props))}
+      className={cn(
+        'color-card',
+        [`color-card--variant-${variant}`],
+        { 'color-card--inverted': !isDark(color.hex) },
+        commonComponentClasses(props)
+      )}
+      onClick={variant === 'grid' ? (event) => showOptions({ event, useMousePosition: true }) : undefined}
     >
       <Stack
         grow
@@ -122,32 +136,36 @@ export const ColorCard: FC<IColorCardProps> = ({ color, onDelete, onEdit, onDupl
             </Stack>
           </Stack>
         )}
-        <Stack>
-          <Text text={color.label} grow editable={!!onColorChange} onTextChange={onLabelChange} />
-          <Button
-            iconPre={DotsThreeOutline}
-            variant="clear"
-            size="inline"
-            onClick={(event) => showOptions({ event })}
-          />
-        </Stack>
-        <Stack>
-          <Stack grow wrap gap="none" className="color-card__copy-variants">
-            {quickCopyVariants.map((copyVariant) => (
+        {variant === 'list' && (
+          <>
+            <Stack>
+              <Text text={color.label} grow editable={!!onColorChange} onTextChange={onLabelChange} />
               <Button
-                key={copyVariant.id}
-                label={copyVariant.label}
-                size="inline"
+                iconPre={DotsThreeOutline}
                 variant="clear"
-                iconPre={Copy}
-                tinted
-                onClick={() => copy(copyVariant.id)}
-                nativeTooltip={copyVariant.label}
+                size="inline"
+                onClick={(event) => showOptions({ event })}
               />
-            ))}
-          </Stack>
-          <Text text={color.hex} tinted transform="uppercase" pointerEvents="disable" />
-        </Stack>
+            </Stack>
+            <Stack>
+              <Stack grow wrap gap="none" className="color-card__copy-variants">
+                {quickCopyVariants.map((copyVariant) => (
+                  <Button
+                    key={copyVariant.id}
+                    label={copyVariant.label}
+                    size="inline"
+                    variant="clear"
+                    iconPre={Copy}
+                    tinted
+                    onClick={() => copy(copyVariant.id)}
+                    nativeTooltip={copyVariant.label}
+                  />
+                ))}
+              </Stack>
+              <Text text={color.hex} tinted transform="uppercase" pointerEvents="disable" />
+            </Stack>
+          </>
+        )}
       </Stack>
     </Stack>
   )

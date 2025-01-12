@@ -11,6 +11,12 @@
     }
   }
 
+  &--variant-grid {
+    flex-basis: calc(20% - 0.5rem);
+    margin: 0.25rem;
+    height: var(--size_basicHeight);
+  }
+
   &__copied-overlay {
     animation-name: keyframes_copiedOverlay;
     animation-duration: 1000ms;

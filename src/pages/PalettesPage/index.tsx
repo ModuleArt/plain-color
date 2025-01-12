@@ -19,7 +19,7 @@ export const PalettesPage: FC = () => {
   }
 
   const addPalette = () => {
-    palettesStore.addPalette({ id: generateRandomUuid(), label: 'New Palette', colors: [] })
+    palettesStore.addPalette({ id: generateRandomUuid(), label: 'New Palette', colors: [], view: 'list' })
   }
 
   return (

@@ -9,5 +9,6 @@ export interface IStackProps extends IPlainlibComponentProps {
   gap?: 'none' | 'extra-small' | 'small' | 'medium' | 'large' | 'extra-large'
   padding?: 'none' | 'extra-small' | 'small' | 'medium' | 'large'
   wrap?: boolean
+  onClick?: (event: MouseEvent) => void
   stackRef?: RefObject<HTMLDivElement>
 }

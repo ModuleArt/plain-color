@@ -4,9 +4,9 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from '@/components/Button'
 import { usePalettesStore } from '@/store/palettes.store'
 import { Textarea } from '@/components/Textarea'
-import { EExportPaletteVariant } from '@/types/export.types'
+import { EExportPaletteVariant } from '@/types/palette.types'
 import { Select } from '@/components/Select'
-import { exportPalette, exportPaletteVariants } from '@/utils/export'
+import { exportPalette, exportPaletteVariants } from '@/utils/palette/export.palette'
 import { useSettingsStore } from '@/store/settings.store'
 import { copyVariants } from '@/utils/copyVariants.util'
 import { Copy } from '@phosphor-icons/react'
@@ -19,7 +19,7 @@ export const ExportPalettePage: FC = () => {
   const navigate = useNavigate()
   const palettesStore = usePalettesStore()
   const settingsStore = useSettingsStore()
-  const [exportVariant, setExportVariant] = useState(EExportPaletteVariant.JSON)
+  const [exportVariant, setExportVariant] = useState(EExportPaletteVariant.PLAINCOLOR_JSON)
   const [colorFormat, setColorFormat] = useState(settingsStore.defaultCopyVariant)
 
   const palette = palettesStore.palettes.find((palette) => palette.id === params.paletteId)
@@ -31,10 +31,10 @@ export const ExportPalettePage: FC = () => {
   }
 
   const exportPaletteVariant = exportPaletteVariants.find((epv) => epv.id === exportVariant)!
-  const result = exportPalette(exportVariant, palette.colors, colorFormat, palette.label)
+  const fileContent = exportPalette(exportVariant, palette, colorFormat)
 
   const saveFile = async () => {
-    const path = await save({
+    const filePath = await save({
       title: `Save "${palette.label}"`,
       filters: [
         {
@@ -44,13 +44,13 @@ export const ExportPalettePage: FC = () => {
       ],
     })
 
-    if (path) {
-      writeTextFile(path, result)
+    if (filePath) {
+      writeTextFile(filePath, fileContent)
     }
   }
 
   const copyContent = () => {
-    writeText(result)
+    writeText(fileContent)
   }
 
   return (
@@ -68,7 +68,7 @@ export const ExportPalettePage: FC = () => {
           onChange={(options) => setColorFormat(options[0])}
           fullWidth
         />
-        <Textarea readonly value={result} />
+        <Textarea readonly value={fileContent} />
       </Stack>
       <Stack>
         <Button label="Cancel" onClick={goBack} grow />

@@ -35,6 +35,7 @@ tokio = "1.42.0"
 rcms = "0.1.0"
 tauri-plugin-dialog = "2"
 tauri-plugin-fs = "2"
+tauri-plugin-http = "2"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 cocoa = "0.26.0"

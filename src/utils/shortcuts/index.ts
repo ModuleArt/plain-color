@@ -7,8 +7,6 @@ export const registerGlobalShortcuts = async (triggers: { triggerOpenPicker: () 
   isRegistered(openMainWindowShortcut).then((isRegistered) => {
     if (!isRegistered) {
       register(openMainWindowShortcut, () => {
-        console.log('openMainWindowShortcut', openMainWindowShortcut)
-
         Window.getByLabel('main').then((mainWindow) => {
           if (mainWindow) {
             mainWindow.show()
@@ -23,8 +21,6 @@ export const registerGlobalShortcuts = async (triggers: { triggerOpenPicker: () 
   isRegistered(openPickerShortcut).then((isRegistered) => {
     if (!isRegistered) {
       register(openPickerShortcut, () => {
-        console.log('openPickerShortcut', openPickerShortcut)
-
         triggers.triggerOpenPicker()
       })
     }

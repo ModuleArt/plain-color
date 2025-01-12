@@ -7,4 +7,5 @@ export interface IColorCardProps extends IPlainlibComponentProps {
   onEdit?: (event: MouseEvent) => void
   onDuplicate?: (event: MouseEvent) => void
   onColorChange?: (color: IColor) => void
+  variant?: 'list' | 'grid'
 }

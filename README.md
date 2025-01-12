@@ -31,7 +31,8 @@
 
 - 🔍 <b>Picker</b> - Pick a color from your screen with advanced magnifying glass
 - 🎨 <b>Custom palettes</b> - Organize your colors with palettes. Name colors and add them to palettes to use in your projects
-  - Export your palettes to `JSON` `CSS variables` `SASS variables` `JavaScript object`
+  - Export palette to `JSON` `CSS / SASS variables` `JavaScript object`
+  - Import colors from `JSON` `Tailwind CSS default colors`
 - 📋 <b>A lot of color formats</b> - Copy your colors as:
   - `#HEX` `HEX` `#hex` `hex`
   - `rgb()` `R,G,B` `color(display-p3)`
@@ -57,29 +58,24 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 
 ## 🔮 Roadmap
 
-### v1.0.8 (what's left)
-
-- ❗ Prepend default palette (Apple colors)
-- ❗ Fix: Color/Palette name white-space
-
 ### v1.0.9
 
+- ❗ Improve list performance (infinite scroll)
+- ❗ Fix: Color/Palette name white-space
 - ❗ Fix context menu height (check on different window heights)
+- ❗ Hide context menu on scroll
 - ❗ Animation on export palette content copied
-- ❗ Fix: Cannot copy text in inputs/textareas
-- ❗ Import JSON palettes
+- ❗ Fix: Cannot copy/select text in inputs/textareas
 - ❗ ColorCard: Add ability to type/paste HEX value
 - Picker: Pinch to zoom
 - Move picker with arrows (step = 1px), make sure it cannot be out of screen bounds
 - Instant copy shortcut `CommandOrControl+Shift+C`
 - Export to image (with preview, mb use canvas)
-
-### v1.1.0
-
-- ❗ <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
+- Prepend default palette: Apple colors (integrate with import feature?)
 
 ### v1.1.x
 
+- ❗ <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
 - ❗ Better color wheel: Add inputs for values (hex, rgba, etc.)
 - Add ability to reorder colors
 - More color formats:

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 import { IPaletteCardProps } from './props'
 import { Stack } from '@/components/Stack'
 import './index.scss'
@@ -32,9 +32,14 @@ export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplic
     }
   }
 
-  const uniqueColors = palette.colors
-    .map((color) => color.hex)
-    .filter((value, index, array) => array.indexOf(value) === index)
+  const uniqueColors = useMemo(
+    () =>
+      palette.colors
+        .map((color) => color.hex)
+        .filter((value, index, array) => array.indexOf(value) === index)
+        .slice(0, 32),
+    [palette.colors]
+  )
 
   const showPaletteOptions = (menuProps: IContextMenuShowMenuProps) => {
     contextMenuStore.showMenu(menuProps, [
