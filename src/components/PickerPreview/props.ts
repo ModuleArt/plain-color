@@ -3,4 +3,5 @@ export interface IPickerPreviewProps {
   onClick: () => void
   previewSize: number
   image: string
+  showGuidelines?: boolean
 }

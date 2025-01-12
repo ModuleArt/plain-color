@@ -2,13 +2,15 @@ import { FC, useEffect, useState } from 'react'
 import { listen, UnlistenFn } from '@tauri-apps/api/event'
 import { rgbToHex } from '@/utils/color'
 import { disableDefaultContextMenu } from '@/utils/contextMenu.util'
-import { emitToMain } from '@/utils/emit'
+import { emitToMain } from '@/utils/emit/main.emit'
 import { PickerPreview } from '@/components/PickerPreview'
+import { listenInPicker } from '@/utils/emit/picker.emit'
 
 export const PickerLayout: FC = () => {
   const [image, setImage] = useState('')
   const [color, setColor] = useState('000000')
   const [previewSize, setPreviewSize] = useState(1)
+  const [showGuidelines, setShowGuidelines] = useState(false)
   const [isHoldingShift, setIsHoldingShift] = useState(false)
 
   const listenKeyPress = (e: KeyboardEvent) => {
@@ -30,6 +32,11 @@ export const PickerLayout: FC = () => {
       case 'c':
       case 'C':
         pickColor(true)
+        break
+
+      case 'g':
+      case 'G':
+        emitToMain({ cmd: 'toggle_guidelines', payload: { show: !showGuidelines } })
         break
     }
   }
@@ -54,6 +61,12 @@ export const PickerLayout: FC = () => {
     disableDefaultContextMenu()
 
     const listeners: Promise<UnlistenFn>[] = []
+
+    listeners.push(
+      listenInPicker('toggle_guidelines', (payload) => {
+        setShowGuidelines(payload.show)
+      })
+    )
 
     listeners.push(
       listen<[string, [number, number, number, number], number]>('picker_loop_tick', (event) => {
@@ -83,7 +96,7 @@ export const PickerLayout: FC = () => {
 
       listeners.map((unlisten) => unlisten.then((f) => f()))
     }
-  }, [color])
+  }, [color, showGuidelines])
 
   const pickColor = (instantCopy: boolean) => {
     emitToMain({
@@ -104,5 +117,13 @@ export const PickerLayout: FC = () => {
     emitToMain({ cmd: 'preview_canceled', payload: {} })
   }
 
-  return <PickerPreview colorHex={color} onClick={() => pickColor(false)} previewSize={previewSize} image={image} />
+  return (
+    <PickerPreview
+      colorHex={color}
+      onClick={() => pickColor(false)}
+      previewSize={previewSize}
+      image={image}
+      showGuidelines={showGuidelines}
+    />
+  )
 }

@@ -3,5 +3,5 @@ import { ITextareaProps } from './props'
 import './index.scss'
 
 export const Textarea: FC<ITextareaProps> = ({ value, readonly = false }) => {
-  return <textarea className="textarea" value={value} readOnly={readonly} />
+  return <textarea tabIndex={-1} className="textarea" value={value} readOnly={readonly} />
 }

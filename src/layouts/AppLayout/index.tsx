@@ -16,13 +16,14 @@ import { disableDefaultContextMenu } from '@/utils/contextMenu.util'
 import { ContextMenu } from '@/components/ContextMenu'
 import { invokeSetPickerPreviewSize, invokeStartPickerLoop, invokeStopPickerLoop } from '@/utils/cmd/picker.cmd.util'
 import { usePalettesStore } from '@/store/palettes.store'
-import { listenInMain } from '@/utils/emit'
+import { listenInMain } from '@/utils/emit/main.emit'
 import { formatCopyText } from '@/utils/copyVariants.util'
 import { useSettingsStore } from '@/store/settings.store'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
 import { generateColorLabel } from '@/utils/color'
 import { registerGlobalShortcuts, unregisterGlobalShortcuts } from '@/utils/shortcuts'
 import { preparePickerForOpen } from '@/utils/picker.util'
+import { emitToPicker } from '@/utils/emit/picker.emit'
 
 export const AppLayout: FC = () => {
   const pickerStore = usePickerStore()
@@ -61,6 +62,10 @@ export const AppLayout: FC = () => {
   useEffect(() => {
     invokeSetPickerPreviewSize({ size: settingsStore.pickerPreviewSize })
   }, [settingsStore.pickerPreviewSize])
+
+  useEffect(() => {
+    emitToPicker({ cmd: 'toggle_guidelines', payload: { show: settingsStore.showGuidelines } })
+  }, [settingsStore.showGuidelines])
 
   useEffect(() => {
     disableDefaultContextMenu()
@@ -124,6 +129,12 @@ export const AppLayout: FC = () => {
         if (settingsStore.pickerPreviewSize > 4) {
           settingsStore.setPickerPreviewSize(settingsStore.pickerPreviewSize - 2)
         }
+      })
+    )
+
+    listeners.push(
+      listenInMain('toggle_guidelines', (payload) => {
+        settingsStore.setShowGuidelines(payload.show)
       })
     )
 

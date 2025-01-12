@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://moduleart.github.io/plaincolor">
-    <img src='/src-tauri/icons/128x128.png' height="96px" />
+    <img src='https://moduleart.github.io/assets/images/projects/plain-color/icon.webp' height="96px" />
   </a>
 </p>
 <h1 align="center">PlainColor</h1>
@@ -31,6 +31,7 @@
 
 - 🔍 Magnifying glass
 - 🎨 Custom palettes
+  - Export palette as `JSON` `CSS variables` `SASS variables` `JavaScript object`
 - 📋 A lot of copy options
   - `#HEX` `HEX` `#hex` `hex`
   - `rgb()` `R,G,B` `color(display-p3)`
@@ -54,41 +55,41 @@ Want more? Open a <a href="https://github.com/ModuleArt/plain-color/issues/new">
 
 If you want to report a bug, first, thank you, that helps us a lot. Please open an <a href="https://github.com/ModuleArt/plain-color/issues/new">issue</a> and mention your OS, your PlainColor version, and how to reproduce it. Adding a screenshot of the issue or screen recording is a big help too.
 
-## 🔮 Future plans
+## 🔮 Roadmap
 
 ### v1.0.8 (what's left)
 
-- Export/Import palettes:
-  - Select color format (hex, rgb, etc.)
-  - Export preview (textarea, copy button)
-  - Export variants:
-    - JSON `{ "Indigo": "#4464C2" }`
-    - JavaScript `const colors = { indigo: "#4464C2" }`
-    - CSS variables `:root { --color-indigo: #4464C2 }`
-    - SASS variables `$color-indigo: #4464C2`
-- <a href="https://icon.kitchen/">New app icon</a>
-- Fix: Color name, Palette name white-space
-- Prepend default palette (Apple colors)
-- Fix context menu height (check on different window heights)
+- ❗ Use palette name as js object name / add comment on top of css
+- ❗ Save palette to a file
+- ❗ <a href="https://icon.kitchen/">New app icon</a>
 
 ### v1.0.9
 
-- Import JSON palettes
+- ❗ Fix context menu height (check on different window heights)
+- ❗ Prepend default palette (Apple colors)
+- ❗ Animation on export palette content copied
+- ❗ Fix: Color/Palette name white-space
+- ❗ Fix: Cannot copy text in inputs/textareas
+- ❗ Import JSON palettes
+- ❗ ColorCard: Add ability to type/paste HEX value
 - Picker: Pinch to zoom
-- ColorCard: Add ability to type/paste HEX value
 - Move picker with arrows (step = 1px), make sure it cannot be out of screen bounds
 - Instant copy shortcut `CommandOrControl+Shift+C`
-- Better color wheel: Add inputs for values (hex, rgba, etc.)
+- Export to image (with preview, mb use canvas)
+
+### v1.1.0
+
+- ❗ <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
 
 ### v1.1.x
 
-- <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
-- Add picker sound (Funny mouth sound, with ability to turn off)
+- ❗ Better color wheel: Add inputs for values (hex, rgba, etc.)
 - Add ability to reorder colors
 - More color formats:
   - Common:
     - 🖥️ RGB/RGBA from 0 to 1 `0,36; 0,18; 0,57`
     - 🎨 HSB/HSV `268, 69, 57`
+    - 💈 Oklab `oklch(40.1% 0.123 21.57)`
   - Native:
     - 🖥️ NSColor RGB
     - 🖥️ NSColor HSB
@@ -103,3 +104,6 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
     - 📱 Android RGB/ARGB
   - Custom color formatter
 - Add ability to change global shortcuts
+- Add picker sound (Funny mouth sound, with ability to turn off)
+- New button pressed animation: scale down
+- Control Select with arrows up/down
