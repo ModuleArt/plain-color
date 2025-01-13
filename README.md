@@ -60,6 +60,9 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 
 ### v1.0.9
 
+- ❗ Check if PlainColor JSON is correctly typed so it cannot broke the app
+- ❗ Fix: All new colors are named as Main Shaft
+- ❗ Settings: Add "Reset to defaults" button
 - ❗ Improve list performance (infinite scroll)
 - ❗ Fix: Color/Palette name white-space
 - ❗ Fix context menu height (check on different window heights)
