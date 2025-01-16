@@ -23,7 +23,7 @@
 
 ## ⬇️ Download
 
-- macOS: <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.8/PlainColor_1.0.8_aarch64.dmg">dmg</a>
+- macOS: <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.9/PlainColor_1.0.9_aarch64.dmg">dmg</a>
 - Windows: exe | microsoft store | chocolatey - Coming soon...
 - Linux: flathub | appimage | deb - Coming soon...
 
