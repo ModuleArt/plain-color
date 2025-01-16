@@ -10,6 +10,7 @@ export const Text: FC<ITextProps> = ({
   transform = 'none',
   editable = false,
   onTextChange,
+  onInputBlur,
   size = 'regular',
   align = 'left',
   textRef,
@@ -29,6 +30,7 @@ export const Text: FC<ITextProps> = ({
 
   const onBlur = () => {
     setIsEditing(false)
+    onInputBlur && onInputBlur()
   }
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {

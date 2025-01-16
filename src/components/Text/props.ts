@@ -7,6 +7,7 @@ export interface ITextProps extends IPlainlibComponentProps {
   transform?: 'none' | 'uppercase' | 'lowercase'
   editable?: boolean
   onTextChange?: (text: string) => void
+  onInputBlur?: () => void
   size?: 'regular' | 'small'
   textRef?: RefObject<HTMLSpanElement>
   align?: 'left' | 'center' | 'right'

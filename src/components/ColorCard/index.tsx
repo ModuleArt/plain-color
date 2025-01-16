@@ -15,6 +15,7 @@ import { commonComponentClasses } from '@/lib'
 import { IContextMenuItem, IContextMenuShowMenuProps, useContextMenuStore } from '@/store/contextMenu.store'
 import { usePalettesStore } from '@/store/palettes.store'
 import { useRightClick } from '@/hooks/useRightClick.hook'
+import { sanitizeLabel } from '@/utils/label.util'
 
 export const ColorCard: FC<IColorCardProps> = ({
   color,
@@ -42,6 +43,10 @@ export const ColorCard: FC<IColorCardProps> = ({
 
   const onLabelChange = (label: string) => {
     onColorChange && onColorChange({ ...color, label })
+  }
+
+  const onLabelBlur = () => {
+    onColorChange && onColorChange({ ...color, label: sanitizeLabel(color.label) })
   }
 
   const quickCopyVariants = copyVariants.filter((variant) => settingsStore.quickCopyVariants.includes(variant.id))
@@ -139,7 +144,13 @@ export const ColorCard: FC<IColorCardProps> = ({
         {variant === 'list' && (
           <>
             <Stack>
-              <Text text={color.label} grow editable={!!onColorChange} onTextChange={onLabelChange} />
+              <Text
+                text={color.label}
+                grow
+                editable={!!onColorChange}
+                onTextChange={onLabelChange}
+                onInputBlur={onLabelBlur}
+              />
               <Button
                 iconPre={DotsThreeOutline}
                 variant="clear"
