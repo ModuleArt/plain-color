@@ -3,12 +3,54 @@ import { EExportPaletteVariant, IPalette } from '@/types/palette.types'
 import { ECopyVariant } from '@/types/settings.types'
 import { formatCopyText } from '@/utils/copyVariants.util'
 
-export const exportPaletteVariants = [
-  { id: EExportPaletteVariant.PLAINCOLOR_JSON, label: 'PlainColor JSON', fileExtension: 'json' },
-  { id: EExportPaletteVariant.JSON, label: 'Simple JSON', fileExtension: 'json' },
-  { id: EExportPaletteVariant.CSS_VARS, label: 'CSS variables', fileExtension: 'css' },
-  { id: EExportPaletteVariant.SASS_VARS, label: 'SASS variables', fileExtension: 'scss' },
-  { id: EExportPaletteVariant.JS_OBJECT, label: 'JavaScript object', fileExtension: 'js' },
+export const exportPaletteVariants: {
+  id: EExportPaletteVariant
+  label: string
+  fileExtension: string
+  availableColorProfiles: ECopyVariant[] | 'all'
+}[] = [
+  {
+    id: EExportPaletteVariant.PLAINCOLOR_JSON,
+    label: 'PlainColor JSON',
+    fileExtension: 'json',
+    availableColorProfiles: [],
+  },
+  {
+    id: EExportPaletteVariant.JSON,
+    label: 'Simple JSON',
+    fileExtension: 'json',
+    availableColorProfiles: 'all',
+  },
+  {
+    id: EExportPaletteVariant.CSS_VARS,
+    label: 'CSS variables',
+    fileExtension: 'css',
+    availableColorProfiles: [
+      ECopyVariant.HEX_WITH_SHARP,
+      ECopyVariant.HEX_LOWERCASE_WITH_SHARP,
+      ECopyVariant.CSS_RGB,
+      ECopyVariant.CSS_HSL,
+      ECopyVariant.CSS_RGB_DISPLAY_P3,
+    ],
+  },
+  {
+    id: EExportPaletteVariant.SASS_VARS,
+    label: 'SASS variables',
+    fileExtension: 'scss',
+    availableColorProfiles: [
+      ECopyVariant.HEX_WITH_SHARP,
+      ECopyVariant.HEX_LOWERCASE_WITH_SHARP,
+      ECopyVariant.CSS_RGB,
+      ECopyVariant.CSS_HSL,
+      ECopyVariant.CSS_RGB_DISPLAY_P3,
+    ],
+  },
+  {
+    id: EExportPaletteVariant.JS_OBJECT,
+    label: 'JavaScript object',
+    fileExtension: 'js',
+    availableColorProfiles: 'all',
+  },
 ]
 
 const formatJsObjectFieldName = (fieldName: string) => {
