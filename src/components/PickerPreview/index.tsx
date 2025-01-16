@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useRef, useState } from 'react'
 import './index.scss'
 import { IPickerPreviewProps } from './props'
 import { isDark } from '@/utils/color'
@@ -6,6 +6,7 @@ import { Text } from '@/components/Text'
 import cn from 'classnames'
 import { Stack } from '@/components/Stack'
 import { Image } from '@/components/Image'
+import { usePinchGesture } from '@/hooks/usePinchGesture.hook'
 
 export const PickerPreview: FC<IPickerPreviewProps> = ({
   colorHex,
@@ -13,11 +14,17 @@ export const PickerPreview: FC<IPickerPreviewProps> = ({
   previewSize,
   image,
   showGuidelines = false,
+  onZoomIn,
+  onZoomOut,
 }) => {
   const [isPicked, setIsPicked] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  usePinchGesture({ onZoomIn, onZoomOut })
 
   return (
     <div
+      ref={ref}
       className={cn('picker-preview', {
         'picker-preview--show-cursor': isPicked,
         'picker-preview--invert-colors': !isDark(colorHex),

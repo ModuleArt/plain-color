@@ -124,6 +124,8 @@ export const PickerLayout: FC = () => {
       previewSize={previewSize}
       image={image}
       showGuidelines={showGuidelines}
+      onZoomIn={zoomIn}
+      onZoomOut={zoomOut}
     />
   )
 }

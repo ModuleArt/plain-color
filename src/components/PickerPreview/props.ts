@@ -4,4 +4,6 @@ export interface IPickerPreviewProps {
   previewSize: number
   image: string
   showGuidelines?: boolean
+  onZoomIn?: () => void
+  onZoomOut?: () => void
 }
