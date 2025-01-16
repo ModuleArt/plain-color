@@ -2,7 +2,7 @@ import { EImportPaletteVariant, IPalette } from '@/types/palette.types'
 import { open } from '@tauri-apps/plugin-dialog'
 import { readTextFile } from '@tauri-apps/plugin-fs'
 import { fetch } from '@tauri-apps/plugin-http'
-import { generateRandomUuid } from '../uuid.util'
+import { generateRandomUuid } from '@/utils/uuid.util'
 
 export const importPaletteVariants = [
   {

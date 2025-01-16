@@ -1,5 +1,5 @@
 import { Stack } from '@/components/Stack'
-import { FC, useState } from 'react'
+import { FC, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from '@/components/Button'
 import { usePalettesStore } from '@/store/palettes.store'
@@ -13,6 +13,7 @@ import { Copy } from '@phosphor-icons/react'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
 import { save } from '@tauri-apps/plugin-dialog'
 import { writeTextFile } from '@tauri-apps/plugin-fs'
+import { ITextareaRef } from '@/components/Textarea/props'
 
 export const ExportPalettePage: FC = () => {
   const params = useParams<{ paletteId: string }>()
@@ -21,6 +22,7 @@ export const ExportPalettePage: FC = () => {
   const settingsStore = useSettingsStore()
   const [exportVariant, setExportVariant] = useState(EExportPaletteVariant.PLAINCOLOR_JSON)
   const [colorFormat, setColorFormat] = useState(settingsStore.defaultCopyVariant)
+  const textareaRef = useRef<ITextareaRef>(null)
 
   const palette = palettesStore.palettes.find((palette) => palette.id === params.paletteId)
 
@@ -51,6 +53,7 @@ export const ExportPalettePage: FC = () => {
 
   const copyContent = () => {
     writeText(fileContent)
+    textareaRef.current?.showOverlayMessage('Copied')
   }
 
   return (
@@ -68,7 +71,7 @@ export const ExportPalettePage: FC = () => {
           onChange={(options) => setColorFormat(options[0])}
           fullWidth
         />
-        <Textarea readonly value={fileContent} />
+        <Textarea readonly value={fileContent} ref={textareaRef} />
       </Stack>
       <Stack>
         <Button label="Cancel" onClick={goBack} grow />

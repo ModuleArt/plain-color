@@ -62,10 +62,6 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 
 - Add ability to reorder colors
 - More color formats:
-  - Common:
-    - 🖥️ RGB/RGBA from 0 to 1 `0,36; 0,18; 0,57`
-    - 🎨 HSB/HSV `268, 69, 57`
-    - 💈 Oklab `oklch(40.1% 0.123 21.57)`
   - Native:
     - 🖥️ NSColor RGB
     - 🖥️ NSColor HSB
@@ -80,6 +76,7 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
     - 📱 Android RGB/ARGB
   - Custom color formatter
 - Add ability to change global shortcuts
+- Export to image (with preview, mb use canvas)
 - Add picker sound (Funny mouth sound, with ability to turn off)
 - New button pressed animation: scale down
 - Control Select with arrows up/down
