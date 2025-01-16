@@ -58,28 +58,8 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 
 ## 🔮 Roadmap
 
-### v1.0.9
-
-- ❗ Check if PlainColor JSON is correctly typed so it cannot broke the app
-- ❗ Fix: All new colors are named as Main Shaft
-- ❗ Settings: Add "Reset to defaults" button
-- ❗ Improve list performance (infinite scroll)
-- ❗ Fix: Color/Palette name white-space
-- ❗ Fix context menu height (check on different window heights)
-- ❗ Hide context menu on scroll
-- ❗ Animation on export palette content copied
-- ❗ Fix: Cannot copy/select text in inputs/textareas
-- ❗ ColorCard: Add ability to type/paste HEX value
-- Picker: Pinch to zoom
-- Move picker with arrows (step = 1px), make sure it cannot be out of screen bounds
-- Instant copy shortcut `CommandOrControl+Shift+C`
-- Export to image (with preview, mb use canvas)
-- Prepend default palette: Apple colors (integrate with import feature?)
-
 ### v1.1.x
 
-- ❗ <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
-- ❗ Better color wheel: Add inputs for values (hex, rgba, etc.)
 - Add ability to reorder colors
 - More color formats:
   - Common:
