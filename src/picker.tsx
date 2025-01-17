@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import '@/assets/scss/global.scss'
-import '@/assets/scss/animations.scss'
 import { PickerLayout } from '@/layouts/PickerLayout'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

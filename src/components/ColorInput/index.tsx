@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, KeyboardEvent, useEffect, useState } from 'react'
 import { Stack } from '@/components/Stack'
 import { Text } from '@/components/Text'
 import { hexToRgbObj } from '@/utils/color/rgb.color.util'
@@ -76,6 +76,15 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex, onChange }) => {
     onChange(hex)
   }
 
+  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>, onBlur: () => void) => {
+    if (e.key === 'Enter') {
+      onBlur()
+    } else if (e.key === 'Escape') {
+      const input = e.target as HTMLInputElement
+      input.blur()
+    }
+  }
+
   return (
     <Stack justify="between" className="color-input">
       <Stack dir="vertical" align="center" className="color-input__hex-input">
@@ -87,6 +96,7 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex, onChange }) => {
           autoComplete="off"
           autoCorrect="off"
           autoCapitalize="off"
+          onKeyDown={(e) => onKeyDown(e, handleInnerHexBlur)}
         />
       </Stack>
       <Stack className="color-input__rgb-inputs" grow>
@@ -99,6 +109,7 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex, onChange }) => {
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="off"
+            onKeyDown={(e) => onKeyDown(e, handleInnerRBlur)}
           />
         </Stack>
         <Stack dir="vertical" align="center" grow>
@@ -110,6 +121,7 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex, onChange }) => {
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="off"
+            onKeyDown={(e) => onKeyDown(e, handleInnerGBlur)}
           />
         </Stack>
         <Stack dir="vertical" align="center" grow>
@@ -121,6 +133,7 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex, onChange }) => {
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="off"
+            onKeyDown={(e) => onKeyDown(e, handleInnerBBlur)}
           />
         </Stack>
         <Stack dir="vertical" align="center" grow>
@@ -132,6 +145,7 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex, onChange }) => {
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="off"
+            onKeyDown={(e) => onKeyDown(e, handleInnerABlur)}
           />
         </Stack>
       </Stack>
