@@ -1,0 +1,14 @@
+.color-input {
+  &__hex-input {
+    flex-basis: 32%;
+  }
+
+  input {
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem 0;
+    border-radius: 0.375rem;
+    background: var(--color_element);
+    cursor: text;
+  }
+}

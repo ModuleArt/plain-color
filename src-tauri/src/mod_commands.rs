@@ -38,7 +38,9 @@ pub fn set_picker_color_profile(
     _state: tauri::State<'_, Arc<tokio::sync::Mutex<mod_pickerloop::LoopState>>>,
     profile: String,
 ) {
-    mod_globalvars::set_color_profile(mod_globalvars::ColorProfile::from_str(&profile).unwrap());
+    mod_globalvars::set_screen_color_profile(
+        mod_globalvars::ScreenColorProfile::from_str(&profile).unwrap(),
+    );
 }
 
 #[tauri::command]

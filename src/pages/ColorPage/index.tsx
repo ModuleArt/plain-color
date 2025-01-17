@@ -9,6 +9,7 @@ import { generateRandomUuid } from '@/utils/uuid.util'
 import { defaultColor, generateColorLabel } from '@/utils/color'
 import { usePalettesStore } from '@/store/palettes.store'
 import { IColor } from '@/types/color.types'
+import { ColorInput } from '@/components/ColorInput'
 
 export const ColorPage: FC = () => {
   const params = useParams<{ paletteId?: string; colorId?: string }>()
@@ -79,6 +80,7 @@ export const ColorPage: FC = () => {
     <Stack dir="vertical" gap="medium" grow padding="medium">
       <ColorCard color={color} onColorChange={onColorChange} />
       <ColorPicker hexValue={color.hex} onChange={(hex) => setColor({ ...color, hex })} grow />
+      <ColorInput colorHex={color.hex} />
       <Stack>
         <Button label="Cancel" onClick={onCancel} grow />
         <Button label={params.colorId ? 'Save' : 'Add'} onClick={onSave} grow />

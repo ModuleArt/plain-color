@@ -7,7 +7,7 @@ import { Button } from '@/components/Button'
 import { Text } from '@/components/Text'
 import { Select } from '@/components/Select'
 import { copyVariants, formatCopyText } from '@/utils/copyVariants.util'
-import { EColorProfile, useSettingsStore } from '@/store/settings.store'
+import { EScreenColorProfile, useSettingsStore } from '@/store/settings.store'
 import { getPlatform } from '@/utils/tauri.util'
 import {
   invokeRequestMacosScreenRecordingPermission,
@@ -49,8 +49,8 @@ export const SettingsPage: FC = () => {
   }
 
   const colorProfiles = [
-    { id: EColorProfile.SRGB, label: 'sRGB (Default)' },
-    { id: EColorProfile.SYSTEM, label: 'System' },
+    { id: EScreenColorProfile.SRGB, label: 'sRGB (Default)' },
+    { id: EScreenColorProfile.SYSTEM, label: 'System' },
   ]
 
   const exampleColor = '3D061A'
