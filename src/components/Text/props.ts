@@ -11,4 +11,8 @@ export interface ITextProps extends IPlainlibComponentProps {
   size?: 'regular' | 'small'
   textRef?: RefObject<HTMLSpanElement>
   align?: 'left' | 'center' | 'right'
+  labelClassName?: string
+  inputClassName?: string
+  maxWidth?: number
+  textWrap?: boolean
 }

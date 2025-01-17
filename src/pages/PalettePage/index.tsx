@@ -76,6 +76,8 @@ export const PalettePage: FC = () => {
             onInputBlur={() => onPaletteChange({ ...palette, label: sanitizeLabel(palette.label) })}
             align="center"
             grow
+            textWrap={false}
+            maxWidth={204}
           />
         </Stack>
       </Header>

@@ -150,6 +150,8 @@ export const ColorCard: FC<IColorCardProps> = ({
                 editable={!!onColorChange}
                 onTextChange={onLabelChange}
                 onInputBlur={onLabelBlur}
+                textWrap={false}
+                maxWidth={244}
               />
               <Button
                 iconPre={DotsThreeOutline}
