@@ -4,8 +4,15 @@ import { Text } from '@/components/Text'
 import { hexToRgbObj } from '@/utils/color/rgb.color.util'
 import { IColorInputProps } from './props'
 import './index.scss'
+import {
+  sanitizeHexInputValue,
+  sanitizeHexInputBlur,
+  sanitizeRgbInputValue,
+  sanitizeRgbInputBlur,
+} from '@/utils/sanitize.util'
+import { rgbToHex } from '@/utils/color'
 
-export const ColorInput: FC<IColorInputProps> = ({ colorHex }) => {
+export const ColorInput: FC<IColorInputProps> = ({ colorHex, onChange }) => {
   const [innerHex, setInnerHex] = useState('000000')
   const [innerR, setInnerR] = useState('0')
   const [innerG, setInnerG] = useState('0')
@@ -13,7 +20,7 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex }) => {
   const [innerA, setInnerA] = useState('0')
 
   useEffect(() => {
-    setInnerHex(colorHex)
+    setInnerHex(colorHex.toUpperCase())
 
     const rgb = hexToRgbObj(colorHex)
     setInnerR(rgb.red.toString())
@@ -22,56 +29,51 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex }) => {
     setInnerA(Math.trunc(rgb.alpha * 100).toString())
   }, [colorHex])
 
-  const sanitizeHexInputChange = (text: string, maxLength: 6 | 8 = 6) => {
-    // Remove invalid characters
-    const sanitized = text.replace(/[^0-9a-fA-F]/g, '').slice(0, maxLength)
-
-    // Check if the sanitized value is a valid hex color
-    const regex = maxLength === 6 ? /^[0-9a-fA-F]{1,6}$/ : /^[0-9a-fA-F]{1,8}$/
-
-    return regex.test(sanitized) ? sanitized : ''
+  const prepareNewValue = () => {
+    return rgbToHex({
+      red: Number(innerR) || 0,
+      green: Number(innerG) || 0,
+      blue: Number(innerB) || 0,
+      alpha: (Number(innerA) || 0) / 100,
+    })
   }
 
-  const sanitizeHexInputBlur = (value: string) => {
-    // Sanitize the input: Remove invalid characters and convert to lowercase
-    let sanitized = value.replace(/[^0-9a-f]/g, '').toLowerCase()
-
-    // If the input is empty, return "000000"
-    if (sanitized === '') {
-      return '000000'
-    }
-
-    // If the input length is less than 6, repeat it to fill 6 characters
-    if (sanitized.length < 6) {
-      // Repeat the input enough times to get at least 6 characters
-      return sanitized.repeat(6).slice(0, 6)
-    }
-
-    // If the input length is greater than 6, truncate it to 6 characters
-    if (sanitized.length > 6) {
-      return sanitized.slice(0, 6)
-    }
-
-    // If it's exactly 6 characters, return as-is
-    return sanitized
+  const handleInnerHexBlur = () => {
+    const newValue = sanitizeHexInputBlur(innerHex)
+    setInnerHex(newValue)
+    onChange(newValue)
   }
 
-  const sanitizeRgbInputChange = (text: string) => {
-    // Remove non-numeric characters
-    let sanitized = text.replace(/[^0-9]/g, '')
+  const handleInnerRBlur = () => {
+    const newValue = sanitizeRgbInputBlur(innerR)
+    setInnerR(newValue)
 
-    // Remove leading zeros unless the input is exactly "0"
-    sanitized = sanitized.replace(/^0+(?!$)/, '')
+    const hex = prepareNewValue()
+    onChange(hex)
+  }
 
-    // Limit the input to a maximum of 3 digits
-    sanitized = sanitized.slice(0, 3)
+  const handleInnerGBlur = () => {
+    const newValue = sanitizeRgbInputBlur(innerG)
+    setInnerG(newValue)
 
-    // Ensure the value does not exceed 255
-    if (sanitized !== '' && parseInt(sanitized, 10) > 255) {
-      return '255'
-    }
+    const hex = prepareNewValue()
+    onChange(hex)
+  }
 
-    return sanitized
+  const handleInnerBBlur = () => {
+    const newValue = sanitizeRgbInputBlur(innerB)
+    setInnerB(newValue)
+
+    const hex = prepareNewValue()
+    onChange(hex)
+  }
+
+  const handleInnerABlur = () => {
+    const newValue = sanitizeRgbInputBlur(innerA)
+    setInnerA(newValue)
+
+    const hex = prepareNewValue()
+    onChange(hex)
   }
 
   return (
@@ -80,8 +82,8 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex }) => {
         <Text text="HEX" size="small" tinted />
         <input
           value={innerHex}
-          onChange={(e) => setInnerHex(sanitizeHexInputChange(e.target.value))}
-          onBlur={(e) => setInnerHex(sanitizeHexInputBlur(e.target.value))}
+          onChange={(e) => setInnerHex(sanitizeHexInputValue(e.target.value))}
+          onBlur={handleInnerHexBlur}
           autoComplete="off"
           autoCorrect="off"
           autoCapitalize="off"
@@ -92,8 +94,8 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex }) => {
           <Text text="R" size="small" tinted />
           <input
             value={innerR}
-            onChange={(e) => setInnerR(sanitizeRgbInputChange(e.target.value))}
-            onBlur={() => innerR === '' && setInnerR('0')}
+            onChange={(e) => setInnerR(sanitizeRgbInputValue(e.target.value))}
+            onBlur={handleInnerRBlur}
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="off"
@@ -103,8 +105,8 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex }) => {
           <Text text="G" size="small" tinted />
           <input
             value={innerG}
-            onChange={(e) => setInnerG(sanitizeRgbInputChange(e.target.value))}
-            onBlur={() => innerG === '' && setInnerG('0')}
+            onChange={(e) => setInnerG(sanitizeRgbInputValue(e.target.value))}
+            onBlur={handleInnerGBlur}
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="off"
@@ -114,8 +116,8 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex }) => {
           <Text text="B" size="small" tinted />
           <input
             value={innerB}
-            onChange={(e) => setInnerB(sanitizeRgbInputChange(e.target.value))}
-            onBlur={() => innerB === '' && setInnerB('0')}
+            onChange={(e) => setInnerB(sanitizeRgbInputValue(e.target.value))}
+            onBlur={handleInnerBBlur}
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="off"
@@ -125,8 +127,8 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex }) => {
           <Text text="Alpha" size="small" tinted />
           <input
             value={innerA}
-            onChange={(e) => setInnerA(sanitizeRgbInputChange(e.target.value))}
-            onBlur={() => innerA === '' && setInnerA('0')}
+            onChange={(e) => setInnerA(sanitizeRgbInputValue(e.target.value, 100))}
+            onBlur={handleInnerABlur}
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="off"

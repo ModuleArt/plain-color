@@ -40,3 +40,7 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+::selection {
+  background-color: var(--color_primary);
+}

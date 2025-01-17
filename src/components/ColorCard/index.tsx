@@ -15,7 +15,7 @@ import { commonComponentClasses } from '@/lib'
 import { IContextMenuItem, IContextMenuShowMenuProps, useContextMenuStore } from '@/store/contextMenu.store'
 import { usePalettesStore } from '@/store/palettes.store'
 import { useRightClick } from '@/hooks/useRightClick.hook'
-import { sanitizeLabel } from '@/utils/label.util'
+import { sanitizeLabel } from '@/utils/sanitize.util'
 
 export const ColorCard: FC<IColorCardProps> = ({
   color,

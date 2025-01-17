@@ -80,7 +80,7 @@ export const ColorPage: FC = () => {
     <Stack dir="vertical" gap="medium" grow padding="medium">
       <ColorCard color={color} onColorChange={onColorChange} />
       <ColorPicker hexValue={color.hex} onChange={(hex) => setColor({ ...color, hex })} grow />
-      <ColorInput colorHex={color.hex} />
+      <ColorInput colorHex={color.hex} onChange={(hex) => setColor({ ...color, hex })} />
       <Stack>
         <Button label="Cancel" onClick={onCancel} grow />
         <Button label={params.colorId ? 'Save' : 'Add'} onClick={onSave} grow />

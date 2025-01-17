@@ -20,7 +20,7 @@ import { IColor } from '@/types/color.types'
 import { usePickerStore } from '@/store/picker.store'
 import { Scroller } from '@/components/Scroller'
 import { preparePickerForOpen } from '@/utils/picker.util'
-import { sanitizeLabel } from '@/utils/label.util'
+import { sanitizeLabel } from '@/utils/sanitize.util'
 
 export const PalettePage: FC = () => {
   const params = useParams<{ paletteId: string }>()
