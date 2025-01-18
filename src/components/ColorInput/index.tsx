@@ -20,7 +20,7 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex, onChange }) => {
   const [innerA, setInnerA] = useState('0')
 
   useEffect(() => {
-    setInnerHex(colorHex.toUpperCase())
+    setInnerHex(colorHex)
 
     const rgb = hexToRgbObj(colorHex)
     setInnerR(rgb.red.toString())

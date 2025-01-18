@@ -5,7 +5,7 @@ export const sanitizeLabel = (label: string) => {
 export const sanitizeHexInputValue = (text: string) => {
   let sanitized = text.replace(/[^0-9a-fA-F]/g, '').slice(0, 8)
 
-  return sanitized.toUpperCase()
+  return sanitized.toLowerCase()
 }
 
 export const sanitizeHexInputBlur = (text: string) => {
