@@ -64,16 +64,17 @@ pub fn run() {
         .setup(|app| {
             #[cfg(target_os = "macos")]
             {
+                use cocoa::appkit::{NSMainMenuWindowLevel, NSWindowCollectionBehavior};
                 use tauri_nspanel::WebviewWindowExt;
 
                 let picker_window = app.get_webview_window("picker").unwrap();
                 let picker_panel = picker_window.to_panel().unwrap();
-                picker_panel.set_level(cocoa::appkit::NSMainMenuWindowLevel + 1);
+                picker_panel.set_level(NSMainMenuWindowLevel + 1);
                 picker_panel.set_style_mask(NSWindowStyleMaskNonActivatingPanel);
                 picker_panel.set_collection_behaviour(
-                    cocoa::appkit::NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces
-                        | cocoa::appkit::NSWindowCollectionBehavior::NSWindowCollectionBehaviorStationary
-                        | cocoa::appkit::NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary,
+                    NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces
+                        | NSWindowCollectionBehavior::NSWindowCollectionBehaviorStationary
+                        | NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary,
                 );
             }
 

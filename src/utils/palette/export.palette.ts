@@ -1,5 +1,5 @@
 import { IColor } from '@/types/color.types'
-import { EExportPaletteVariant, IPalette, IPlainColorPaletteJson } from '@/types/palette.types'
+import { EExportPaletteVariant, IPalette, TPlainColorPaletteJson } from '@/types/palette.types'
 import { ECopyVariant } from '@/types/settings.types'
 import { formatCopyText } from '@/utils/copyVariants.util'
 
@@ -111,7 +111,7 @@ export const exportPalette = (
   colorFormat: ECopyVariant
 ) => {
   if (exportVariant === EExportPaletteVariant.PLAINCOLOR_JSON) {
-    const paletteJson: IPlainColorPaletteJson = {
+    const paletteJson: TPlainColorPaletteJson = {
       label: palette.label,
       colors: palette.colors.map((color) => ({ hex: color.hex, label: color.label })),
     }

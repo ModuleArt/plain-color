@@ -14,6 +14,7 @@
     "core:window:allow-minimize",
     "core:window:allow-create",
     "core:window:allow-set-position",
+    "core:window:allow-set-cursor-visible",
     "clipboard-manager:default",
     "clipboard-manager:allow-write-text",
     "core:event:default",
@@ -33,7 +34,12 @@
     {
       "identifier": "http:default",
       "allow": [
-        { "url": "https://raw.githubusercontent.com/tailwindlabs/tailwindcss/refs/heads/main/src/public/colors.js" }
+        {
+          "url": "https://raw.githubusercontent.com/tailwindlabs/tailwindcss/refs/heads/main/src/public/colors.js"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/mui/material-ui/refs/heads/master/packages/mui-material/src/colors/*"
+        }
       ]
     }
   ]

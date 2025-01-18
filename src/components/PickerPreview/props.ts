@@ -7,3 +7,7 @@ export interface IPickerPreviewProps {
   onZoomIn?: () => void
   onZoomOut?: () => void
 }
+
+export interface IPickerPreviewRef {
+  showCursor: () => void
+}

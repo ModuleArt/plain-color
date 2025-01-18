@@ -71,7 +71,9 @@ export const AppLayout: FC = () => {
     disableDefaultContextMenu()
     registerGlobalShortcuts({
       triggerOpenPicker: () => {
-        preparePickerForOpen(() => pickerStore.openPicker({ target: 'HOME' }))
+        if (!pickerStore.isPicking) {
+          preparePickerForOpen(() => pickerStore.openPicker({ target: 'HOME' }))
+        }
       },
     })
 

@@ -18,6 +18,9 @@ export enum EExportPaletteVariant {
 export enum EImportPaletteVariant {
   PLAINCOLOR_JSON = 'PLAINCOLOR_JSON',
   TAILWIND_COLORS_JS = 'TAILWIND_COLORS_JS',
+  MUI_COLORS_JS = 'MUI_COLORS_JS',
 }
 
-export type IPlainColorPaletteJson = Omit<IPalette, 'id' | 'colors' | 'view'> & { colors: Omit<IColor, 'id'>[] }
+export type TPlainColorPaletteJson = Omit<IPalette, 'id' | 'colors' | 'view'> & { colors: Omit<IColor, 'id'>[] }
+
+export type TPaletteImporterResult = Omit<IPalette, 'id' | 'view'>
