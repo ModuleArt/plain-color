@@ -17,6 +17,7 @@ export enum EExportPaletteVariant {
 
 export enum EImportPaletteVariant {
   PLAINCOLOR_JSON = 'PLAINCOLOR_JSON',
+  APPLE_COLORS_PHP = 'APPLE_COLORS_PHP',
   TAILWIND_COLORS_JS = 'TAILWIND_COLORS_JS',
   MUI_COLORS_JS = 'MUI_COLORS_JS',
 }

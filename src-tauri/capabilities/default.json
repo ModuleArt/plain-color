@@ -35,6 +35,12 @@
       "identifier": "http:default",
       "allow": [
         {
+          "url": "https://api.github.com/repos/phpcolor/apple-colors/contents/Resources/colors"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/phpcolor/apple-colors/main/Resources/colors/*"
+        },
+        {
           "url": "https://raw.githubusercontent.com/tailwindlabs/tailwindcss/refs/heads/main/src/public/colors.js"
         },
         {

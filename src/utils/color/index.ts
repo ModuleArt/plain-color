@@ -40,7 +40,7 @@ export const generateColorLabel = (colorHex: string) => {
   return namer(colorHex).ntc[0].name
 }
 
-const predefinedColors1 = ['9b5de5', 'f15bb5', 'fee440', '00bbf9', '00f5d4']
+const predefinedColors1 = ['9b5de5', 'f15bb5', 'fee440']
 export const predefinedColors: IColor[] = predefinedColors1.map((hex) => ({
   id: generateRandomUuid(),
   hex,
