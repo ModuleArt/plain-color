@@ -2,6 +2,8 @@ import rgbHex from 'rgb-hex'
 import namer from 'color-namer'
 import { colorIsDark } from 'color-is-dark'
 import { hexToRgbObj } from './rgb.color.util'
+import { IColor } from '@/types/color.types'
+import { generateRandomUuid } from '@/utils/uuid.util'
 
 export const defaultColor = '2c2c2c'
 
@@ -37,3 +39,10 @@ export const isDark = (colorHex: string) => {
 export const generateColorLabel = (colorHex: string) => {
   return namer(colorHex).ntc[0].name
 }
+
+const predefinedColors1 = ['9b5de5', 'f15bb5', 'fee440', '00bbf9', '00f5d4']
+export const predefinedColors: IColor[] = predefinedColors1.map((hex) => ({
+  id: generateRandomUuid(),
+  hex,
+  label: generateColorLabel(hex),
+}))

@@ -32,7 +32,11 @@ export const ImportPalettePage: FC = () => {
     setIsLoading(true)
     try {
       const importedPalette = await importPalette(importVariant)
-      palettesStore.updatePalette(palette.id, { ...palette, colors: importedPalette.colors.concat(palette.colors) })
+      palettesStore.updatePalette(palette.id, {
+        ...palette,
+        label: importedPalette.label,
+        colors: importedPalette.colors.concat(palette.colors),
+      })
       goBack()
     } catch (err: any) {
       console.error(err)
