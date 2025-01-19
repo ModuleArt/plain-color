@@ -2,7 +2,7 @@ import { TPaletteImporterResult } from '@/types/palette.types'
 import { generateRandomUuid } from '@/utils/uuid.util'
 import { fetch } from '@tauri-apps/plugin-http'
 
-interface ITailwindColorsJsResponseObject {
+interface ITailwindResponseObject {
   [color: string]:
     | {
         [shade: string]: string
@@ -23,7 +23,7 @@ export const tailwindImporter = async (): Promise<TPaletteImporterResult> => {
   jsObjectStr = jsObjectStr.replace(/get\s+\w+\s*\([^)]*\)\s*{[\s\S]*?return[\s\S]*?},?/g, '') // remove getters
   jsObjectStr = jsObjectStr.replace(/,(\s*[}\]])/g, '$1') // remove trailing commas
   const json = jsObjectStr.replace(/(\w+):/g, '"$1":').replace(/'/g, '"') // transform js object to json
-  const jsObject = JSON.parse(json) as ITailwindColorsJsResponseObject
+  const jsObject = JSON.parse(json) as ITailwindResponseObject
 
   let colors = Object.entries(jsObject)
     .map(([colorKey, colorValue]) => {

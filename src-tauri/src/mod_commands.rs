@@ -1,3 +1,4 @@
+use crate::mod_clr;
 use crate::mod_globalvars;
 use crate::mod_macospermissions;
 use crate::mod_pickerloop;
@@ -56,4 +57,9 @@ pub fn request_macos_screen_recording_permission() -> bool {
 #[tauri::command]
 pub fn open_macos_screen_recording_settings() {
     return mod_macospermissions::open_macos_screen_recording_settings();
+}
+
+#[tauri::command]
+pub fn load_clr_file() -> String {
+    return mod_clr::load_clr_file_with_script();
 }

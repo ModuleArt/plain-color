@@ -8,6 +8,7 @@ export type TInvokeCmd =
   | 'check_macos_screen_recording_permission'
   | 'request_macos_screen_recording_permission'
   | 'open_macos_screen_recording_settings'
+  | 'load_clr_file'
 
 export const invokeCmd = <T>(cmd: TInvokeCmd, args?: InvokeArgs) => {
   return invoke<T>(cmd, args)

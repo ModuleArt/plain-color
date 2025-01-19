@@ -3,12 +3,25 @@ import { tailwindImporter } from './importers/tailwind.importer'
 import { plaincolorImporter } from './importers/plaincolor.importer'
 import { muiImporter } from './importers/mui.importer'
 import { appleImporter } from './importers/apple.importer'
+import { clrImporter } from './importers/clr.importer'
 
 export const importPaletteVariants = [
   {
     id: EImportPaletteVariant.PLAINCOLOR_JSON,
     label: 'PlainColor JSON',
     infoText: 'Import colors from PlainColor JSON file',
+  },
+  {
+    id: EImportPaletteVariant.APPLE_CLR,
+    label: 'Apple Color List (.clr)',
+    infoText: 'Import colors from Apple Color List (.clr) file',
+  },
+  {
+    id: EImportPaletteVariant.APPLE_COLORS_PHP,
+    label: 'Apple colors',
+    infoText: 'Download all the default Apple colors for iOS, macOS, tvOS, visionOS, and watchOS from unofficial',
+    infoUrl: 'https://github.com/phpcolor/apple-colors/tree/main/Resources/colors',
+    infoUrlLabel: 'apple-colors GitHub repository',
   },
   {
     id: EImportPaletteVariant.TAILWIND_COLORS_JS,
@@ -24,19 +37,15 @@ export const importPaletteVariants = [
     infoUrl: 'https://github.com/mui/material-ui/tree/master/packages/mui-material/src/colors',
     infoUrlLabel: 'material-ui GitHub repository',
   },
-  {
-    id: EImportPaletteVariant.APPLE_COLORS_PHP,
-    label: 'Apple colors',
-    infoText: 'Download all the default Apple colors for iOS, macOS, tvOS, visionOS, and watchOS from unofficial',
-    infoUrl: 'https://github.com/phpcolor/apple-colors/tree/main/Resources/colors',
-    infoUrlLabel: 'apple-colors GitHub repository',
-  },
 ]
 
 export const importPalette = async (importVariant: EImportPaletteVariant): Promise<TPaletteImporterResult> => {
   switch (importVariant) {
     case EImportPaletteVariant.PLAINCOLOR_JSON: {
       return plaincolorImporter()
+    }
+    case EImportPaletteVariant.APPLE_CLR: {
+      return clrImporter()
     }
     case EImportPaletteVariant.APPLE_COLORS_PHP: {
       return appleImporter()

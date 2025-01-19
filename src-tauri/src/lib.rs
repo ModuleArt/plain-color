@@ -1,3 +1,4 @@
+mod mod_clr;
 mod mod_coloradjustments;
 mod mod_commands;
 mod mod_display;
@@ -60,6 +61,7 @@ pub fn run() {
             mod_commands::check_macos_screen_recording_permission,
             mod_commands::request_macos_screen_recording_permission,
             mod_commands::open_macos_screen_recording_settings,
+            mod_commands::load_clr_file,
         ])
         .setup(|app| {
             #[cfg(target_os = "macos")]
