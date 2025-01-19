@@ -4,6 +4,7 @@ import { IScrollerProps } from './props'
 import cn from 'classnames'
 import { commonComponentClasses } from '@/lib'
 import { Stack } from '@/components/Stack'
+import { useContextMenuStore } from '@/store/contextMenu.store'
 
 export const Scroller: FC<PropsWithChildren<IScrollerProps>> = ({
   children,
@@ -11,6 +12,14 @@ export const Scroller: FC<PropsWithChildren<IScrollerProps>> = ({
   extraPaddingBottom = false,
   ...props
 }) => {
+  const contextMenuStore = useContextMenuStore()
+
+  const onScroll = () => {
+    if (contextMenuStore.menuItems.length > 0) {
+      contextMenuStore.hideMenu()
+    }
+  }
+
   return (
     <div
       className={cn(
@@ -18,6 +27,7 @@ export const Scroller: FC<PropsWithChildren<IScrollerProps>> = ({
         { 'scroller--extra-padding-top': extraPaddingTop, 'scroller--extra-padding-bottom': extraPaddingBottom },
         commonComponentClasses(props)
       )}
+      onScroll={onScroll}
     >
       <Stack dir="vertical" gap="none" grow>
         {children}
