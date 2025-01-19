@@ -9,19 +9,21 @@ export const importPaletteVariants = [
   {
     id: EImportPaletteVariant.PLAINCOLOR_JSON,
     label: 'PlainColor JSON',
-    infoText: 'Import colors from PlainColor JSON file',
+    infoText: 'Import colors from PlainColor JSON file.',
   },
   {
     id: EImportPaletteVariant.APPLE_CLR,
     label: 'Apple Color List (.clr)',
-    infoText: 'Import colors from Apple Color List (.clr) file',
+    infoText: 'Import colors from Apple Color List (.clr) file.',
+    infoUrl: 'https://gist.github.com/chsh/f9bcb00a22cb5c5a7477757632917d25',
+    infoUrlLabel: 'CLR palette examples on GitHub',
   },
   {
     id: EImportPaletteVariant.APPLE_COLORS_PHP,
     label: 'Apple colors',
     infoText: 'Download all the default Apple colors for iOS, macOS, tvOS, visionOS, and watchOS from unofficial',
     infoUrl: 'https://github.com/phpcolor/apple-colors/tree/main/Resources/colors',
-    infoUrlLabel: 'apple-colors GitHub repository',
+    infoUrlLabel: 'phpcolor GitHub repository',
   },
   {
     id: EImportPaletteVariant.TAILWIND_COLORS_JS,

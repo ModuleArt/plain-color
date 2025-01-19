@@ -25,5 +25,5 @@ export const clrImporter = async (): Promise<TPaletteImporterResult> => {
     hex: hexWithSharp.replace('#', ''),
   }))
 
-  return { label: obj.paletteName, colors }
+  return { label: decodeURIComponent(obj.paletteName), colors }
 }
