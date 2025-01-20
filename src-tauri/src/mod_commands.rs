@@ -63,3 +63,12 @@ pub fn open_macos_screen_recording_settings() {
 pub fn load_clr_file() -> String {
     return mod_clr::load_clr_file_with_script();
 }
+
+#[tauri::command]
+pub fn save_clr_file(
+    _app: tauri::AppHandle,
+    _state: tauri::State<'_, Arc<tokio::sync::Mutex<mod_pickerloop::LoopState>>>,
+    json: String,
+) -> String {
+    return mod_clr::save_clr_file_with_script(json);
+}

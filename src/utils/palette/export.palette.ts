@@ -8,18 +8,21 @@ export const exportPaletteVariants: {
   label: string
   fileExtension: string
   availableColorProfiles: ECopyVariant[] | 'all'
+  allowCopy: boolean
 }[] = [
   {
     id: EExportPaletteVariant.PLAINCOLOR_JSON,
     label: 'PlainColor palette JSON',
     fileExtension: 'json',
     availableColorProfiles: [ECopyVariant.HEX_LOWERCASE_WITHOUT_SHARP],
+    allowCopy: true,
   },
   {
     id: EExportPaletteVariant.JSON,
     label: 'JSON',
     fileExtension: 'json',
     availableColorProfiles: 'all',
+    allowCopy: true,
   },
   {
     id: EExportPaletteVariant.CSS_VARS,
@@ -32,6 +35,7 @@ export const exportPaletteVariants: {
       ECopyVariant.CSS_HSL,
       ECopyVariant.CSS_RGB_DISPLAY_P3,
     ],
+    allowCopy: true,
   },
   {
     id: EExportPaletteVariant.SASS_VARS,
@@ -44,12 +48,21 @@ export const exportPaletteVariants: {
       ECopyVariant.CSS_HSL,
       ECopyVariant.CSS_RGB_DISPLAY_P3,
     ],
+    allowCopy: true,
   },
   {
     id: EExportPaletteVariant.JS_OBJECT,
     label: 'JavaScript object',
     fileExtension: 'js',
     availableColorProfiles: 'all',
+    allowCopy: true,
+  },
+  {
+    id: EExportPaletteVariant.APPLE_CLR,
+    label: 'Apple Color List (.clr)',
+    fileExtension: 'clr',
+    availableColorProfiles: [],
+    allowCopy: false,
   },
 ]
 

@@ -3,7 +3,7 @@ import { TPaletteImporterResult } from '@/types/palette.types'
 import { invokeLoadClrFile } from '@/utils/cmd/clr.cmd.util'
 import { generateRandomUuid } from '@/utils/uuid.util'
 
-interface IClrResponseObject {
+export interface IClrResponseObject {
   paletteName: string
   colorList: {
     [color: string]: string

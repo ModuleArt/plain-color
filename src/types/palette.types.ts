@@ -13,6 +13,7 @@ export enum EExportPaletteVariant {
   CSS_VARS = 'CSS_VARS',
   SASS_VARS = 'SASS_VARS',
   JS_OBJECT = 'JS_OBJECT',
+  APPLE_CLR = 'APPLE_CLR',
 }
 
 export enum EImportPaletteVariant {

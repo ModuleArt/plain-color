@@ -14,6 +14,7 @@ import { writeText } from '@tauri-apps/plugin-clipboard-manager'
 import { save } from '@tauri-apps/plugin-dialog'
 import { writeTextFile } from '@tauri-apps/plugin-fs'
 import { ITextareaRef } from '@/components/Textarea/props'
+import { invokeSaveClrFile } from '@/utils/cmd/clr.cmd.util'
 
 export const ExportPalettePage: FC = () => {
   const params = useParams<{ paletteId: string }>()
@@ -45,18 +46,26 @@ export const ExportPalettePage: FC = () => {
   )
 
   const saveFile = async () => {
-    const filePath = await save({
-      title: `Save "${palette.label}"`,
-      filters: [
-        {
-          name: exportPaletteVariant.fileExtension.toUpperCase(),
-          extensions: [exportPaletteVariant.fileExtension],
-        },
-      ],
-    })
+    switch (exportPaletteVariant.id) {
+      case EExportPaletteVariant.APPLE_CLR: {
+        invokeSaveClrFile(palette)
+        break
+      }
+      default: {
+        const filePath = await save({
+          title: `Save "${palette.label}"`,
+          filters: [
+            {
+              name: exportPaletteVariant.fileExtension.toUpperCase(),
+              extensions: [exportPaletteVariant.fileExtension],
+            },
+          ],
+        })
 
-    if (filePath) {
-      writeTextFile(filePath, fileContent)
+        if (filePath) {
+          writeTextFile(filePath, fileContent)
+        }
+      }
     }
   }
 
@@ -105,7 +114,7 @@ export const ExportPalettePage: FC = () => {
       <Stack>
         <Button label="Cancel" onClick={goBack} grow />
         <Button label="Export" onClick={saveFile} grow />
-        <Button onClick={copyContent} iconPre={Copy} padding="small" />
+        {exportPaletteVariant.allowCopy && <Button onClick={copyContent} iconPre={Copy} padding="small" />}
       </Stack>
     </Stack>
   )
