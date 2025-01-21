@@ -1,62 +1,60 @@
 use std::process::Command;
 
-pub fn load_clr_file_with_script() -> String {
-    // JXA script as a raw string literal
+pub fn load_clr_file_with_script(file_path: String) -> String {
     let jxa_script = r#"
-        var app;
-        var clrFilePath;
-        var colorList = {};
-        var jsonFilePath;
-        var nsColorList;
-        var nsStringColorList;
-        var paletteName;
+        function run(argv) {
+            var clrFilePath = argv[0];
+            var colorList = {};
+            var paletteName;
+            var nsColorList;
+            var nsStringColorList;
 
-        function c2h(colorValue) {
-            return ('0' + Math.round(colorValue * 255).toString(16)).slice(-2);
-        }
-
-        function a2h(alphaValue) {
-            var result = c2h(alphaValue);
-            return result === 'ff' ? '' : result;
-        }
-
-        ObjC.import('AppKit');
-        app = Application.currentApplication();
-        app.includeStandardAdditions = true;
-        clrFilePath = app.chooseFile({ withPrompt: 'Import palette from Apple Color List (.clr) file', ofType: ['clr'] }).toString();
-        paletteName = clrFilePath.slice(clrFilePath.lastIndexOf('/') + 1);
-        paletteName = paletteName.slice(0, paletteName.lastIndexOf('.'));
-
-        nsColorList = $.NSColorList.alloc.initWithNameFromFile(paletteName, clrFilePath);
-        nsColorList.allKeys.js.forEach(function _getColor(colorName) {
-            var nsColor;
-            var colorValue;
-
-            nsColor = nsColorList.colorWithKey(colorName);
-            if (nsColor.colorSpaceName.js === 'NSCalibratedWhiteColorSpace') {
-                colorValue = ['#', c2h(nsColor.whiteComponent), c2h(nsColor.whiteComponent), c2h(nsColor.whiteComponent), a2h(nsColor.alphaComponent)].filter(Boolean).join('');
-            } else {
-                colorValue = ['#', c2h(nsColor.redComponent), c2h(nsColor.greenComponent), c2h(nsColor.blueComponent), a2h(nsColor.alphaComponent)].filter(Boolean).join('');
+            function c2h(colorValue) {
+                return ('0' + Math.round(colorValue * 255).toString(16)).slice(-2);
             }
-            colorList[colorName.js] = colorValue;
-        });
 
-        JSON.stringify({ paletteName, colorList }, null, 2)
+            function a2h(alphaValue) {
+                var result = c2h(alphaValue);
+                return result === 'ff' ? '' : result;
+            }
+
+            ObjC.import('AppKit');
+            var app = Application.currentApplication();
+            app.includeStandardAdditions = true;
+
+            paletteName = clrFilePath.slice(clrFilePath.lastIndexOf('/') + 1);
+            paletteName = paletteName.slice(0, paletteName.lastIndexOf('.'));
+
+            nsColorList = $.NSColorList.alloc.initWithNameFromFile(paletteName, clrFilePath);
+            nsColorList.allKeys.js.forEach(function _getColor(colorName) {
+                var nsColor;
+                var colorValue;
+
+                nsColor = nsColorList.colorWithKey(colorName);
+                if (nsColor.colorSpaceName.js === 'NSCalibratedWhiteColorSpace') {
+                    colorValue = ['#', c2h(nsColor.whiteComponent), c2h(nsColor.whiteComponent), c2h(nsColor.whiteComponent), a2h(nsColor.alphaComponent)].filter(Boolean).join('');
+                } else {
+                    colorValue = ['#', c2h(nsColor.redComponent), c2h(nsColor.greenComponent), c2h(nsColor.blueComponent), a2h(nsColor.alphaComponent)].filter(Boolean).join('');
+                }
+                colorList[colorName.js] = colorValue;
+            });
+
+            return JSON.stringify({ paletteName, colorList }, null, 2);
+        }
     "#;
 
-    // Run the JXA script using osascript with the `-l JavaScript` flag
     let output = Command::new("osascript")
         .arg("-l")
         .arg("JavaScript")
         .arg("-e")
         .arg(jxa_script)
+        .arg(file_path)
         .output();
 
-    // Capture the output
     if let Ok(output) = output {
         if output.status.success() {
             let json_output = String::from_utf8_lossy(&output.stdout);
-            return json_output.to_string(); // Return the JSON string
+            return json_output.to_string();
         } else {
             return format!(
                 "Error executing JXA script: {}",
@@ -64,12 +62,11 @@ pub fn load_clr_file_with_script() -> String {
             );
         }
     } else {
-        return "Failed to execute osascript".to_string(); // Return error message as string
+        return "Failed to execute osascript".to_string();
     }
 }
 
 pub fn save_clr_file_with_script(json: String) -> String {
-    // JXA script as a raw string literal
     let jxa_script = r#"
         function run(argv) {
             var jsonString = argv[0]; // Get JSON string from argument
@@ -127,20 +124,18 @@ pub fn save_clr_file_with_script(json: String) -> String {
         }
     "#;
 
-    // Run the JXA script using osascript with the `-l JavaScript` flag
     let output = Command::new("osascript")
         .arg("-l")
         .arg("JavaScript")
         .arg("-e")
         .arg(jxa_script)
-        .arg(json) // Pass JSON string as argument
+        .arg(json)
         .output();
 
-    // Capture the output
     if let Ok(output) = output {
         if output.status.success() {
             let saved_file_path = String::from_utf8_lossy(&output.stdout);
-            return saved_file_path.to_string(); // Return the saved .clr file path
+            return saved_file_path.to_string();
         } else {
             return format!(
                 "Error executing JXA script: {}",
@@ -148,6 +143,6 @@ pub fn save_clr_file_with_script(json: String) -> String {
             );
         }
     } else {
-        return "Failed to execute osascript".to_string(); // Return error message as string
+        return "Failed to execute osascript".to_string();
     }
 }

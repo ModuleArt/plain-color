@@ -2,8 +2,8 @@ import { IPalette } from '@/types/palette.types'
 import { invokeCmd } from '.'
 import { IClrResponseObject } from '@/utils/palette/importers/clr.importer'
 
-export const invokeLoadClrFile = async (filePath: string) => {
-  return invokeCmd<string>('load_clr_file', { filePath })
+export const invokeLoadClrFile = async (file: string) => {
+  return invokeCmd<string>('load_clr_file', { file })
 }
 
 export const invokeSaveClrFile = async (palette: IPalette) => {

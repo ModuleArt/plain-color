@@ -31,7 +31,7 @@ export const handleOpenWith = async (filePath: string, callback: (palette: IPale
       })
 
       if (file) {
-        return handleOpenWith(file, callback)
+        handleOpenWith(file, callback)
       }
     } else {
       console.error(err)
