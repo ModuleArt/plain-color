@@ -26,7 +26,6 @@ export const listenInMain = <K extends keyof TEmitToMainPayload>(
   callback: (payload: TEmitToMainPayload[K]) => void
 ) => {
   return listen(cmd, ({ payload }) => {
-    console.info('listenInMain', cmd, payload)
     callback(payload as TEmitToMainPayload[K])
   })
 }

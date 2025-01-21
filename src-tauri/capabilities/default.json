@@ -47,6 +47,8 @@
           "url": "https://raw.githubusercontent.com/mui/material-ui/refs/heads/master/packages/mui-material/src/colors/*"
         }
       ]
-    }
+    },
+    "deep-link:default",
+    "deep-link:allow-get-current"
   ]
 }

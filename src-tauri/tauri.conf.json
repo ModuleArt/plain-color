@@ -70,8 +70,20 @@
       "entitlements": "./Entitlements.plist"
     },
     "fileAssociations": [
-      { "name": "PlainColor JSON", "description": "PlainColor JSON", "ext": ["plaincolorjson"], "role": "Viewer" },
-      { "name": "Apple Color List", "description": "Apple Color List", "ext": ["clr"], "role": "Viewer" }
+      {
+        "name": "PlainColor JSON",
+        "description": "PlainColor JSON",
+        "ext": ["plaincolorjson"],
+        "role": "Editor",
+        "mimeType": "application/json"
+      },
+      {
+        "name": "Apple Color List",
+        "description": "Apple Color List",
+        "ext": ["clr"],
+        "role": "Editor",
+        "mimeType": "application/octet-stream"
+      }
     ]
   }
 }

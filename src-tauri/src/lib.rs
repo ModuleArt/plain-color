@@ -54,6 +54,13 @@ pub fn run() {
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_clipboard_manager::init())
         .plugin(tauri_nspanel::init())
+        .plugin(tauri_plugin_single_instance::init(|app, args, cwd| {
+            let _ = app
+                .get_webview_window("main")
+                .expect("no main window")
+                .set_focus();
+        }))
+        .plugin(tauri_plugin_deep_link::init())
         .invoke_handler(generate_handler![
             mod_commands::start_picker_loop,
             mod_commands::stop_picker_loop,
@@ -66,15 +73,6 @@ pub fn run() {
             mod_commands::save_clr_file,
         ])
         .setup(|app| {
-            let args: Vec<String> = std::env::args().collect();
-
-            if args.len() > 1 {
-                let file_path = &args[1]; // The first argument is the file path
-                if let Some(window) = app.get_webview_window("main") {
-                    window.emit("open_file", file_path).unwrap();
-                }
-            }
-
             #[cfg(target_os = "macos")]
             {
                 use cocoa::appkit::{NSMainMenuWindowLevel, NSWindowCollectionBehavior};
