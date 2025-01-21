@@ -1,8 +1,9 @@
-import { ChangeEvent, FC, KeyboardEvent, useRef, useState } from 'react'
+import { FC, KeyboardEvent, useRef, useState } from 'react'
 import cn from 'classnames'
 import { ITextProps } from './props'
 import './index.scss'
 import { commonComponentClasses } from '@/lib'
+import { Input } from '@/components/Input'
 
 export const Text: FC<ITextProps> = ({
   tinted = false,
@@ -26,10 +27,6 @@ export const Text: FC<ITextProps> = ({
   const onClick = () => {
     setIsEditing(true)
     setTimeout(() => inputRef.current?.focus())
-  }
-
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onTextChange && onTextChange(e.target.value)
   }
 
   const onBlur = () => {
@@ -56,11 +53,11 @@ export const Text: FC<ITextProps> = ({
       )}
     >
       {isEditing ? (
-        <input
-          ref={inputRef}
+        <Input
+          inputRef={inputRef}
           className={cn('text__input', inputClassName)}
           value={text}
-          onChange={onChange}
+          onChange={(value) => onTextChange && onTextChange(value)}
           onBlur={onBlur}
           onKeyDown={onKeyDown}
         />

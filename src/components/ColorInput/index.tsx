@@ -11,6 +11,7 @@ import {
   sanitizeRgbInputBlur,
 } from '@/utils/sanitize.util'
 import { rgbToHex } from '@/utils/color'
+import { Input } from '@/components/Input'
 
 export const ColorInput: FC<IColorInputProps> = ({ colorHex, onChange }) => {
   const [innerHex, setInnerHex] = useState('000000')
@@ -89,9 +90,9 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex, onChange }) => {
     <Stack justify="between" className="color-input">
       <Stack dir="vertical" align="center" className="color-input__hex-input">
         <Text text="HEX" size="small" tinted />
-        <input
+        <Input
           value={innerHex}
-          onChange={(e) => setInnerHex(sanitizeHexInputValue(e.target.value))}
+          onChange={(value) => setInnerHex(sanitizeHexInputValue(value))}
           onBlur={handleInnerHexBlur}
           autoComplete="off"
           autoCorrect="off"
@@ -102,9 +103,9 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex, onChange }) => {
       <Stack className="color-input__rgb-inputs" grow>
         <Stack dir="vertical" align="center" grow>
           <Text text="R" size="small" tinted />
-          <input
+          <Input
             value={innerR}
-            onChange={(e) => setInnerR(sanitizeRgbInputValue(e.target.value))}
+            onChange={(value) => setInnerR(sanitizeRgbInputValue(value))}
             onBlur={handleInnerRBlur}
             autoComplete="off"
             autoCorrect="off"
@@ -114,9 +115,9 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex, onChange }) => {
         </Stack>
         <Stack dir="vertical" align="center" grow>
           <Text text="G" size="small" tinted />
-          <input
+          <Input
             value={innerG}
-            onChange={(e) => setInnerG(sanitizeRgbInputValue(e.target.value))}
+            onChange={(value) => setInnerG(sanitizeRgbInputValue(value))}
             onBlur={handleInnerGBlur}
             autoComplete="off"
             autoCorrect="off"
@@ -126,9 +127,9 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex, onChange }) => {
         </Stack>
         <Stack dir="vertical" align="center" grow>
           <Text text="B" size="small" tinted />
-          <input
+          <Input
             value={innerB}
-            onChange={(e) => setInnerB(sanitizeRgbInputValue(e.target.value))}
+            onChange={(value) => setInnerB(sanitizeRgbInputValue(value))}
             onBlur={handleInnerBBlur}
             autoComplete="off"
             autoCorrect="off"
@@ -138,9 +139,9 @@ export const ColorInput: FC<IColorInputProps> = ({ colorHex, onChange }) => {
         </Stack>
         <Stack dir="vertical" align="center" grow>
           <Text text="Alpha" size="small" tinted />
-          <input
+          <Input
             value={innerA}
-            onChange={(e) => setInnerA(sanitizeRgbInputValue(e.target.value, 100))}
+            onChange={(value) => setInnerA(sanitizeRgbInputValue(value, 100))}
             onBlur={handleInnerABlur}
             autoComplete="off"
             autoCorrect="off"

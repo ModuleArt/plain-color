@@ -95,3 +95,4 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 - [Aperture size](https://github.com/ModuleArt/plain-color/pull/9#issuecomment-2599870209)
 - Improve list performance (infinite scroll)
 - Move picker with arrows (step = 1px), make sure it cannot be out of screen bounds
+- Settings: Add "Reset to defaults" button
