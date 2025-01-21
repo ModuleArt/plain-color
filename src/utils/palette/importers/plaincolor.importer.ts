@@ -4,13 +4,19 @@ import { readTextFile } from '@tauri-apps/plugin-fs'
 import { generateRandomUuid } from '@/utils/uuid.util'
 import { sanitizeHexInputValue } from '@/utils/sanitize.util'
 
-export const plaincolorImporter = async (): Promise<TPaletteImporterResult> => {
-  const filePath = await open({
-    title: 'Import palette from PlainColor JSON',
-    filters: [{ name: 'JSON', extensions: ['json'] }],
-    multiple: false,
-    directory: false,
-  })
+export const plaincolorImporter = async (filePath?: string): Promise<TPaletteImporterResult> => {
+  if (!filePath) {
+    const file = await open({
+      title: 'Import palette from PlainColor JSON',
+      filters: [{ name: 'PlainColor JSON', extensions: ['plaincolorjson'] }],
+      multiple: false,
+      directory: false,
+    })
+
+    if (file) {
+      filePath = file
+    }
+  }
 
   if (!filePath) {
     throw new Error('Action rejected')

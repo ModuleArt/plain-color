@@ -41,13 +41,16 @@ export const importPaletteVariants = [
   },
 ]
 
-export const importPalette = async (importVariant: EImportPaletteVariant): Promise<TPaletteImporterResult> => {
+export const importPalette = async (
+  importVariant: EImportPaletteVariant,
+  filePath?: string
+): Promise<TPaletteImporterResult> => {
   switch (importVariant) {
     case EImportPaletteVariant.PLAINCOLOR_JSON: {
-      return plaincolorImporter()
+      return plaincolorImporter(filePath)
     }
     case EImportPaletteVariant.APPLE_CLR: {
-      return clrImporter()
+      return clrImporter(filePath)
     }
     case EImportPaletteVariant.APPLE_COLORS_PHP: {
       return appleImporter()

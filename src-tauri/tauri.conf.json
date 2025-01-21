@@ -68,6 +68,10 @@
     "macOS": {
       "signingIdentity": "-",
       "entitlements": "./Entitlements.plist"
-    }
+    },
+    "fileAssociations": [
+      { "name": "PlainColor JSON", "description": "PlainColor JSON", "ext": ["plaincolorjson"], "role": "Viewer" },
+      { "name": "Apple Color List", "description": "Apple Color List", "ext": ["clr"], "role": "Viewer" }
+    ]
   }
 }

@@ -60,6 +60,7 @@ export const ExportPalettePage: FC = () => {
               extensions: [exportPaletteVariant.fileExtension],
             },
           ],
+          defaultPath: palette.label,
         })
 
         if (filePath) {

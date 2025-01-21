@@ -9,8 +9,9 @@ mod mod_pickerloop;
 mod mod_screenshot;
 
 use tauri::{
+    generate_context, generate_handler,
     menu::{Menu, PredefinedMenuItem, Submenu},
-    Manager,
+    Builder, DragDropEvent, Emitter, Manager, WindowEvent,
 };
 
 #[allow(non_upper_case_globals)]
@@ -23,7 +24,7 @@ pub fn run() {
     let loop_state =
         std::sync::Arc::new(tokio::sync::Mutex::new(mod_pickerloop::LoopState::default()));
 
-    tauri::Builder::default()
+    Builder::default()
         .manage(loop_state)
         .menu(|handle| {
             Menu::with_items(
@@ -53,7 +54,7 @@ pub fn run() {
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_clipboard_manager::init())
         .plugin(tauri_nspanel::init())
-        .invoke_handler(tauri::generate_handler![
+        .invoke_handler(generate_handler![
             mod_commands::start_picker_loop,
             mod_commands::stop_picker_loop,
             mod_commands::set_picker_preview_size,
@@ -65,6 +66,15 @@ pub fn run() {
             mod_commands::save_clr_file,
         ])
         .setup(|app| {
+            let args: Vec<String> = std::env::args().collect();
+
+            if args.len() > 1 {
+                let file_path = &args[1]; // The first argument is the file path
+                if let Some(window) = app.get_webview_window("main") {
+                    window.emit("open_file", file_path).unwrap();
+                }
+            }
+
             #[cfg(target_os = "macos")]
             {
                 use cocoa::appkit::{NSMainMenuWindowLevel, NSWindowCollectionBehavior};
@@ -83,6 +93,19 @@ pub fn run() {
 
             Ok(())
         })
-        .run(tauri::generate_context!())
+        .on_window_event(|window, event| {
+            if let WindowEvent::DragDrop(drag_drop_event) = event {
+                match drag_drop_event {
+                    // If the event is of type "Drop", handle the dropped file paths
+                    DragDropEvent::Drop { paths, .. } => {
+                        if let Some(file) = paths.get(0) {
+                            window.emit("open_file", file.to_string_lossy()).unwrap();
+                        }
+                    }
+                    _ => {}
+                }
+            }
+        })
+        .run(generate_context!())
         .expect("error while running tauri application")
 }

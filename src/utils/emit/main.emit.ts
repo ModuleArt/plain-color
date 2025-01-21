@@ -6,6 +6,7 @@ interface TEmitToMainPayload {
   preview_zoom_out: {}
   preview_canceled: {}
   toggle_guidelines: { show: boolean }
+  open_file: string
 }
 
 export type TEmitToMainCmd =
@@ -14,6 +15,7 @@ export type TEmitToMainCmd =
   | { cmd: 'preview_zoom_out'; payload: TEmitToMainPayload['preview_zoom_out'] }
   | { cmd: 'preview_canceled'; payload: TEmitToMainPayload['preview_canceled'] }
   | { cmd: 'toggle_guidelines'; payload: TEmitToMainPayload['toggle_guidelines'] }
+  | { cmd: 'open_file'; payload: TEmitToMainPayload['open_file'] }
 
 export const emitToMain = (cmd: TEmitToMainCmd) => {
   return emitTo('main', cmd.cmd, cmd.payload)
@@ -24,6 +26,7 @@ export const listenInMain = <K extends keyof TEmitToMainPayload>(
   callback: (payload: TEmitToMainPayload[K]) => void
 ) => {
   return listen(cmd, ({ payload }) => {
+    console.info('listenInMain', cmd, payload)
     callback(payload as TEmitToMainPayload[K])
   })
 }

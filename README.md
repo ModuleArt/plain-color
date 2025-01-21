@@ -24,15 +24,15 @@
 ## ⬇️ Download
 
 - macOS: <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.9/PlainColor_1.0.9_aarch64.dmg">dmg</a>
-- Windows: exe | microsoft store | chocolatey - Coming soon...
-- Linux: flathub | appimage | deb - Coming soon...
+- Windows: exe | microsoft store - Coming soon...
+- Linux: deb | flathub - Coming soon...
 
 ## 🚀 Features
 
 - 🔍 <b>Picker</b> - Pick a color from your screen with advanced magnifying glass
 - 🎨 <b>Custom palettes</b> - Organize your colors with palettes. Name colors and add them to palettes to use in your projects
-  - Export palette to `JSON` `CSS or SASS variables` `JavaScript object`
-  - Import `JSON` `Tailwind CSS colors` `Material UI colors` `Apple colors`
+  - Export palette to `JSON` `Apple Color List (.clr)` `CSS or SASS variables` `JavaScript object`
+  - Import `JSON` `Apple Color List (.clr)` `Tailwind CSS colors` `Material UI colors` `Apple colors`
 - 📋 <b>A lot of color formats</b> - Copy your colors as:
   - `#HEX` `HEX` `#hex` `hex`
   - `rgb()` `R,G,B` `color(display-p3)`

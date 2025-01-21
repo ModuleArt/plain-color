@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { WindowTitlebar } from '@/components/WindowTitlebar'
 import { WindowContent } from '@/components/WindowContent'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { usePickerStore } from '@/store/picker.store'
 import { Window } from '@tauri-apps/api/window'
 import { UnlistenFn } from '@tauri-apps/api/event'
@@ -24,6 +24,7 @@ import { generateColorLabel } from '@/utils/color'
 import { registerGlobalShortcuts, unregisterGlobalShortcuts } from '@/utils/shortcuts'
 import { preparePickerForOpen } from '@/utils/picker.util'
 import { emitToPicker } from '@/utils/emit/picker.emit'
+import { handleOpenWith } from '@/utils/openWith.util'
 
 export const AppLayout: FC = () => {
   const pickerStore = usePickerStore()
@@ -32,6 +33,7 @@ export const AppLayout: FC = () => {
   const settingsStore = useSettingsStore()
   const [isPickerLoopActive, setIsPickerLoopActive] = useState(false)
   const platform = getPlatform()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (pickerStore.isPicking) {
@@ -144,6 +146,15 @@ export const AppLayout: FC = () => {
       listenInMain('preview_canceled', () => {
         pickerStore.closePicker()
       })
+    )
+
+    listeners.push(
+      listenInMain('open_file', (payload) =>
+        handleOpenWith(payload, (palette) => {
+          palettesStore.addPalette(palette)
+          navigate(`/palettes/${palette.id}`)
+        })
+      )
     )
 
     return () => {
