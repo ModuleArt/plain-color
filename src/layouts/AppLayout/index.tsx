@@ -24,7 +24,7 @@ import { generateColorLabel } from '@/utils/color'
 import { registerGlobalShortcuts, unregisterGlobalShortcuts } from '@/utils/shortcuts'
 import { preparePickerForOpen } from '@/utils/picker.util'
 import { emitToPicker } from '@/utils/emit/picker.emit'
-import { handleDeepLink, handleOpenWith } from '@/utils/openWith.util'
+import { handleDeepLink, handleOpenWithMultiple } from '@/utils/openWith.util'
 import { onOpenUrl, getCurrent } from '@tauri-apps/plugin-deep-link'
 import { IPalette } from '@/types/palette.types'
 
@@ -37,9 +37,9 @@ export const AppLayout: FC = () => {
   const platform = getPlatform()
   const navigate = useNavigate()
 
-  const openWithHandler = (palette: IPalette) => {
-    palettesStore.addPalette(palette)
-    navigate(`/palettes/${palette.id}`)
+  const openWithHandler = (palettes: IPalette[]) => {
+    palettes.map((palette) => palettesStore.addPalette(palette))
+    navigate('/palettes')
   }
 
   useEffect(() => {
@@ -86,8 +86,8 @@ export const AppLayout: FC = () => {
       },
     })
 
-    getCurrent().then((urls) => handleDeepLink(urls, openWithHandler))
-    onOpenUrl((urls) => handleDeepLink(urls, openWithHandler))
+    getCurrent().then((urls) => handleDeepLink(urls).then(openWithHandler))
+    onOpenUrl((urls) => handleDeepLink(urls).then(openWithHandler))
 
     Window.getByLabel('main').then((mainWindow) => {
       if (mainWindow) {
@@ -158,7 +158,9 @@ export const AppLayout: FC = () => {
       })
     )
 
-    listeners.push(listenInMain('open_file', (payload) => handleOpenWith(payload, openWithHandler)))
+    listeners.push(
+      listenInMain('trigger_deep_link', (payload) => handleOpenWithMultiple(payload).then(openWithHandler))
+    )
 
     return () => {
       listeners.map((unlisten) => unlisten.then((f) => f()))

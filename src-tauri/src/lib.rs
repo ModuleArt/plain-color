@@ -94,10 +94,14 @@ pub fn run() {
         .on_window_event(|window, event| {
             if let WindowEvent::DragDrop(drag_drop_event) = event {
                 match drag_drop_event {
-                    // If the event is of type "Drop", handle the dropped file paths
                     DragDropEvent::Drop { paths, .. } => {
-                        if let Some(file) = paths.get(0) {
-                            window.emit("open_file", file.to_string_lossy()).unwrap();
+                        if let Some(files) = Some(
+                            paths
+                                .into_iter()
+                                .map(|path| path.to_string_lossy().to_string())
+                                .collect::<Vec<String>>(),
+                        ) {
+                            window.emit("trigger_deep_link", files).unwrap();
                         }
                     }
                     _ => {}
