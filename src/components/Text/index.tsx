@@ -10,9 +10,14 @@ export const Text: FC<ITextProps> = ({
   transform = 'none',
   editable = false,
   onTextChange,
+  onInputBlur,
   size = 'regular',
   align = 'left',
   textRef,
+  labelClassName,
+  inputClassName,
+  maxWidth = 0,
+  textWrap = true,
   ...props
 }) => {
   const [isEditing, setIsEditing] = useState(false)
@@ -29,6 +34,7 @@ export const Text: FC<ITextProps> = ({
 
   const onBlur = () => {
     setIsEditing(false)
+    onInputBlur && onInputBlur()
   }
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -45,25 +51,31 @@ export const Text: FC<ITextProps> = ({
         [`text--align-${align}`],
         [`text--transform-${transform}`],
         [`text--size-${size}`],
-        { 'text--tinted': tinted },
+        { 'text--tinted': tinted, 'text--no-text-wrap': !textWrap },
         commonComponentClasses(props)
       )}
     >
       {isEditing ? (
         <input
           ref={inputRef}
-          className="text__input"
+          className={cn('text__input', inputClassName)}
           value={text}
           onChange={onChange}
           onBlur={onBlur}
           onKeyDown={onKeyDown}
         />
       ) : editable ? (
-        <button onClick={onClick} className="text__label text__label--clickable">
+        <button
+          onClick={onClick}
+          className={cn('text__label text__label--clickable', labelClassName)}
+          style={{ maxWidth: maxWidth ? `${maxWidth}px` : '100%' }}
+        >
           {text}
         </button>
       ) : (
-        <span className="text__label">{text}</span>
+        <span className={cn('text__label', labelClassName)} style={{ maxWidth: maxWidth ? `${maxWidth}px` : '100%' }}>
+          {text}
+        </span>
       )}
     </span>
   )

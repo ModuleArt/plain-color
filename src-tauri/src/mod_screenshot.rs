@@ -61,7 +61,7 @@ pub fn capture_screen_area(
 
                     let color_profile = mod_globalvars::get_color_profile();
 
-                    if color_profile == mod_globalvars::ColorProfile::SRGB {
+                    if color_profile == mod_globalvars::ScreenColorProfile::SRGB {
                         let rgb = color_space_adjustment(r, g, b);
                         r = rgb.0;
                         g = rgb.1;

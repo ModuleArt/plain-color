@@ -1,4 +1,4 @@
-import { EColorProfile } from '@/store/settings.store'
+import { EScreenColorProfile } from '@/store/settings.store'
 import { invokeCmd } from '.'
 
 export const invokeStartPickerLoop = async () => {
@@ -13,6 +13,6 @@ export const invokeSetPickerPreviewSize = async (args: { size: number }) => {
   return invokeCmd<boolean>('set_picker_preview_size', args)
 }
 
-export const invokeSetPickerColorProfile = async (args: { profile: EColorProfile }) => {
+export const invokeSetPickerColorProfile = async (args: { profile: EScreenColorProfile }) => {
   return invokeCmd<boolean>('set_picker_color_profile', args)
 }

@@ -6,6 +6,10 @@
   height: 100%;
   cursor: none;
 
+  * {
+    pointer-events: none;
+  }
+
   &--show-cursor {
     cursor: default;
   }
@@ -43,14 +47,12 @@
     height: var(--pixel);
     border: var(--size_borderWidth) solid var(--color_text);
     display: block;
-    pointer-events: none;
     mix-blend-mode: difference;
   }
 
   &__guideline {
     border: var(--size_borderWidth) solid var(--color_text);
     position: fixed;
-    pointer-events: none;
     mix-blend-mode: difference;
 
     &--horizontal {

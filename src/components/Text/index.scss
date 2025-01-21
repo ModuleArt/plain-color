@@ -59,4 +59,10 @@
       }
     }
   }
+
+  &--no-text-wrap &__label {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 }
