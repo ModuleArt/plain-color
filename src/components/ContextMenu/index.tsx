@@ -71,6 +71,7 @@ export const ContextMenu: FC = () => {
               iconPost={menuItem.subMenuItems ? CaretRight : undefined}
               tintedIconPost
               growLabel
+              pointerEvents="enable"
             />
           </Stack>
         ))}

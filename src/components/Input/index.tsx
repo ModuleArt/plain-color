@@ -1,4 +1,4 @@
-import { FC, KeyboardEvent, useRef, useState } from 'react'
+import { FC, KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { IInputProps } from './props'
 import cn from 'classnames'
 import { commonComponentClasses } from '@/lib'
@@ -25,6 +25,32 @@ export const Input: FC<IInputProps> = ({
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     onKeyDown && onKeyDown(event)
+
+    if (event.ctrlKey || event.metaKey) {
+      switch (event.key.toLowerCase()) {
+        case 'x':
+          onCut()
+          break
+        case 'c':
+          onCopy()
+          break
+        case 'v':
+          onPaste()
+          break
+        case 'a':
+          onSelectAll()
+          break
+      }
+    }
+  }
+
+  const onSelectAll = async () => {
+    if (localRef.current) {
+      localRef.current.select()
+    }
+
+    if (pauseOnBlur && onBlur) onBlur()
+    setPauseOnBlur(false)
   }
 
   const onCut = async () => {
@@ -37,6 +63,9 @@ export const Input: FC<IInputProps> = ({
 
       const newValue = localRef.current.value.slice(0, start) + localRef.current.value.slice(end)
       onChange && onChange(newValue)
+
+      // fix cursor position
+      setTimeout(() => localRef.current?.setSelectionRange(start, start))
     }
 
     if (pauseOnBlur && onBlur) onBlur()
@@ -60,8 +89,12 @@ export const Input: FC<IInputProps> = ({
       const textToPaste = await readText()
       const start = localRef.current.selectionStart || 0
       const end = localRef.current.selectionEnd || 0
-      var newValue = localRef.current.value.slice(0, start) + textToPaste + localRef.current.value.slice(end)
+      const newValue = localRef.current.value.slice(0, start) + textToPaste + localRef.current.value.slice(end)
       onChange && onChange(newValue)
+
+      // fix cursor position
+      const nextCursorPos = start + textToPaste.length
+      setTimeout(() => localRef.current?.setSelectionRange(nextCursorPos, nextCursorPos))
     }
 
     if (pauseOnBlur && onBlur) onBlur()
@@ -110,6 +143,12 @@ export const Input: FC<IInputProps> = ({
       onBlur && onBlur()
     }
   }
+
+  useEffect(() => {
+    if (!contextMenuStore.menuItems.length) {
+      setPauseOnBlur(false)
+    }
+  }, [contextMenuStore.menuItems.length])
 
   return (
     <input
