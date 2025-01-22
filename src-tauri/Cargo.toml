@@ -1,7 +1,7 @@
 [package]
 name = "PlainColor"
-version = "1.0.9"
-description = "A Tauri App"
+version = "1.0.10"
+description = "Lightweight, versatile, cross-platform color picker app"
 authors = ["Eugene Volynko <volynko.ua@gmail.com>"]
 edition = "2021"
 
