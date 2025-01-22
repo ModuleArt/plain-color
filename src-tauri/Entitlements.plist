@@ -4,5 +4,8 @@
 <dict>
     <key>com.apple.security.device.audio-video-capture</key>
     <true/>
+    <!-- Allow access to files explicitly opened by the user -->
+    <key>com.apple.security.files.user-selected.read-only</key>
+    <true/>
 </dict>
 </plist>

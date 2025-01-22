@@ -1,14 +1,69 @@
 import { IColor } from '@/types/color.types'
-import { EExportPaletteVariant, IPalette } from '@/types/palette.types'
+import { EExportPaletteVariant, IPalette, TPlainColorPaletteJson } from '@/types/palette.types'
 import { ECopyVariant } from '@/types/settings.types'
 import { formatCopyText } from '@/utils/copyVariants.util'
 
-export const exportPaletteVariants = [
-  { id: EExportPaletteVariant.PLAINCOLOR_JSON, label: 'PlainColor JSON', fileExtension: 'json' },
-  { id: EExportPaletteVariant.JSON, label: 'Simple JSON', fileExtension: 'json' },
-  { id: EExportPaletteVariant.CSS_VARS, label: 'CSS variables', fileExtension: 'css' },
-  { id: EExportPaletteVariant.SASS_VARS, label: 'SASS variables', fileExtension: 'scss' },
-  { id: EExportPaletteVariant.JS_OBJECT, label: 'JavaScript object', fileExtension: 'js' },
+export const exportPaletteVariants: {
+  id: EExportPaletteVariant
+  label: string
+  fileExtension: string
+  availableColorProfiles: ECopyVariant[] | 'all'
+  allowCopy: boolean
+}[] = [
+  {
+    id: EExportPaletteVariant.PLAINCOLOR_JSON,
+    label: 'PlainColor palette JSON',
+    fileExtension: 'plaincolorjson',
+    availableColorProfiles: [ECopyVariant.HEX_LOWERCASE_WITHOUT_SHARP],
+    allowCopy: true,
+  },
+  {
+    id: EExportPaletteVariant.JSON,
+    label: 'JSON',
+    fileExtension: 'json',
+    availableColorProfiles: 'all',
+    allowCopy: true,
+  },
+  {
+    id: EExportPaletteVariant.APPLE_CLR,
+    label: 'Apple Color List (.clr)',
+    fileExtension: 'clr',
+    availableColorProfiles: [],
+    allowCopy: false,
+  },
+  {
+    id: EExportPaletteVariant.CSS_VARS,
+    label: 'CSS variables',
+    fileExtension: 'css',
+    availableColorProfiles: [
+      ECopyVariant.HEX_WITH_SHARP,
+      ECopyVariant.HEX_LOWERCASE_WITH_SHARP,
+      ECopyVariant.CSS_RGB,
+      ECopyVariant.CSS_HSL,
+      ECopyVariant.CSS_RGB_DISPLAY_P3,
+    ],
+    allowCopy: true,
+  },
+  {
+    id: EExportPaletteVariant.SASS_VARS,
+    label: 'SASS variables',
+    fileExtension: 'scss',
+    availableColorProfiles: [
+      ECopyVariant.HEX_WITH_SHARP,
+      ECopyVariant.HEX_LOWERCASE_WITH_SHARP,
+      ECopyVariant.CSS_RGB,
+      ECopyVariant.CSS_HSL,
+      ECopyVariant.CSS_RGB_DISPLAY_P3,
+    ],
+    allowCopy: true,
+  },
+  {
+    id: EExportPaletteVariant.JS_OBJECT,
+    label: 'JavaScript object',
+    fileExtension: 'js',
+    availableColorProfiles: 'all',
+    allowCopy: true,
+  },
 ]
 
 const formatJsObjectFieldName = (fieldName: string) => {
@@ -69,7 +124,11 @@ export const exportPalette = (
   colorFormat: ECopyVariant
 ) => {
   if (exportVariant === EExportPaletteVariant.PLAINCOLOR_JSON) {
-    return JSON.stringify({ ...palette, id: undefined })
+    const paletteJson: TPlainColorPaletteJson = {
+      label: palette.label,
+      colors: palette.colors.map((color) => ({ hex: color.hex, label: color.label })),
+    }
+    return JSON.stringify(paletteJson)
   } else {
     let prefix = ''
     let postfix = ''

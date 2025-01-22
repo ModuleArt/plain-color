@@ -1,10 +1,11 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { UnlistenFn } from '@tauri-apps/api/event'
 import { rgbToHex } from '@/utils/color'
 import { disableDefaultContextMenu } from '@/utils/contextMenu.util'
 import { emitToMain } from '@/utils/emit/main.emit'
 import { PickerPreview } from '@/components/PickerPreview'
 import { listenInPicker } from '@/utils/emit/picker.emit'
+import { IPickerPreviewRef } from '@/components/PickerPreview/props'
 
 export const PickerLayout: FC = () => {
   const [image, setImage] = useState('')
@@ -12,8 +13,11 @@ export const PickerLayout: FC = () => {
   const [previewSize, setPreviewSize] = useState(1)
   const [showGuidelines, setShowGuidelines] = useState(false)
   const [isHoldingShift, setIsHoldingShift] = useState(false)
+  const pickerPreviewRef = useRef<IPickerPreviewRef>(null)
 
   const listenKeyPress = (e: KeyboardEvent) => {
+    e.preventDefault()
+
     switch (e.key) {
       case 'Escape':
         cancel()
@@ -114,16 +118,20 @@ export const PickerLayout: FC = () => {
   }
 
   const cancel = () => {
-    emitToMain({ cmd: 'preview_canceled', payload: {} })
+    pickerPreviewRef.current?.showCursor()
+    setTimeout(() => emitToMain({ cmd: 'preview_canceled', payload: {} }))
   }
 
   return (
     <PickerPreview
+      ref={pickerPreviewRef}
       colorHex={color}
       onClick={() => pickColor(false)}
       previewSize={previewSize}
       image={image}
       showGuidelines={showGuidelines}
+      onZoomIn={zoomIn}
+      onZoomOut={zoomOut}
     />
   )
 }

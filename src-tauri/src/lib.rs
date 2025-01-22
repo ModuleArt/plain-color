@@ -1,3 +1,4 @@
+mod mod_clr;
 mod mod_coloradjustments;
 mod mod_commands;
 mod mod_display;
@@ -8,8 +9,9 @@ mod mod_pickerloop;
 mod mod_screenshot;
 
 use tauri::{
+    generate_context, generate_handler,
     menu::{Menu, PredefinedMenuItem, Submenu},
-    Manager,
+    Builder, DragDropEvent, Emitter, Manager, WindowEvent,
 };
 
 #[allow(non_upper_case_globals)]
@@ -22,7 +24,7 @@ pub fn run() {
     let loop_state =
         std::sync::Arc::new(tokio::sync::Mutex::new(mod_pickerloop::LoopState::default()));
 
-    tauri::Builder::default()
+    Builder::default()
         .manage(loop_state)
         .menu(|handle| {
             Menu::with_items(
@@ -52,7 +54,14 @@ pub fn run() {
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_clipboard_manager::init())
         .plugin(tauri_nspanel::init())
-        .invoke_handler(tauri::generate_handler![
+        .plugin(tauri_plugin_single_instance::init(|app, args, cwd| {
+            let _ = app
+                .get_webview_window("main")
+                .expect("no main window")
+                .set_focus();
+        }))
+        .plugin(tauri_plugin_deep_link::init())
+        .invoke_handler(generate_handler![
             mod_commands::start_picker_loop,
             mod_commands::stop_picker_loop,
             mod_commands::set_picker_preview_size,
@@ -60,25 +69,45 @@ pub fn run() {
             mod_commands::check_macos_screen_recording_permission,
             mod_commands::request_macos_screen_recording_permission,
             mod_commands::open_macos_screen_recording_settings,
+            mod_commands::load_clr_file,
+            mod_commands::save_clr_file,
         ])
         .setup(|app| {
             #[cfg(target_os = "macos")]
             {
+                use cocoa::appkit::{NSMainMenuWindowLevel, NSWindowCollectionBehavior};
                 use tauri_nspanel::WebviewWindowExt;
 
                 let picker_window = app.get_webview_window("picker").unwrap();
                 let picker_panel = picker_window.to_panel().unwrap();
-                picker_panel.set_level(cocoa::appkit::NSMainMenuWindowLevel + 1);
+                picker_panel.set_level(NSMainMenuWindowLevel + 1);
                 picker_panel.set_style_mask(NSWindowStyleMaskNonActivatingPanel);
                 picker_panel.set_collection_behaviour(
-                    cocoa::appkit::NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces
-                        | cocoa::appkit::NSWindowCollectionBehavior::NSWindowCollectionBehaviorStationary
-                        | cocoa::appkit::NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary,
+                    NSWindowCollectionBehavior::NSWindowCollectionBehaviorCanJoinAllSpaces
+                        | NSWindowCollectionBehavior::NSWindowCollectionBehaviorStationary
+                        | NSWindowCollectionBehavior::NSWindowCollectionBehaviorFullScreenAuxiliary,
                 );
             }
 
             Ok(())
         })
-        .run(tauri::generate_context!())
+        .on_window_event(|window, event| {
+            if let WindowEvent::DragDrop(drag_drop_event) = event {
+                match drag_drop_event {
+                    DragDropEvent::Drop { paths, .. } => {
+                        if let Some(files) = Some(
+                            paths
+                                .into_iter()
+                                .map(|path| path.to_string_lossy().to_string())
+                                .collect::<Vec<String>>(),
+                        ) {
+                            window.emit("trigger_deep_link", files).unwrap();
+                        }
+                    }
+                    _ => {}
+                }
+            }
+        })
+        .run(generate_context!())
         .expect("error while running tauri application")
 }

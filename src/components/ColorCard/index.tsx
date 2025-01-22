@@ -6,7 +6,7 @@ import { Button } from '@/components/Button'
 import { Copy, Trash, PencilSimple, PlusSquare, DotsThreeOutline, Palette } from '@phosphor-icons/react'
 import { Text } from '@/components/Text'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
-import { hexWithoutAlpha, isDark } from '@/utils/color'
+import { generateColorLabel, hexWithoutAlpha, isDark } from '@/utils/color'
 import cn from 'classnames'
 import { useSettingsStore } from '@/store/settings.store'
 import { copyVariants, formatCopyText } from '@/utils/copyVariants.util'
@@ -15,6 +15,7 @@ import { commonComponentClasses } from '@/lib'
 import { IContextMenuItem, IContextMenuShowMenuProps, useContextMenuStore } from '@/store/contextMenu.store'
 import { usePalettesStore } from '@/store/palettes.store'
 import { useRightClick } from '@/hooks/useRightClick.hook'
+import { sanitizeLabel } from '@/utils/sanitize.util'
 
 export const ColorCard: FC<IColorCardProps> = ({
   color,
@@ -42,6 +43,10 @@ export const ColorCard: FC<IColorCardProps> = ({
 
   const onLabelChange = (label: string) => {
     onColorChange && onColorChange({ ...color, label })
+  }
+
+  const onLabelBlur = () => {
+    onColorChange && onColorChange({ ...color, label: sanitizeLabel(color.label) || generateColorLabel(color.hex) })
   }
 
   const quickCopyVariants = copyVariants.filter((variant) => settingsStore.quickCopyVariants.includes(variant.id))
@@ -139,7 +144,15 @@ export const ColorCard: FC<IColorCardProps> = ({
         {variant === 'list' && (
           <>
             <Stack>
-              <Text text={color.label} grow editable={!!onColorChange} onTextChange={onLabelChange} />
+              <Text
+                text={color.label}
+                grow
+                editable={!!onColorChange}
+                onTextChange={onLabelChange}
+                onInputBlur={onLabelBlur}
+                textWrap={false}
+                maxWidth={244}
+              />
               <Button
                 iconPre={DotsThreeOutline}
                 variant="clear"

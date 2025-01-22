@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect, useMemo } from 'react'
 import { Stack } from '@/components/Stack'
 import { Button } from '@/components/Button'
 import { IContextMenuItem, useContextMenuStore } from '@/store/contextMenu.store'
@@ -23,12 +23,33 @@ export const ContextMenu: FC = () => {
     menuItem.onClick && menuItem.onClick(event)
   }
 
-  const posX = Math.min(contextMenuStore.position.x, window.innerWidth - 208)
-  const posY = Math.min(
-    contextMenuStore.position.y,
-    window.innerHeight -
-      (contextMenuStore.menuItems.length > 7 ? 288 : contextMenuStore.menuItems.reduce((prev) => prev + 36, 24))
+  const posX = useMemo(
+    () => Math.min(contextMenuStore.position.x, window.innerWidth - 208),
+    [contextMenuStore.position.x]
   )
+  const posY = useMemo(
+    () =>
+      Math.min(
+        contextMenuStore.position.y,
+        window.innerHeight -
+          (contextMenuStore.menuItems.length > 5 ? 196 + 8 : contextMenuStore.menuItems.length * 36 + 16 + 8)
+      ),
+    [contextMenuStore.position.y, contextMenuStore.menuItems]
+  )
+
+  const onWindowResize = () => {
+    if (contextMenuStore.menuItems.length > 0) {
+      contextMenuStore.hideMenu()
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', onWindowResize)
+
+    return () => {
+      window.removeEventListener('resize', onWindowResize)
+    }
+  }, [])
 
   if (contextMenuStore.menuItems.length === 0) return null
 
@@ -50,6 +71,7 @@ export const ContextMenu: FC = () => {
               iconPost={menuItem.subMenuItems ? CaretRight : undefined}
               tintedIconPost
               growLabel
+              pointerEvents="enable"
             />
           </Stack>
         ))}

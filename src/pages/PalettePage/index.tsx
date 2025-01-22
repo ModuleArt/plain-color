@@ -20,6 +20,7 @@ import { IColor } from '@/types/color.types'
 import { usePickerStore } from '@/store/picker.store'
 import { Scroller } from '@/components/Scroller'
 import { preparePickerForOpen } from '@/utils/picker.util'
+import { sanitizeLabel } from '@/utils/sanitize.util'
 
 export const PalettePage: FC = () => {
   const params = useParams<{ paletteId: string }>()
@@ -63,6 +64,10 @@ export const PalettePage: FC = () => {
     palettesStore.updatePalette(palette.id, { ...palette, view: palette.view === 'grid' ? 'list' : 'grid' })
   }
 
+  const onPaletteNameInputBlur = () => {
+    onPaletteChange({ ...palette, label: sanitizeLabel(palette.label) || 'My Palette' })
+  }
+
   return (
     <Stack dir="vertical" gap="none" grow>
       <Header extraPaddingRight>
@@ -72,8 +77,11 @@ export const PalettePage: FC = () => {
             text={palette.label}
             editable
             onTextChange={(label) => onPaletteChange({ ...palette, label })}
+            onInputBlur={onPaletteNameInputBlur}
             align="center"
             grow
+            textWrap={false}
+            maxWidth={204}
           />
         </Stack>
       </Header>

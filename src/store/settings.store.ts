@@ -2,7 +2,7 @@ import { ECopyVariant } from '@/types/settings.types'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-export enum EColorProfile {
+export enum EScreenColorProfile {
   SYSTEM = 'SYSTEM',
   SRGB = 'SRGB',
 }
@@ -14,8 +14,8 @@ interface ISettingsState {
   setDefaultCopyVariant: (defaultCopyVariant: ECopyVariant) => void
   pickerPreviewSize: number
   setPickerPreviewSize: (pickerPreviewSize: number) => void
-  pickerColorProfile: EColorProfile
-  setPickerColorProfile: (pickerColorProfile: EColorProfile) => void
+  pickerColorProfile: EScreenColorProfile
+  setPickerColorProfile: (pickerColorProfile: EScreenColorProfile) => void
   showGuidelines: boolean
   setShowGuidelines: (showGuidelines: boolean) => void
 }
@@ -29,7 +29,7 @@ export const useSettingsStore = create<ISettingsState>()(
       setDefaultCopyVariant: (defaultCopyVariant) => set(() => ({ defaultCopyVariant })),
       pickerPreviewSize: 12,
       setPickerPreviewSize: (pickerPreviewSize) => set(() => ({ pickerPreviewSize })),
-      pickerColorProfile: EColorProfile.SRGB,
+      pickerColorProfile: EScreenColorProfile.SRGB,
       setPickerColorProfile: (pickerColorProfile) => set(() => ({ pickerColorProfile })),
       showGuidelines: false,
       setShowGuidelines: (showGuidelines) => set(() => ({ showGuidelines })),

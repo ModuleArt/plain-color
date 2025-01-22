@@ -576,6 +576,13 @@
   dependencies:
     "@tauri-apps/api" "^2.0.0"
 
+"@tauri-apps/plugin-deep-link@~2":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@tauri-apps/plugin-deep-link/-/plugin-deep-link-2.2.0.tgz#78c6501aa5c136ba85c85c7de13e64f2a6219124"
+  integrity sha512-H6mkxr2KZ3XJcKL44tiq6cOjCw9DL8OgU1xjn3j26Qsn+H/roPFiyhR7CHuB8Ar+sQFj4YVlfmJwtBajK2FETQ==
+  dependencies:
+    "@tauri-apps/api" "^2.0.0"
+
 "@tauri-apps/plugin-dialog@~2":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@tauri-apps/plugin-dialog/-/plugin-dialog-2.2.0.tgz#2f7b841a982820adbc9c182e0e95acd8d90aa6fc"
@@ -1038,6 +1045,11 @@ react-dom@^18.2.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
+
+react-merge-refs@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-2.1.1.tgz#e46763f8f1b881c0226ee54a1a2a10ffefba0233"
+  integrity sha512-jLQXJ/URln51zskhgppGJ2ub7b2WFKGq3cl3NYKtlHoTG+dN2q7EzWrn3hN3EgPsTMvpR9tpq5ijdp7YwFZkag==
 
 react-refresh@^0.14.2:
   version "0.14.2"

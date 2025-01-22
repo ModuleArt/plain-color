@@ -1,19 +1,21 @@
 {
   "name": "plain-color",
   "private": false,
-  "version": "1.0.8",
+  "version": "1.0.9",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "t:dev": "tauri dev",
-    "t:build": "tauri build"
+    "t:build:debug": "tauri build --debug",
+    "t:build:release": "tauri build"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-clipboard-manager": "^2.0.0",
+    "@tauri-apps/plugin-deep-link": "~2",
     "@tauri-apps/plugin-dialog": "~2",
     "@tauri-apps/plugin-fs": "~2",
     "@tauri-apps/plugin-global-shortcut": "~2",
@@ -29,6 +31,7 @@
     "react": "^18.2.0",
     "react-colorful": "^5.6.1",
     "react-dom": "^18.2.0",
+    "react-merge-refs": "^2.1.1",
     "react-router-dom": "^6.27.0",
     "rgb-hex": "^4.1.0",
     "zustand": "^5.0.1"

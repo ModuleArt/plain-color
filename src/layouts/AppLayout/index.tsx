@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { WindowTitlebar } from '@/components/WindowTitlebar'
 import { WindowContent } from '@/components/WindowContent'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { usePickerStore } from '@/store/picker.store'
 import { Window } from '@tauri-apps/api/window'
 import { UnlistenFn } from '@tauri-apps/api/event'
@@ -24,6 +24,9 @@ import { generateColorLabel } from '@/utils/color'
 import { registerGlobalShortcuts, unregisterGlobalShortcuts } from '@/utils/shortcuts'
 import { preparePickerForOpen } from '@/utils/picker.util'
 import { emitToPicker } from '@/utils/emit/picker.emit'
+import { handleDeepLink, handleOpenWithMultiple } from '@/utils/openWith.util'
+import { onOpenUrl, getCurrent } from '@tauri-apps/plugin-deep-link'
+import { IPalette } from '@/types/palette.types'
 
 export const AppLayout: FC = () => {
   const pickerStore = usePickerStore()
@@ -32,6 +35,12 @@ export const AppLayout: FC = () => {
   const settingsStore = useSettingsStore()
   const [isPickerLoopActive, setIsPickerLoopActive] = useState(false)
   const platform = getPlatform()
+  const navigate = useNavigate()
+
+  const openWithHandler = (palettes: IPalette[]) => {
+    palettes.map((palette) => palettesStore.addPalette(palette))
+    navigate('/palettes')
+  }
 
   useEffect(() => {
     if (pickerStore.isPicking) {
@@ -71,9 +80,14 @@ export const AppLayout: FC = () => {
     disableDefaultContextMenu()
     registerGlobalShortcuts({
       triggerOpenPicker: () => {
-        preparePickerForOpen(() => pickerStore.openPicker({ target: 'HOME' }))
+        if (!pickerStore.isPicking) {
+          preparePickerForOpen(() => pickerStore.openPicker({ target: 'HOME' }))
+        }
       },
     })
+
+    getCurrent().then((urls) => handleDeepLink(urls).then(openWithHandler))
+    onOpenUrl((urls) => handleDeepLink(urls).then(openWithHandler))
 
     Window.getByLabel('main').then((mainWindow) => {
       if (mainWindow) {
@@ -142,6 +156,10 @@ export const AppLayout: FC = () => {
       listenInMain('preview_canceled', () => {
         pickerStore.closePicker()
       })
+    )
+
+    listeners.push(
+      listenInMain('trigger_deep_link', (payload) => handleOpenWithMultiple(payload).then(openWithHandler))
     )
 
     return () => {

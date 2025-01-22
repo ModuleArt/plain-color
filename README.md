@@ -23,16 +23,16 @@
 
 ## ⬇️ Download
 
-- macOS: <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.8/PlainColor_1.0.8_aarch64.dmg">dmg</a>
-- Windows: exe | microsoft store | chocolatey - Coming soon...
-- Linux: flathub | appimage | deb - Coming soon...
+- macOS: <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.9/PlainColor_1.0.9_aarch64.dmg">dmg</a>
+- Windows: exe | microsoft store - Coming soon...
+- Linux: deb | flathub - Coming soon...
 
 ## 🚀 Features
 
 - 🔍 <b>Picker</b> - Pick a color from your screen with advanced magnifying glass
 - 🎨 <b>Custom palettes</b> - Organize your colors with palettes. Name colors and add them to palettes to use in your projects
-  - Export palette to `JSON` `CSS / SASS variables` `JavaScript object`
-  - Import colors from `JSON` `Tailwind CSS default colors`
+  - Export palette to `JSON` `Apple Color List (.clr)` `CSS or SASS variables` `JavaScript object`
+  - Import `JSON` `Apple Color List (.clr)` `Tailwind CSS colors` `Material UI colors` `Apple colors`
 - 📋 <b>A lot of color formats</b> - Copy your colors as:
   - `#HEX` `HEX` `#hex` `hex`
   - `rgb()` `R,G,B` `color(display-p3)`
@@ -58,34 +58,19 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 
 ## 🔮 Roadmap
 
-### v1.0.9
-
-- ❗ Check if PlainColor JSON is correctly typed so it cannot broke the app
-- ❗ Fix: All new colors are named as Main Shaft
-- ❗ Settings: Add "Reset to defaults" button
-- ❗ Improve list performance (infinite scroll)
-- ❗ Fix: Color/Palette name white-space
-- ❗ Fix context menu height (check on different window heights)
-- ❗ Hide context menu on scroll
-- ❗ Animation on export palette content copied
-- ❗ Fix: Cannot copy/select text in inputs/textareas
-- ❗ ColorCard: Add ability to type/paste HEX value
-- Picker: Pinch to zoom
-- Move picker with arrows (step = 1px), make sure it cannot be out of screen bounds
-- Instant copy shortcut `CommandOrControl+Shift+C`
-- Export to image (with preview, mb use canvas)
-- Prepend default palette: Apple colors (integrate with import feature?)
-
 ### v1.1.x
 
-- ❗ <a href="https://v2.tauri.app/plugin/updater/">Add updater</a>
-- ❗ Better color wheel: Add inputs for values (hex, rgba, etc.)
 - Add ability to reorder colors
 - More color formats:
   - Common:
-    - 🖥️ RGB/RGBA from 0 to 1 `0,36; 0,18; 0,57`
-    - 🎨 HSB/HSV `268, 69, 57`
-    - 💈 Oklab `oklch(40.1% 0.123 21.57)`
+    - Oklab `oklch(40.1% 0.123 21.57)`
+    - HSB/HSV `268, 69, 57`
+    - RGB/RGBA from 0 to 1 `0,36; 0,18; 0,57`
+    - LAB
+    - RAL
+    - HKS
+    - COPIC
+    - Prismacolor
   - Native:
     - 🖥️ NSColor RGB
     - 🖥️ NSColor HSB
@@ -100,6 +85,16 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
     - 📱 Android RGB/ARGB
   - Custom color formatter
 - Add ability to change global shortcuts
+- Export to image (with preview, mb use canvas)
 - Add picker sound (Funny mouth sound, with ability to turn off)
 - New button pressed animation: scale down
 - Control Select with arrows up/down
+- Search for colors in palette
+- Fix: Sometimes the cursor is not visible - Hide cursor with `set_cursor_visible` ([issue](https://github.com/tauri-apps/tauri/issues/10231))
+- <a href="https://v2.tauri.app/plugin/updater/">Add app updater</a>
+- [Aperture size](https://github.com/ModuleArt/plain-color/pull/9#issuecomment-2599870209)
+- Improve list performance (infinite scroll)
+- Move picker with arrows (step = 1px), make sure it cannot be out of screen bounds
+- Settings: Add "Reset to defaults" button
+- Instant copy shortcut `CommandOrControl+Alt+C`
+- Instant pick shortcut `CommandOrControl+Shift+C`

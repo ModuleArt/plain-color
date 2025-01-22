@@ -1,8 +1,9 @@
-import { ChangeEvent, FC, KeyboardEvent, useRef, useState } from 'react'
+import { FC, KeyboardEvent, useRef, useState } from 'react'
 import cn from 'classnames'
 import { ITextProps } from './props'
 import './index.scss'
 import { commonComponentClasses } from '@/lib'
+import { Input } from '@/components/Input'
 
 export const Text: FC<ITextProps> = ({
   tinted = false,
@@ -10,9 +11,14 @@ export const Text: FC<ITextProps> = ({
   transform = 'none',
   editable = false,
   onTextChange,
+  onInputBlur,
   size = 'regular',
   align = 'left',
   textRef,
+  labelClassName,
+  inputClassName,
+  maxWidth = 0,
+  textWrap = true,
   ...props
 }) => {
   const [isEditing, setIsEditing] = useState(false)
@@ -23,12 +29,9 @@ export const Text: FC<ITextProps> = ({
     setTimeout(() => inputRef.current?.focus())
   }
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onTextChange && onTextChange(e.target.value)
-  }
-
   const onBlur = () => {
     setIsEditing(false)
+    onInputBlur && onInputBlur()
   }
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -45,25 +48,31 @@ export const Text: FC<ITextProps> = ({
         [`text--align-${align}`],
         [`text--transform-${transform}`],
         [`text--size-${size}`],
-        { 'text--tinted': tinted },
+        { 'text--tinted': tinted, 'text--no-text-wrap': !textWrap },
         commonComponentClasses(props)
       )}
     >
       {isEditing ? (
-        <input
-          ref={inputRef}
-          className="text__input"
+        <Input
+          inputRef={inputRef}
+          className={cn('text__input', inputClassName)}
           value={text}
-          onChange={onChange}
+          onChange={(value) => onTextChange && onTextChange(value)}
           onBlur={onBlur}
           onKeyDown={onKeyDown}
         />
       ) : editable ? (
-        <button onClick={onClick} className="text__label text__label--clickable">
+        <button
+          onClick={onClick}
+          className={cn('text__label text__label--clickable', labelClassName)}
+          style={{ maxWidth: maxWidth ? `${maxWidth}px` : '100%' }}
+        >
           {text}
         </button>
       ) : (
-        <span className="text__label">{text}</span>
+        <span className={cn('text__label', labelClassName)} style={{ maxWidth: maxWidth ? `${maxWidth}px` : '100%' }}>
+          {text}
+        </span>
       )}
     </span>
   )

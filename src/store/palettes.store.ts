@@ -1,5 +1,6 @@
 import { IColor } from '@/types/color.types'
 import { IPalette } from '@/types/palette.types'
+import { predefinedPalettes } from '@/utils/palette'
 import { generateRandomUuid } from '@/utils/uuid.util'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
@@ -19,7 +20,7 @@ interface IColorsState {
 export const usePalettesStore = create<IColorsState>()(
   persist(
     (set) => ({
-      palettes: [],
+      palettes: predefinedPalettes,
       addPalette: (palette) => set((state) => ({ palettes: [palette, ...state.palettes] })),
       removePalette: (paletteId) =>
         set((state) => ({ palettes: state.palettes.filter((palette) => palette.id !== paletteId) })),

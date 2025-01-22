@@ -14,8 +14,10 @@
     "core:window:allow-minimize",
     "core:window:allow-create",
     "core:window:allow-set-position",
+    "core:window:allow-set-cursor-visible",
     "clipboard-manager:default",
     "clipboard-manager:allow-write-text",
+    "clipboard-manager:allow-read-text",
     "core:event:default",
     "core:event:allow-listen",
     "core:event:allow-emit-to",
@@ -33,8 +35,21 @@
     {
       "identifier": "http:default",
       "allow": [
-        { "url": "https://raw.githubusercontent.com/tailwindlabs/tailwindcss/refs/heads/main/src/public/colors.js" }
+        {
+          "url": "https://api.github.com/repos/phpcolor/apple-colors/contents/Resources/colors"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/phpcolor/apple-colors/main/Resources/colors/*"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/tailwindlabs/tailwindcss/refs/heads/main/src/public/colors.js"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/mui/material-ui/refs/heads/master/packages/mui-material/src/colors/*"
+        }
       ]
-    }
+    },
+    "deep-link:default",
+    "deep-link:allow-get-current"
   ]
 }

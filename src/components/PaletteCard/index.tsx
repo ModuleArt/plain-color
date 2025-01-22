@@ -37,7 +37,7 @@ export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplic
       palette.colors
         .map((color) => color.hex)
         .filter((value, index, array) => array.indexOf(value) === index)
-        .slice(0, 32),
+        .slice(0, 24),
     [palette.colors]
   )
 

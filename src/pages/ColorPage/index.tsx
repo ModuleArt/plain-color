@@ -1,7 +1,7 @@
 import { ColorCard } from '@/components/ColorCard'
 import { Stack } from '@/components/Stack'
 import { useColorsStore } from '@/store/colors.store'
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from '@/components/Button'
 import { ColorPicker } from '@/components/ColorPicker'
@@ -9,8 +9,8 @@ import { generateRandomUuid } from '@/utils/uuid.util'
 import { defaultColor, generateColorLabel } from '@/utils/color'
 import { usePalettesStore } from '@/store/palettes.store'
 import { IColor } from '@/types/color.types'
-
-const DEFAULT_COLOR_NAME = 'New Color'
+import { ColorInput } from '@/components/ColorInput'
+import { Scroller } from '@/components/Scroller'
 
 export const ColorPage: FC = () => {
   const params = useParams<{ paletteId?: string; colorId?: string }>()
@@ -18,23 +18,35 @@ export const ColorPage: FC = () => {
   const palettesStore = usePalettesStore()
   const navigate = useNavigate()
 
-  const [color, setColor] = useState<IColor>(
-    (params.paletteId
-      ? palettesStore.palettes.find((palette) => palette.id === params.paletteId)?.colors || []
-      : colorsStore.colors
-    ).find((color) => color.id === params.colorId) || {
+  const emptyColor = useMemo(
+    () => ({
       id: generateRandomUuid(),
-      label: DEFAULT_COLOR_NAME,
+      label: '',
       hex: defaultColor,
-    }
+    }),
+    []
   )
 
+  const initialColor = useMemo(
+    () =>
+      params.colorId
+        ? (params.paletteId
+            ? palettesStore.palettes.find((palette) => palette.id === params.paletteId)?.colors || []
+            : colorsStore.colors
+          ).find((color) => color.id === params.colorId) || emptyColor
+        : emptyColor,
+    [params.colorId, params.paletteId, palettesStore.palettes, colorsStore.colors]
+  )
+
+  const [color, setColor] = useState<IColor>(initialColor)
+  const [isCustomNameSet, setIsCustomNameSet] = useState(!!initialColor.label)
+
   useEffect(() => {
-    if (color.label === DEFAULT_COLOR_NAME) {
+    if (!isCustomNameSet) {
       const label = generateColorLabel(color.hex)
       setColor({ ...color, label })
     }
-  }, [color.hex])
+  }, [isCustomNameSet, color.hex])
 
   const onCancel = () => {
     navigate(-1)
@@ -57,14 +69,27 @@ export const ColorPage: FC = () => {
     navigate(-1)
   }
 
+  const onColorChange = (c: IColor) => {
+    if (!isCustomNameSet && c.label !== color.label) {
+      setIsCustomNameSet(true)
+    }
+
+    setColor(c)
+  }
+
   return (
-    <Stack dir="vertical" gap="medium" grow padding="medium">
-      <ColorCard color={color} onColorChange={setColor} />
-      <ColorPicker hexValue={color.hex} onChange={(hex) => setColor({ ...color, hex })} grow />
-      <Stack>
-        <Button label="Cancel" onClick={onCancel} grow />
-        <Button label={params.colorId ? 'Save' : 'Add'} onClick={onSave} grow />
-      </Stack>
+    <Stack dir="vertical" gap="none" grow>
+      <Scroller>
+        <Stack dir="vertical" gap="medium" grow padding="medium">
+          <ColorCard color={color} onColorChange={onColorChange} />
+          <ColorPicker hexValue={color.hex} onChange={(hex) => setColor({ ...color, hex })} grow />
+          <ColorInput colorHex={color.hex} onChange={(hex) => setColor({ ...color, hex })} />
+          <Stack>
+            <Button label="Cancel" onClick={onCancel} grow />
+            <Button label={params.colorId ? 'Save' : 'Add'} onClick={onSave} grow />
+          </Stack>
+        </Stack>
+      </Scroller>
     </Stack>
   )
 }
