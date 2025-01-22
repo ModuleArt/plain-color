@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "t:dev": "tauri dev",
     "t:build:debug": "tauri build --debug",
-    "t:build:release": "tauri build --release"
+    "t:build:release": "tauri build"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",
