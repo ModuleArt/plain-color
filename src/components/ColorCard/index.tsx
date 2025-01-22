@@ -6,7 +6,7 @@ import { Button } from '@/components/Button'
 import { Copy, Trash, PencilSimple, PlusSquare, DotsThreeOutline, Palette } from '@phosphor-icons/react'
 import { Text } from '@/components/Text'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
-import { hexWithoutAlpha, isDark } from '@/utils/color'
+import { generateColorLabel, hexWithoutAlpha, isDark } from '@/utils/color'
 import cn from 'classnames'
 import { useSettingsStore } from '@/store/settings.store'
 import { copyVariants, formatCopyText } from '@/utils/copyVariants.util'
@@ -46,7 +46,7 @@ export const ColorCard: FC<IColorCardProps> = ({
   }
 
   const onLabelBlur = () => {
-    onColorChange && onColorChange({ ...color, label: sanitizeLabel(color.label) })
+    onColorChange && onColorChange({ ...color, label: sanitizeLabel(color.label) || generateColorLabel(color.hex) })
   }
 
   const quickCopyVariants = copyVariants.filter((variant) => settingsStore.quickCopyVariants.includes(variant.id))

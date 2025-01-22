@@ -64,6 +64,10 @@ export const PalettePage: FC = () => {
     palettesStore.updatePalette(palette.id, { ...palette, view: palette.view === 'grid' ? 'list' : 'grid' })
   }
 
+  const onPaletteNameInputBlur = () => {
+    onPaletteChange({ ...palette, label: sanitizeLabel(palette.label) || 'My Palette' })
+  }
+
   return (
     <Stack dir="vertical" gap="none" grow>
       <Header extraPaddingRight>
@@ -73,7 +77,7 @@ export const PalettePage: FC = () => {
             text={palette.label}
             editable
             onTextChange={(label) => onPaletteChange({ ...palette, label })}
-            onInputBlur={() => onPaletteChange({ ...palette, label: sanitizeLabel(palette.label) })}
+            onInputBlur={onPaletteNameInputBlur}
             align="center"
             grow
             textWrap={false}

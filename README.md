@@ -96,3 +96,5 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 - Improve list performance (infinite scroll)
 - Move picker with arrows (step = 1px), make sure it cannot be out of screen bounds
 - Settings: Add "Reset to defaults" button
+- Instant copy shortcut `CommandOrControl+Alt+C`
+- Instant pick shortcut `CommandOrControl+Shift+C`
