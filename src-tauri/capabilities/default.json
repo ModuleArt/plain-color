@@ -17,6 +17,7 @@
     "core:window:allow-set-cursor-visible",
     "clipboard-manager:default",
     "clipboard-manager:allow-write-text",
+    "clipboard-manager:allow-read-text",
     "core:event:default",
     "core:event:allow-listen",
     "core:event:allow-emit-to",
