@@ -11,7 +11,7 @@ mod mod_screenshot;
 use tauri::{
     generate_context, generate_handler,
     menu::{Menu, PredefinedMenuItem, Submenu},
-    Builder, DragDropEvent, Emitter, Manager, WindowEvent,
+    DragDropEvent, Emitter, Manager, WindowEvent,
 };
 
 #[allow(non_upper_case_globals)]
@@ -24,7 +24,7 @@ pub fn run() {
     let loop_state =
         std::sync::Arc::new(tokio::sync::Mutex::new(mod_pickerloop::LoopState::default()));
 
-    Builder::default()
+    tauri::Builder::default()
         .manage(loop_state)
         .menu(|handle| {
             Menu::with_items(
@@ -45,6 +45,7 @@ pub fn run() {
                 ],
             )
         })
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_http::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_dialog::init())

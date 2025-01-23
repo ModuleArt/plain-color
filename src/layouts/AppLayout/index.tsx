@@ -38,8 +38,10 @@ export const AppLayout: FC = () => {
   const navigate = useNavigate()
 
   const openWithHandler = (palettes: IPalette[]) => {
-    palettes.map((palette) => palettesStore.addPalette(palette))
-    navigate('/palettes')
+    if (palettes.length) {
+      palettes.map((palette) => palettesStore.addPalette(palette))
+      navigate('/palettes')
+    }
   }
 
   useEffect(() => {

@@ -23,7 +23,7 @@
 
 ## ⬇️ Download
 
-- macOS: <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.9/PlainColor_1.0.9_aarch64.dmg">dmg</a>
+- macOS: <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.10/PlainColor_1.0.10_aarch64.dmg">dmg</a>
 - Windows: exe | microsoft store - Coming soon...
 - Linux: deb | flathub - Coming soon...
 
@@ -61,10 +61,9 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 ### v1.1.x
 
 - Add ability to reorder colors
+- Add ability to reorder palettes
 - More color formats:
   - Common:
-    - Oklab `oklch(40.1% 0.123 21.57)`
-    - HSB/HSV `268, 69, 57`
     - RGB/RGBA from 0 to 1 `0,36; 0,18; 0,57`
     - LAB
     - RAL
@@ -81,7 +80,8 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
     - 🖥️ Obj-C NSColor Calibrated RGB
     - 📱 Obj-C UIColor RGB
     - 🌊 .NET RGB/ARGB
-    - ☕ Java RGB/RGBA
+    - ☕ Java HEX
+    - ☕ Java RGB
     - 📱 Android RGB/ARGB
   - Custom color formatter
 - Add ability to change global shortcuts
@@ -91,10 +91,12 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 - Control Select with arrows up/down
 - Search for colors in palette
 - Fix: Sometimes the cursor is not visible - Hide cursor with `set_cursor_visible` ([issue](https://github.com/tauri-apps/tauri/issues/10231))
-- <a href="https://v2.tauri.app/plugin/updater/">Add app updater</a>
 - [Aperture size](https://github.com/ModuleArt/plain-color/pull/9#issuecomment-2599870209)
-- Improve list performance (infinite scroll)
 - Move picker with arrows (step = 1px), make sure it cannot be out of screen bounds
 - Settings: Add "Reset to defaults" button
 - Instant copy shortcut `CommandOrControl+Alt+C`
 - Instant pick shortcut `CommandOrControl+Shift+C`
+- Improve list performance (infinite scroll)
+- Add color formats:
+  - Oklab `oklch(40.1% 0.123 21.57)`
+  - HSB/HSV `268, 69, 57`

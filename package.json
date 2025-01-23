@@ -1,7 +1,9 @@
 {
   "name": "plain-color",
+  "description": "Lightweight, versatile, cross-platform color picker app",
   "private": false,
-  "version": "1.0.9",
+  "version": "1.0.10",
+  "license": "GPL-3.0-only",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,7 +11,7 @@
     "preview": "vite preview",
     "t:dev": "tauri dev",
     "t:build:debug": "tauri build --debug",
-    "t:build:release": "tauri build"
+    "t:build:release": "tauri build && node src-tauri/updater/generate-artifacts.js"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",
@@ -23,6 +25,7 @@
     "@tauri-apps/plugin-os": "~2",
     "@tauri-apps/plugin-process": "^2.0.0",
     "@tauri-apps/plugin-shell": "^2",
+    "@tauri-apps/plugin-updater": "~2",
     "@tauri-apps/plugin-window": "^2.0.0-alpha.1",
     "classnames": "^2.5.1",
     "color-is-dark": "^1.0.1",

@@ -16,6 +16,7 @@ import {
 } from '@/utils/cmd/macosPermissions.cmd.util'
 import { invokeSetPickerColorProfile } from '@/utils/cmd/picker.cmd.util'
 import { Scroller } from '@/components/Scroller'
+import { Updater } from '@/components/Updater'
 
 export const SettingsPage: FC = () => {
   const navigate = useNavigate()
@@ -71,6 +72,7 @@ export const SettingsPage: FC = () => {
       </Header>
       <Scroller extraPaddingTop>
         <Stack dir="vertical" gap="extra-large" padding="medium">
+          <Updater />
           <Stack dir="vertical" gap="extra-small">
             <Stack dir="vertical">
               <Text text="Primary Copy Format" />
