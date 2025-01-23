@@ -10,7 +10,7 @@ mod mod_screenshot;
 
 use tauri::{
     generate_context, generate_handler,
-    menu::{Menu, PredefinedMenuItem, Submenu},
+    menu::{Menu, MenuItem, PredefinedMenuItem, Submenu},
     DragDropEvent, Emitter, Manager, WindowEvent,
 };
 
@@ -34,7 +34,41 @@ pub fn run() {
                         handle,
                         "File",
                         true,
-                        &[&PredefinedMenuItem::quit(handle, None)?],
+                        &[
+                            &MenuItem::with_id(
+                                handle,
+                                "about-item",
+                                "About PlainColor",
+                                true,
+                                Some("CommandOrControl+Shift+,"),
+                            )
+                            .unwrap(),
+                            &PredefinedMenuItem::separator(handle)?,
+                            &MenuItem::with_id(
+                                handle,
+                                "settings-item",
+                                "Settings",
+                                true,
+                                Some("CommandOrControl+,"),
+                            )
+                            .unwrap(),
+                            &PredefinedMenuItem::separator(handle)?,
+                            &PredefinedMenuItem::quit(handle, None)?,
+                        ],
+                    )?,
+                    &Submenu::with_items(
+                        handle,
+                        "Edit",
+                        true,
+                        &[
+                            &PredefinedMenuItem::undo(handle, None)?,
+                            &PredefinedMenuItem::redo(handle, None)?,
+                            &PredefinedMenuItem::separator(handle)?,
+                            &PredefinedMenuItem::cut(handle, None)?,
+                            &PredefinedMenuItem::copy(handle, None)?,
+                            &PredefinedMenuItem::paste(handle, None)?,
+                            &PredefinedMenuItem::select_all(handle, None)?,
+                        ],
                     )?,
                     &Submenu::with_items(
                         handle,
@@ -44,6 +78,19 @@ pub fn run() {
                     )?,
                 ],
             )
+        })
+        .on_menu_event(|app, event| match event.id.as_ref() {
+            "about-item" => app
+                .get_webview_window("main")
+                .expect("no main window")
+                .emit("open_about_page", ())
+                .unwrap(),
+            "settings-item" => app
+                .get_webview_window("main")
+                .expect("no main window")
+                .emit("open_settings_page", ())
+                .unwrap(),
+            _ => {}
         })
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_http::init())
@@ -55,7 +102,7 @@ pub fn run() {
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_clipboard_manager::init())
         .plugin(tauri_nspanel::init())
-        .plugin(tauri_plugin_single_instance::init(|app, args, cwd| {
+        .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
             let _ = app
                 .get_webview_window("main")
                 .expect("no main window")

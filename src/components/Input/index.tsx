@@ -16,6 +16,7 @@ export const Input: FC<IInputProps> = ({
   autoCapitalize,
   autoCorrect,
   onKeyDown,
+  handleDefaultKeyboardShortcuts = false,
   inputRef,
   ...props
 }) => {
@@ -26,20 +27,22 @@ export const Input: FC<IInputProps> = ({
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     onKeyDown && onKeyDown(event)
 
-    if (event.ctrlKey || event.metaKey) {
-      switch (event.key.toLowerCase()) {
-        case 'x':
-          onCut()
-          break
-        case 'c':
-          onCopy()
-          break
-        case 'v':
-          onPaste()
-          break
-        case 'a':
-          onSelectAll()
-          break
+    if (handleDefaultKeyboardShortcuts) {
+      if (event.ctrlKey || event.metaKey) {
+        switch (event.key.toLowerCase()) {
+          case 'x':
+            onCut()
+            break
+          case 'c':
+            onCopy()
+            break
+          case 'v':
+            onPaste()
+            break
+          case 'a':
+            onSelectAll()
+            break
+        }
       }
     }
   }

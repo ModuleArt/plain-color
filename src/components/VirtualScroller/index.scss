@@ -1,0 +1,32 @@
+.virtual-scroller {
+  position: relative;
+
+  &__outer {
+    overflow-y: auto;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  &__inner {
+    padding: 0 0.75rem;
+  }
+
+  &__row {
+    margin-bottom: 0.75rem;
+
+    &:first-child {
+      margin-top: 0.75rem;
+    }
+  }
+
+  &__cell {
+    margin-right: 0.5rem;
+    display: inline-block;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

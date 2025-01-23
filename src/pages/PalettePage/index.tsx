@@ -18,9 +18,9 @@ import { IPalette } from '@/types/palette.types'
 import { ColorCard } from '@/components/ColorCard'
 import { IColor } from '@/types/color.types'
 import { usePickerStore } from '@/store/picker.store'
-import { Scroller } from '@/components/Scroller'
 import { preparePickerForOpen } from '@/utils/picker.util'
 import { sanitizeLabel } from '@/utils/sanitize.util'
+import { VirtualScroller } from '@/components/VirtualScroller'
 
 export const PalettePage: FC = () => {
   const params = useParams<{ paletteId: string }>()
@@ -85,9 +85,9 @@ export const PalettePage: FC = () => {
           />
         </Stack>
       </Header>
-      <Scroller>
-        <Stack dir="vertical" gap="medium" padding="medium">
-          <Stack>
+      <Stack dir="vertical" gap="none" grow>
+        <Header>
+          <Stack grow>
             <Button iconPre={Eyedropper} onClick={pickColor} grow nativeTooltip="Pick color from screen" />
             <Button iconPre={Plus} onClick={addColor} grow nativeTooltip="Add color manually" />
             <Button iconPre={DownloadSimple} onClick={importPalette} grow nativeTooltip="Import colors" />
@@ -99,26 +99,25 @@ export const PalettePage: FC = () => {
               nativeTooltip={palette.view === 'grid' ? 'Switch to list view' : 'Switch to grid view'}
             />
           </Stack>
-          <Stack
-            dir={palette.view === 'grid' ? 'horizontal' : 'vertical'}
-            wrap={palette.view === 'grid'}
-            gap={palette.view === 'grid' ? 'none' : 'medium'}
-            style={palette.view === 'grid' ? { margin: '-0.25rem' } : undefined}
-          >
-            {palette.colors.map((color) => (
-              <ColorCard
-                key={color.id}
-                color={color}
-                onDelete={() => palettesStore.removeColorFromPalette(palette.id, color.id)}
-                onEdit={() => navigate(`/palettes/${palette.id}/color/${color.id}`)}
-                onDuplicate={() => palettesStore.duplicateColorInPalette(palette.id, color.id)}
-                onColorChange={onColorChange}
-                variant={palette.view}
-              />
-            ))}
-          </Stack>
-        </Stack>
-      </Scroller>
+        </Header>
+        <VirtualScroller
+          grow
+          items={palette.colors}
+          itemSize={palette.view === 'grid' ? 36 : 72}
+          renderItem={(color) => (
+            <ColorCard
+              key={color.id}
+              color={color}
+              onDelete={() => palettesStore.removeColorFromPalette(palette.id, color.id)}
+              onEdit={() => navigate(`/palettes/${palette.id}/color/${color.id}`)}
+              onDuplicate={() => palettesStore.duplicateColorInPalette(palette.id, color.id)}
+              onColorChange={onColorChange}
+              variant={palette.view}
+            />
+          )}
+          columnCount={palette.view === 'grid' ? 5 : 1}
+        />
+      </Stack>
     </Stack>
   )
 }

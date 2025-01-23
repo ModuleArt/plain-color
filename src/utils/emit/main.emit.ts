@@ -7,6 +7,8 @@ interface TEmitToMainPayload {
   preview_canceled: {}
   toggle_guidelines: { show: boolean }
   trigger_deep_link: string[]
+  open_settings_page: {}
+  open_about_page: {}
 }
 
 export type TEmitToMainCmd =
@@ -16,6 +18,8 @@ export type TEmitToMainCmd =
   | { cmd: 'preview_canceled'; payload: TEmitToMainPayload['preview_canceled'] }
   | { cmd: 'toggle_guidelines'; payload: TEmitToMainPayload['toggle_guidelines'] }
   | { cmd: 'trigger_deep_link'; payload: TEmitToMainPayload['trigger_deep_link'] }
+  | { cmd: 'open_settings_page'; payload: TEmitToMainPayload['open_settings_page'] }
+  | { cmd: 'open_about_page'; payload: TEmitToMainPayload['open_about_page'] }
 
 export const emitToMain = (cmd: TEmitToMainCmd) => {
   return emitTo('main', cmd.cmd, cmd.payload)

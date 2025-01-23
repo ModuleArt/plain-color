@@ -1,5 +1,5 @@
-import { IPlainlibComponentProps } from '@/lib/types'
-import { KeyboardEvent, RefObject } from 'react'
+import { IPlainlibComponentProps, TPlainlibRef } from '@/lib/types'
+import { KeyboardEvent } from 'react'
 
 export interface IInputProps extends IPlainlibComponentProps {
   value?: string
@@ -9,5 +9,6 @@ export interface IInputProps extends IPlainlibComponentProps {
   autoCorrect?: 'off'
   autoCapitalize?: 'off'
   onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void
-  inputRef?: RefObject<HTMLInputElement>
+  handleDefaultKeyboardShortcuts?: boolean
+  inputRef?: TPlainlibRef<HTMLInputElement>
 }

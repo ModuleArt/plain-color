@@ -8,7 +8,7 @@ import { CaretLeft, Plus } from '@phosphor-icons/react'
 import { usePalettesStore } from '@/store/palettes.store'
 import { PaletteCard } from '@/components/PaletteCard'
 import { generateRandomUuid } from '@/utils/uuid.util'
-import { Scroller } from '@/components/Scroller'
+import { VirtualScroller } from '@/components/VirtualScroller'
 
 export const PalettesPage: FC = () => {
   const navigate = useNavigate()
@@ -31,18 +31,19 @@ export const PalettesPage: FC = () => {
           <Button iconPre={Plus} padding="small" onClick={addPalette} nativeTooltip="New palette" />
         </Stack>
       </Header>
-      <Scroller>
-        <Stack dir="vertical" gap="medium" padding="medium">
-          {palettesStore.palettes.map((palette) => (
-            <PaletteCard
-              key={palette.id}
-              palette={palette}
-              onDelete={() => palettesStore.removePalette(palette.id)}
-              onDuplicate={() => palettesStore.duplicatePalette(palette.id)}
-            />
-          ))}
-        </Stack>
-      </Scroller>
+      <VirtualScroller
+        grow
+        items={palettesStore.palettes}
+        itemSize={72}
+        renderItem={(palette) => (
+          <PaletteCard
+            key={palette.id}
+            palette={palette}
+            onDelete={() => palettesStore.removePalette(palette.id)}
+            onDuplicate={() => palettesStore.duplicatePalette(palette.id)}
+          />
+        )}
+      />
     </Stack>
   )
 }

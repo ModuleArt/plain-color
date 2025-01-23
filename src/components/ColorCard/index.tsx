@@ -16,6 +16,7 @@ import { IContextMenuItem, IContextMenuShowMenuProps, useContextMenuStore } from
 import { usePalettesStore } from '@/store/palettes.store'
 import { useRightClick } from '@/hooks/useRightClick.hook'
 import { sanitizeLabel } from '@/utils/sanitize.util'
+import { mergeRefs } from 'react-merge-refs'
 
 export const ColorCard: FC<IColorCardProps> = ({
   color,
@@ -24,6 +25,7 @@ export const ColorCard: FC<IColorCardProps> = ({
   onDuplicate,
   onColorChange,
   variant = 'list',
+  colorCardRef,
   ...props
 }) => {
   const [copied, setCopied] = useState('')
@@ -111,7 +113,7 @@ export const ColorCard: FC<IColorCardProps> = ({
 
   return (
     <Stack
-      stackRef={rightClickRef}
+      stackRef={mergeRefs([colorCardRef, rightClickRef])}
       className={cn(
         'color-card',
         [`color-card--variant-${variant}`],

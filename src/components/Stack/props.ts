@@ -1,5 +1,5 @@
-import { IPlainlibComponentProps } from '@/lib/types'
-import { CSSProperties, RefObject } from 'react'
+import { IPlainlibComponentProps, TPlainlibRef } from '@/lib/types'
+import { CSSProperties } from 'react'
 
 export interface IStackProps extends IPlainlibComponentProps {
   dir?: 'horizontal' | 'vertical'
@@ -10,5 +10,5 @@ export interface IStackProps extends IPlainlibComponentProps {
   padding?: 'none' | 'extra-small' | 'small' | 'medium' | 'large'
   wrap?: boolean
   onClick?: (event: MouseEvent) => void
-  stackRef?: RefObject<HTMLDivElement>
+  stackRef?: TPlainlibRef<HTMLDivElement>
 }

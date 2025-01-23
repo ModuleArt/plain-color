@@ -23,7 +23,7 @@
 
 ## ⬇️ Download
 
-- macOS: <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.10/PlainColor_1.0.10_aarch64.dmg">dmg</a>
+- macOS: <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.11/PlainColor_1.0.11_aarch64.dmg">dmg</a>
 - Windows: exe | microsoft store - Coming soon...
 - Linux: deb | flathub - Coming soon...
 
@@ -32,7 +32,8 @@
 - 🔍 <b>Picker</b> - Pick a color from your screen with advanced magnifying glass
 - 🎨 <b>Custom palettes</b> - Organize your colors with palettes. Name colors and add them to palettes to use in your projects
   - Export palette to `JSON` `Apple Color List (.clr)` `CSS or SASS variables` `JavaScript object`
-  - Import `JSON` `Apple Color List (.clr)` `Tailwind CSS colors` `Material UI colors` `Apple colors`
+  - Import from file `JSON` `Apple Color List (.clr)`
+  - Import from library `Tailwind CSS` `Material UI` `Apple Developer`
 - 📋 <b>A lot of color formats</b> - Copy your colors as:
   - `#HEX` `HEX` `#hex` `hex`
   - `rgb()` `R,G,B` `color(display-p3)`
@@ -57,8 +58,6 @@ Want more? Open a <a href="https://github.com/ModuleArt/plain-color/issues/new">
 If you want to report a bug, first, thank you, that helps us a lot. Please open an <a href="https://github.com/ModuleArt/plain-color/issues/new">issue</a> and mention your OS, your PlainColor version, and how to reproduce it. Adding a screenshot of the issue or screen recording is a big help too.
 
 ## 🔮 Roadmap
-
-### v1.1.x
 
 - Add ability to reorder colors
 - Add ability to reorder palettes
@@ -88,7 +87,6 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 - Export to image (with preview, mb use canvas)
 - Add picker sound (Funny mouth sound, with ability to turn off)
 - New button pressed animation: scale down
-- Control Select with arrows up/down
 - Search for colors in palette
 - Fix: Sometimes the cursor is not visible - Hide cursor with `set_cursor_visible` ([issue](https://github.com/tauri-apps/tauri/issues/10231))
 - [Aperture size](https://github.com/ModuleArt/plain-color/pull/9#issuecomment-2599870209)
@@ -96,7 +94,8 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 - Settings: Add "Reset to defaults" button
 - Instant copy shortcut `CommandOrControl+Alt+C`
 - Instant pick shortcut `CommandOrControl+Shift+C`
-- Improve list performance (infinite scroll)
-- Add color formats:
+- <a href="https://github.com/tauri-apps/tauri-action">Build app releases with GitHub action</a>
+- New color formats:
   - Oklab `oklch(40.1% 0.123 21.57)`
   - HSB/HSV `268, 69, 57`
+- Control Select component with arrows keys (up/down)
