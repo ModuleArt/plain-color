@@ -98,3 +98,4 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 - New color formats:
   - Oklab `oklch(40.1% 0.123 21.57)`
   - HSB/HSV `268, 69, 57`
+- Control Select component with arrows keys (up/down)
