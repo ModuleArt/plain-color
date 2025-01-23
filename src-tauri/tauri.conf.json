@@ -17,7 +17,6 @@
 
         "minWidth": 320,
         "width": 320,
-        "maxWidth": 400,
 
         "minHeight": 360,
         "height": 480,
@@ -26,7 +25,6 @@
         "hiddenTitle": true,
         "acceptFirstMouse": true,
         "url": "index.html",
-        "maximizable": false,
         "fullscreen": false
       },
       {
