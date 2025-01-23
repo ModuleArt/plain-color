@@ -70,7 +70,7 @@ export const SettingsPage: FC = () => {
           <Button iconPre={QuestionMark} padding="small" onClick={goToAbout} nativeTooltip="About the app" />
         </Stack>
       </Header>
-      <Scroller extraPaddingTop>
+      <Scroller grow extraPaddingTop>
         <Stack dir="vertical" gap="extra-large" padding="medium">
           <Updater />
           <Stack dir="vertical" gap="extra-small">

@@ -32,7 +32,8 @@
 - 🔍 <b>Picker</b> - Pick a color from your screen with advanced magnifying glass
 - 🎨 <b>Custom palettes</b> - Organize your colors with palettes. Name colors and add them to palettes to use in your projects
   - Export palette to `JSON` `Apple Color List (.clr)` `CSS or SASS variables` `JavaScript object`
-  - Import `JSON` `Apple Color List (.clr)` `Tailwind CSS colors` `Material UI colors` `Apple colors`
+  - Import from file `JSON` `Apple Color List (.clr)`
+  - Import from library `Tailwind CSS` `Material UI` `Apple Developer`
 - 📋 <b>A lot of color formats</b> - Copy your colors as:
   - `#HEX` `HEX` `#hex` `hex`
   - `rgb()` `R,G,B` `color(display-p3)`

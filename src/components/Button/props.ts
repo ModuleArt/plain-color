@@ -1,6 +1,5 @@
-import { IPlainlibComponentProps } from '@/lib/types'
+import { IPlainlibComponentProps, TPlainlibRef } from '@/lib/types'
 import { Icon } from '@phosphor-icons/react'
-import { RefObject } from 'react'
 
 export interface IButtonProps extends IPlainlibComponentProps {
   iconPre?: Icon
@@ -19,5 +18,5 @@ export interface IButtonProps extends IPlainlibComponentProps {
   textWrap?: boolean
   tintedIconPre?: boolean
   tintedIconPost?: boolean
-  buttonRef?: RefObject<HTMLButtonElement>
+  buttonRef?: TPlainlibRef<HTMLButtonElement>
 }

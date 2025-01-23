@@ -27,7 +27,7 @@ export const Button: FC<IButtonProps> = ({
 }) => {
   return (
     <button
-      ref={buttonRef}
+      ref={buttonRef as any}
       className={cn(
         'button',
         [`button--variant-${variant}`],

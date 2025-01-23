@@ -38,7 +38,7 @@ export const AboutPage: FC = () => {
           <Text grow align="center" text="About" />
         </Stack>
       </Header>
-      <Scroller>
+      <Scroller grow>
         <Stack justify="center" align="center" grow>
           <Image src="/assets/imgs/icon.svg" width={120} />
         </Stack>

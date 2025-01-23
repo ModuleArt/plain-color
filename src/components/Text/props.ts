@@ -1,5 +1,4 @@
-import { IPlainlibComponentProps } from '@/lib/types'
-import { RefObject } from 'react'
+import { IPlainlibComponentProps, TPlainlibRef } from '@/lib/types'
 
 export interface ITextProps extends IPlainlibComponentProps {
   tinted?: boolean
@@ -9,7 +8,7 @@ export interface ITextProps extends IPlainlibComponentProps {
   onTextChange?: (text: string) => void
   onInputBlur?: () => void
   size?: 'regular' | 'small'
-  textRef?: RefObject<HTMLSpanElement>
+  textRef?: TPlainlibRef<HTMLSpanElement>
   align?: 'left' | 'center' | 'right'
   labelClassName?: string
   inputClassName?: string

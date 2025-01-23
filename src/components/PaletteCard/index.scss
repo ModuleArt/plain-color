@@ -4,8 +4,12 @@
   border-radius: 0.375rem;
   background: var(--color_element);
 
+  &__colors {
+    height: 1.75rem;
+  }
+
   &__color {
-    height: 2rem;
+    height: 100%;
     flex: 1;
     position: relative;
     background-image: var(--bgImg_checkerboard);

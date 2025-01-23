@@ -19,7 +19,7 @@ export const Stack: FC<PropsWithChildren<IStackProps>> = ({
 }) => {
   return (
     <div
-      ref={stackRef}
+      ref={stackRef as any}
       className={cn(
         'stack',
         [`stack--${dir}`],

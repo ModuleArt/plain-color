@@ -16,7 +16,7 @@ export const Input: FC<IInputProps> = ({
   autoCapitalize,
   autoCorrect,
   onKeyDown,
-  emulateDefaultKeyboardEvents = false,
+  handleDefaultKeyboardShortcuts = false,
   inputRef,
   ...props
 }) => {
@@ -27,7 +27,7 @@ export const Input: FC<IInputProps> = ({
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     onKeyDown && onKeyDown(event)
 
-    if (emulateDefaultKeyboardEvents) {
+    if (handleDefaultKeyboardShortcuts) {
       if (event.ctrlKey || event.metaKey) {
         switch (event.key.toLowerCase()) {
           case 'x':

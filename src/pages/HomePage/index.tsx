@@ -7,9 +7,9 @@ import { useColorsStore } from '@/store/colors.store'
 import { useNavigate } from 'react-router-dom'
 import { usePickerStore } from '@/store/picker.store'
 import { IColor } from '@/types/color.types'
-import { Scroller } from '@/components/Scroller'
 import { Header } from '@/components/Header'
 import { preparePickerForOpen } from '@/utils/picker.util'
+import { VirtualScroller } from '@/components/VirtualScroller'
 
 export const HomePage: FC = () => {
   const navigate = useNavigate()
@@ -51,20 +51,21 @@ export const HomePage: FC = () => {
           <Button iconPre={Gear} onClick={goToSettings} grow nativeTooltip="Settings" />
         </Stack>
       </Header>
-      <Scroller>
-        <Stack dir="vertical" gap="medium" padding="medium">
-          {colorsStore.colors.map((color) => (
-            <ColorCard
-              key={color.id}
-              color={color}
-              onDelete={() => colorsStore.removeColor(color.id)}
-              onEdit={() => navigate(`/color/${color.id}`)}
-              onDuplicate={() => colorsStore.duplicateColor(color.id)}
-              onColorChange={onColorChange}
-            />
-          ))}
-        </Stack>
-      </Scroller>
+      <VirtualScroller
+        grow
+        items={colorsStore.colors}
+        itemSize={72}
+        renderItem={(color) => (
+          <ColorCard
+            key={color.id}
+            color={color}
+            onDelete={() => colorsStore.removeColor(color.id)}
+            onEdit={() => navigate(`/color/${color.id}`)}
+            onDuplicate={() => colorsStore.duplicateColor(color.id)}
+            onColorChange={onColorChange}
+          />
+        )}
+      />
     </Stack>
   )
 }

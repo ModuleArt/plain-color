@@ -117,25 +117,29 @@ export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplic
           />
         </Stack>
       </Stack>
-      {uniqueColors.length > 0 && (
-        <Stack gap="none" className="palette-card__colors">
-          {uniqueColors.map((color, index) => (
-            <button
-              className="palette-card__color"
-              key={color}
-              onClick={() => copy(settingsStore.defaultCopyVariant, color)}
-            >
-              <div
-                ref={colorRightClickRefs[index]}
-                className="palette-card__color-bg"
-                style={{
-                  background: `linear-gradient(to top, #${color}, #${hexWithoutAlpha(color)})`,
-                }}
-              />
-            </button>
-          ))}
-        </Stack>
-      )}
+      <Stack gap="none" className="palette-card__colors">
+        {uniqueColors.length === 0 && (
+          <button className="palette-card__color" onClick={openPalette}>
+            <div className="palette-card__color-bg" />
+            <Text text="Empty" tinted size="small" />
+          </button>
+        )}
+        {uniqueColors.map((color, index) => (
+          <button
+            className="palette-card__color"
+            key={color}
+            onClick={() => copy(settingsStore.defaultCopyVariant, color)}
+          >
+            <div
+              ref={colorRightClickRefs[index]}
+              className="palette-card__color-bg"
+              style={{
+                background: `linear-gradient(to top, #${color}, #${hexWithoutAlpha(color)})`,
+              }}
+            />
+          </button>
+        ))}
+      </Stack>
     </Stack>
   )
 }

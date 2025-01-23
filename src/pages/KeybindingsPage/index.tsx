@@ -23,7 +23,7 @@ export const KeybindingsPage: FC = () => {
           <Text text="Key Bindings" grow align="center" />
         </Stack>
       </Header>
-      <Scroller extraPaddingTop>
+      <Scroller grow extraPaddingTop>
         <Stack dir="vertical" gap="extra-large" padding="medium">
           <Stack dir="vertical" gap="large">
             <Stack align="center">
