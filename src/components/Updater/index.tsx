@@ -53,7 +53,9 @@ export const Updater: FC = () => {
             isFinished
               ? 'Finished. Relaunching...'
               : isDownloading
-              ? `Downloading: ${(downloadedLength / contentLength).toFixed(0)}%`
+              ? contentLength > 0
+                ? `Downloading: ${(downloadedLength / contentLength).toFixed(0)}%`
+                : 'Downloading...'
               : `v${updateAvailable.version}`
           }
           size="small"

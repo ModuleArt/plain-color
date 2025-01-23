@@ -29,15 +29,13 @@ try {
   process.exit(1)
 }
 
-const DOWNLOAD_URL = 'https://github.com/user/repo/releases/latest/download/PlainColor.app.tar.gz'
-
 const latestJson = {
   version: VERSION,
   notes: 'Update',
   pub_date: new Date().toISOString(),
   platforms: {
-    aarch64: {
-      url: DOWNLOAD_URL,
+    'darwin-aarch64': {
+      url: 'https://github.com/ModuleArt/plain-color/releases/latest/download/PlainColor.app.tar.gz',
       signature,
     },
   },
@@ -49,9 +47,11 @@ const artifactsPath = path.join('artifacts')
 const latestJsonOutputPath = path.join(artifactsPath, 'latest.json')
 
 try {
-  if (!fs.existsSync(artifactsPath)) {
-    fs.mkdirSync(artifactsPath)
+  if (fs.existsSync(artifactsPath)) {
+    fs.rmSync(artifactsPath, { recursive: true, force: true })
   }
+
+  fs.mkdirSync(artifactsPath)
 } catch (error) {
   console.error('Cannot access artifacts directory:', error)
   process.exit(1)

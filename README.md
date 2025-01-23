@@ -23,7 +23,7 @@
 
 ## ⬇️ Download
 
-- macOS: <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.10/PlainColor_1.0.10_aarch64.dmg">dmg</a>
+- macOS: <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.11/PlainColor_1.0.11_aarch64.dmg">dmg</a>
 - Windows: exe | microsoft store - Coming soon...
 - Linux: deb | flathub - Coming soon...
 
@@ -100,3 +100,4 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 - Add color formats:
   - Oklab `oklch(40.1% 0.123 21.57)`
   - HSB/HSV `268, 69, 57`
+- <a href="https://github.com/tauri-apps/tauri-action">Build app releases with GitHub action</a>
