@@ -60,8 +60,9 @@ export const VirtualScroller = <T extends any>({
         <div ref={virtualScroll.innerRef as any} className="virtual-scroller__inner">
           {virtualScroll.items.map((item) => (
             <div className="virtual-scroller__row">
-              {rows[item.index]?.map((cell) => (
+              {rows[item.index]?.map((cell, cellIndex) => (
                 <div
+                  key={cellIndex}
                   className="virtual-scroller__cell"
                   style={{ width: `calc((100% + 0.5rem) / ${columnCount} - 0.5rem)` }}
                 >

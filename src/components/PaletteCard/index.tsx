@@ -119,10 +119,9 @@ export const PaletteCard: FC<IPaletteCardProps> = ({ palette, onDelete, onDuplic
       </Stack>
       <Stack gap="none" className="palette-card__colors">
         {uniqueColors.length === 0 && (
-          <button className="palette-card__color" onClick={openPalette}>
-            <div className="palette-card__color-bg" />
+          <Stack className="palette-card__empty" align="center" padding="medium" grow>
             <Text text="Empty" tinted size="small" />
-          </button>
+          </Stack>
         )}
         {uniqueColors.map((color, index) => (
           <button

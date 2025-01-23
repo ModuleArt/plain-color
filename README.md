@@ -95,7 +95,3 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 - Instant copy shortcut `CommandOrControl+Alt+C`
 - Instant pick shortcut `CommandOrControl+Shift+C`
 - <a href="https://github.com/tauri-apps/tauri-action">Build app releases with GitHub action</a>
-- New color formats:
-  - Oklab `oklch(40.1% 0.123 21.57)`
-  - HSB/HSV `268, 69, 57`
-- Control Select component with arrows keys (up/down)
