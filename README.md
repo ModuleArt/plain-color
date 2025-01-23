@@ -58,8 +58,6 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 
 ## 🔮 Roadmap
 
-### v1.1.x
-
 - Add ability to reorder colors
 - Add ability to reorder palettes
 - More color formats:
@@ -88,7 +86,6 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 - Export to image (with preview, mb use canvas)
 - Add picker sound (Funny mouth sound, with ability to turn off)
 - New button pressed animation: scale down
-- Control Select with arrows up/down
 - Search for colors in palette
 - Fix: Sometimes the cursor is not visible - Hide cursor with `set_cursor_visible` ([issue](https://github.com/tauri-apps/tauri/issues/10231))
 - [Aperture size](https://github.com/ModuleArt/plain-color/pull/9#issuecomment-2599870209)
@@ -96,8 +93,7 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 - Settings: Add "Reset to defaults" button
 - Instant copy shortcut `CommandOrControl+Alt+C`
 - Instant pick shortcut `CommandOrControl+Shift+C`
-- Improve list performance (infinite scroll)
-- Add color formats:
+- <a href="https://github.com/tauri-apps/tauri-action">Build app releases with GitHub action</a>
+- New color formats:
   - Oklab `oklch(40.1% 0.123 21.57)`
   - HSB/HSV `268, 69, 57`
-- <a href="https://github.com/tauri-apps/tauri-action">Build app releases with GitHub action</a>

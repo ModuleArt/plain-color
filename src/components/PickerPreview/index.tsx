@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle, useRef } from 'react'
+import { forwardRef, useImperativeHandle, useRef, CSSProperties } from 'react'
 import './index.scss'
 import { IPickerPreviewProps, IPickerPreviewRef } from './props'
 import { isDark } from '@/utils/color'
@@ -36,7 +36,7 @@ export const PickerPreview = forwardRef<IPickerPreviewRef, IPickerPreviewProps>(
           showCursor()
           onClick()
         }}
-        style={{ '--pixel': `calc(100% / ${previewSize - 1})` } as React.CSSProperties}
+        style={{ '--pixel': `calc(100% / ${previewSize - 1})` } as CSSProperties}
       >
         <Image src={image} className="picker-preview__image" />
         <Stack className="picker-preview__color" style={{ background: `#${colorHex}` }} justify="center">

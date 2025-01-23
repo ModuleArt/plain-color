@@ -36,6 +36,7 @@
     "react-dom": "^18.2.0",
     "react-merge-refs": "^2.1.1",
     "react-router-dom": "^6.27.0",
+    "react-tiny-virtual-list": "^2.2.0",
     "rgb-hex": "^4.1.0",
     "zustand": "^5.0.1"
   },

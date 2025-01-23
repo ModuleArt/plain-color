@@ -164,6 +164,18 @@ export const AppLayout: FC = () => {
       listenInMain('trigger_deep_link', (payload) => handleOpenWithMultiple(payload).then(openWithHandler))
     )
 
+    listeners.push(
+      listenInMain('open_settings_page', () => {
+        navigate('/settings')
+      })
+    )
+
+    listeners.push(
+      listenInMain('open_about_page', () => {
+        navigate('/about')
+      })
+    )
+
     return () => {
       listeners.map((unlisten) => unlisten.then((f) => f()))
     }

@@ -9,5 +9,6 @@ export interface IInputProps extends IPlainlibComponentProps {
   autoCorrect?: 'off'
   autoCapitalize?: 'off'
   onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void
+  emulateDefaultKeyboardEvents?: boolean
   inputRef?: RefObject<HTMLInputElement>
 }
