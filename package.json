@@ -2,7 +2,7 @@
   "name": "plain-color",
   "description": "Lightweight, versatile, cross-platform color picker app",
   "private": false,
-  "version": "1.0.11",
+  "version": "1.0.12",
   "license": "GPL-3.0-only",
   "type": "module",
   "scripts": {
