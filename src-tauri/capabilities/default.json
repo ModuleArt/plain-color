@@ -50,6 +50,9 @@
       ]
     },
     "deep-link:default",
-    "deep-link:allow-get-current"
+    "deep-link:allow-get-current",
+    "updater:default",
+    "updater:allow-check",
+    "updater:allow-download-and-install"
   ]
 }

@@ -84,6 +84,16 @@
         "role": "Editor",
         "mimeType": "application/octet-stream"
       }
-    ]
+    ],
+    "createUpdaterArtifacts": true
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEJBQkJEQkYwMjQ2ODk5NTYKUldSV21XZ2s4TnU3dXB2andtOS9vK0o1UE91MjBaZHR6T2g5UEpScHNTK0FBMExmRURLdjlUZ3oK",
+      "endpoints": ["https://github.com/ModuleArt/plain-color/releases/latest/download/latest.json"],
+      "windows": {
+        "installMode": "passive"
+      }
+    }
   }
 }
