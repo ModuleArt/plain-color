@@ -9,4 +9,6 @@ export interface IColorCardProps extends IPlainlibComponentProps {
   onColorChange?: (color: IColor) => void
   variant?: 'list' | 'grid'
   colorCardRef?: TPlainlibRef<HTMLDivElement>
+  showQuickCopyVariants?: boolean
+  showHex?: boolean
 }

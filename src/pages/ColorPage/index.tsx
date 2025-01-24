@@ -81,7 +81,7 @@ export const ColorPage: FC = () => {
     <Stack dir="vertical" gap="none" grow>
       <Scroller grow>
         <Stack dir="vertical" gap="medium" grow padding="medium">
-          <ColorCard color={color} onColorChange={onColorChange} />
+          <ColorCard color={color} onColorChange={onColorChange} showQuickCopyVariants={false} showHex={false} />
           <ColorPicker hexValue={color.hex} onChange={(hex) => setColor({ ...color, hex })} grow />
           <ColorInput colorHex={color.hex} onChange={(hex) => setColor({ ...color, hex })} />
           <Stack>

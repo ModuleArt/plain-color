@@ -15,6 +15,15 @@
     height: var(--size_basicHeight);
   }
 
+  &__bg {
+    padding-right: 0;
+    width: 100%;
+  }
+
+  &__header {
+    padding-right: 0.75rem;
+  }
+
   &__copied-overlay {
     animation-name: keyframes_messageOverlay;
     animation-duration: 1000ms;
@@ -31,10 +40,21 @@
   }
 
   &__copy-variants {
-    margin: -0.25rem;
+    overflow-x: auto;
+    width: fit-content;
+    max-width: calc(100% - 90px);
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+    overscroll-behavior-y: auto;
+    padding-right: 0.75rem;
 
-    & > * {
-      padding: 0.25rem;
+    &::-webkit-scrollbar {
+      display: none; /* Safari and Chrome */
+    }
+
+    &::before {
+      content: '';
+      flex: 1;
     }
   }
 }

@@ -26,6 +26,8 @@ export const ColorCard: FC<IColorCardProps> = ({
   onColorChange,
   variant = 'list',
   colorCardRef,
+  showQuickCopyVariants = true,
+  showHex = true,
   ...props
 }) => {
   const [copied, setCopied] = useState('')
@@ -145,7 +147,7 @@ export const ColorCard: FC<IColorCardProps> = ({
         )}
         {variant === 'list' && (
           <>
-            <Stack>
+            <Stack className="color-card__header">
               <Text
                 text={color.label}
                 grow
@@ -162,23 +164,28 @@ export const ColorCard: FC<IColorCardProps> = ({
                 onClick={(event) => showOptions({ event })}
               />
             </Stack>
-            <Stack>
-              <Stack grow wrap gap="none" className="color-card__copy-variants">
-                {quickCopyVariants.map((copyVariant) => (
-                  <Button
-                    key={copyVariant.id}
-                    label={copyVariant.label}
-                    size="inline"
-                    variant="clear"
-                    iconPre={Copy}
-                    tinted
-                    onClick={() => copy(copyVariant.id)}
-                    nativeTooltip={copyVariant.label}
-                  />
-                ))}
+
+            {(showHex || showQuickCopyVariants) && (
+              <Stack justify="between" className="color-card__footer">
+                {showHex && <Text text={color.hex} tinted transform="uppercase" pointerEvents="disable" />}
+                {showQuickCopyVariants && (
+                  <Stack grow className="color-card__copy-variants">
+                    {quickCopyVariants.map((copyVariant) => (
+                      <Button
+                        key={copyVariant.id}
+                        label={copyVariant.label}
+                        size="inline"
+                        variant="clear"
+                        iconPre={Copy}
+                        tinted
+                        onClick={() => copy(copyVariant.id)}
+                        justify="end"
+                      />
+                    ))}
+                  </Stack>
+                )}
               </Stack>
-              <Text text={color.hex} tinted transform="uppercase" pointerEvents="disable" />
-            </Stack>
+            )}
           </>
         )}
       </Stack>

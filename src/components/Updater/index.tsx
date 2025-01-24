@@ -34,7 +34,6 @@ export const Updater: FC = () => {
 
     updateAvailable
       ?.downloadAndInstall((event) => {
-        console.log(event)
         switch (event.event) {
           case 'Started':
             setContentLength(event.data.contentLength || 0)
