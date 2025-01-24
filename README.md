@@ -23,7 +23,7 @@
 
 ## ⬇️ Download
 
-- macOS: <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.11/PlainColor_1.0.11_aarch64.dmg">dmg</a>
+- macOS: <a href="https://github.com/ModuleArt/plain-color/releases/download/v1.0.12/PlainColor_1.0.12_aarch64.dmg">dmg</a>
 - Windows: exe | microsoft store - Coming soon...
 - Linux: deb | flathub - Coming soon...
 
@@ -39,6 +39,7 @@
   - `rgb()` `R,G,B` `color(display-p3)`
   - `hsl()` `H,S,L`
   - `cmyk()` `C,M,Y,K`
+  - `oklch()`
 - 🍎 <b>Great macOS support</b>
   - Works on top of menu bar and fullscreen windows
 
@@ -63,6 +64,7 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 - Add ability to reorder palettes
 - More color formats:
   - Common:
+    - HSB/HSV `268, 69, 57`
     - RGB/RGBA from 0 to 1 `0,36; 0,18; 0,57`
     - LAB
     - RAL
@@ -95,7 +97,4 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 - Instant copy shortcut `CommandOrControl+Alt+C`
 - Instant pick shortcut `CommandOrControl+Shift+C`
 - <a href="https://github.com/tauri-apps/tauri-action">Build app releases with GitHub action</a>
-- New color formats:
-  - Oklab `oklch(40.1% 0.123 21.57)`
-  - HSB/HSV `268, 69, 57`
-- Control Select component with arrows keys (up/down)
+- Better export preview (see ColorSlurp export)

@@ -1,0 +1,13 @@
+.progress-bar {
+  height: 0.25rem;
+  overflow: hidden;
+  position: relative;
+
+  &__value {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: var(--color_primary);
+  }
+}

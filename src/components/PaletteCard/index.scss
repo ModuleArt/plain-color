@@ -8,6 +8,12 @@
     height: 1.75rem;
   }
 
+  &__empty {
+    background-image: var(--bgImg_checkerboard);
+    background-color: var(--color_element);
+    height: 100%;
+  }
+
   &__color {
     height: 100%;
     flex: 1;

@@ -17,4 +17,7 @@ export enum ECopyVariant {
   // cmyk
   CMYK_FUNCTION = 'CMYK_FUNCTION',
   CMYK_COMMA_SEPARATED = 'CMYK_COMMA_SEPARATED',
+
+  // oklch
+  CSS_OKLCH = 'CSS_OKLCH',
 }
