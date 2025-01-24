@@ -99,3 +99,6 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 - <a href="https://github.com/tauri-apps/tauri-action">Build app releases with GitHub action</a>
 - Better export preview (see ColorSlurp export)
 - Fix: macOS permission resets on every update, and the old version is still listed on the Settings permissions screen
+- Add Check for Updates button:
+  - macOS menu bar
+  - Settings page
