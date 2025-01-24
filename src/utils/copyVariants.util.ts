@@ -2,6 +2,7 @@ import { ECopyVariant } from '@/types/settings.types'
 import { hexToRgbStr } from './color/rgb.color.util'
 import { hexToCmykStr } from './color/cmyk.color.util'
 import { hexToHslStr } from './color/hsl.color.util'
+import { hexToOklchStr } from './color/oklch.color.util'
 
 export const copyVariants = [
   // hex
@@ -22,6 +23,9 @@ export const copyVariants = [
   // cmyk
   { id: ECopyVariant.CMYK_FUNCTION, label: 'cmyk()', supportsAlpha: false },
   { id: ECopyVariant.CMYK_COMMA_SEPARATED, label: 'C,M,Y,K', supportsAlpha: false },
+
+  // oklch
+  { id: ECopyVariant.CSS_OKLCH, label: 'oklch()', supportsAlpha: true },
 ]
 
 export const formatCopyText = (colorHex: string, copyVariant: ECopyVariant) => {
@@ -65,6 +69,11 @@ export const formatCopyText = (colorHex: string, copyVariant: ECopyVariant) => {
     }
     case ECopyVariant.CMYK_COMMA_SEPARATED: {
       return hexToCmykStr(colorHex)
+    }
+
+    // oklch
+    case ECopyVariant.CSS_OKLCH: {
+      return hexToOklchStr(colorHex)
     }
   }
 }

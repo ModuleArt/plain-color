@@ -5,7 +5,7 @@ export interface TColorCmyk {
   key: number
 }
 
-export const hexToCmykObj = (hexColor: string) => {
+export const hexToCmykObj = (hexColor: string): TColorCmyk => {
   let C = 0,
     M = 0,
     Y = 0,
