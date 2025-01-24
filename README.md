@@ -98,3 +98,4 @@ If you want to report a bug, first, thank you, that helps us a lot. Please open 
 - Instant pick shortcut `CommandOrControl+Shift+C`
 - <a href="https://github.com/tauri-apps/tauri-action">Build app releases with GitHub action</a>
 - Better export preview (see ColorSlurp export)
+- Fix: macOS permission resets on every update, and the old version is still listed on the Settings permissions screen
